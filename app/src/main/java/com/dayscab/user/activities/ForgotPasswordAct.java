@@ -14,6 +14,7 @@ public class ForgotPasswordAct extends AppCompatActivity {
     Context mContext = ForgotPasswordAct.this;
     ActivityForgotPasswordBinding binding;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
