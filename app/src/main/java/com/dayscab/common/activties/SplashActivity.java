@@ -1,4 +1,4 @@
-package com.dayscab.user.activities;
+package com.dayscab.common.activties;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(mContext,StartAct.class));
+                startActivity(new Intent(mContext, StartAct.class));
             }
         },2000);
     }

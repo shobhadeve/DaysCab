@@ -1,4 +1,4 @@
-package com.dayscab.user.activities;
+package com.dayscab.common.activties;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.dayscab.R;
 import com.dayscab.databinding.ActivityStartBinding;
+import com.dayscab.utils.AppContant;
 
 public class StartAct extends AppCompatActivity {
 
@@ -18,18 +19,22 @@ public class StartAct extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_start);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_start);
         itit();
     }
 
     private void itit() {
 
         binding.btUser.setOnClickListener(v -> {
-            startActivity(new Intent(mContext,LoginAct.class));
+            startActivity(new Intent(mContext, LoginAct.class)
+                    .putExtra(AppContant.TYPE, AppContant.USER)
+            );
         });
 
         binding.btDriver.setOnClickListener(v -> {
-            // startActivity(new Intent(mContext,LoginAct.class));
+            startActivity(new Intent(mContext, LoginAct.class)
+                    .putExtra(AppContant.TYPE, AppContant.DRIVER)
+            );
         });
 
     }

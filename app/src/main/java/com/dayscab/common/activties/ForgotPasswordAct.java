@@ -1,4 +1,4 @@
-package com.dayscab.user.activities;
+package com.dayscab.common.activties;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -13,7 +13,6 @@ public class ForgotPasswordAct extends AppCompatActivity {
 
     Context mContext = ForgotPasswordAct.this;
     ActivityForgotPasswordBinding binding;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

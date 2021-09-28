@@ -9,6 +9,11 @@
     <string name="taxi_driver">Taxi Driver</string>
     <string name="api_key" translatable="false">AIzaSyDHzbqstWXpYy7ce4IN-J-2YYKBxKrE2dk</string>
     <string name="send">Send</string>
+    <string name="account_holder_name">Account Holder Name</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="code_bic">Code BIC</string>
+    <string name="iban">IBAN</string>
+    <string name="account_number">Account Number</string>
     <string name="forgotpasswordtext">Please, enter your email address. You will
        <br /> receive a link to create a new password via <br /> email. </string>
     <string name="forgot_password">Forgot Passwrod</string>
@@ -29,4 +34,17 @@
     <string name="payment">Payment</string>
     <string name="my_wallet">My Wallet</string>
     <string name="promocode">Promocode</string>
+    <string name="add_account">Add Account</string>
+    <string name="add_bank_account">Add Bank Account</string>
+    <string name="add_vehicle">Add Vehicle</string>
+    <string name="add_vehicle_and_pic">Add Profile Picture &amp; Vehicle</string>
+    <string name="number_plate">Number Plate</string>
+
+    <string-array name="taxi_type">
+        <item>Select Vehicle Type</item>
+        <item>3 Wheeler</item>
+        <item>4 Wheeler</item>
+        <item>8 Wheeler</item>
+    </string-array>
+
 </resources>
