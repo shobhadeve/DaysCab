@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_15sdp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:src="@drawable/ic_check" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/inter_semi_bold"
+            android:text="@string/your_trip_has_ended"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_16sdp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_10sdp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivMenu"
+                android:background="@drawable/white_bg_5"
+                android:padding="@dimen/_5sdp">
+
+                <ImageView
+                    android:id="@+id/ivfrom"
+                    android:layout_width="@dimen/_6sdp"
+                    android:layout_height="@dimen/_6sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/small_red_circle" />
+
+                <TextView
+                    android:id="@+id/tvFrom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:layout_toRightOf="@+id/ivfrom"
+                    android:backgroundTint="@color/white"
+                    android:padding="@dimen/_5sdp"
+                    android:text="1, Thrale Street, \n London,SE19HW, UK"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_below="@+id/ivfrom"
+                    android:layout_marginVertical="@dimen/_2sdp"
+                    android:layout_marginLeft="@dimen/_3sdp"
+                    android:background="@color/gray" />
+
+                <ImageView
+                    android:id="@+id/ivto"
+                    android:layout_width="@dimen/_6sdp"
+                    android:layout_height="@dimen/_6sdp"
+                    android:layout_below="@+id/view1"
+                    android:background="@drawable/down_arrow" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_below="@+id/tvFrom"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_toRightOf="@id/view1" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/view2"
+                    android:layout_toRightOf="@id/ivto">
+
+                    <TextView
+                        android:id="@+id/etDestination"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:backgroundTint="@color/white"
+                        android:inputType="none"
+                        android:text="Ealing Broadway Shopping \n Centre, London, W55JY, UK"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:id="@+id/rlPayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:padding="@dimen/_10sdp">
+
+            <ImageView
+                android:id="@+id/ivCard"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:src="@drawable/ic_mastercard" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_toRightOf="@id/ivCard"
+                android:text="**** 8295"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/raleway_light"
+                android:text="$763"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14sdp" />
+
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnOk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/login_bt_back_yellow"
+            android:fontFamily="@font/poppins_medium"
+            android:padding="@dimen/_10sdp"
+            android:text="OK"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp" />
+
+
+    </LinearLayout>
+
+
+</layout>

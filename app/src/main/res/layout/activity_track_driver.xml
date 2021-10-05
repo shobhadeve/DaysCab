@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--    <data>-->
+    <!--        <variable-->
+    <!--            name="driver"-->
+    <!--            type="com.hammoniatexiapp.pojos.UserDetail" />-->
+    <!--    </data>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/rlDriver"
+            android:layout_marginBottom="-50dp" />
+
+        <RelativeLayout
+            android:id="@+id/rlLocations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:background="@drawable/one_side_round_back"
+            android:elevation="@dimen/_5sdp"
+            android:padding="@dimen/_10sdp">
+
+            <TextView
+                android:id="@+id/tvFrom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:backgroundTint="@color/white"
+                android:maxLines="3"
+                android:text="14837 S New Lothrop Rd, Byron, MI, 48418 Pleasant Hill Rd, Picayune"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_12sdp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:padding="@dimen/_15sdp">
+
+            <RelativeLayout
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/white_bg_5">
+
+                <ImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/left_arrow_black" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/titler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/poppins_semibold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14sdp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlDriver"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_250sdp"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_33sdp"
+                android:background="@drawable/border_gray"
+                android:padding="@dimen/_15sdp">
+
+                <TextView
+                    android:id="@+id/tvCarNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="2 min"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp" />
+
+                <ImageView
+                    android:id="@+id/ic_call"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_70sdp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_call" />
+
+                <ImageView
+                    android:id="@+id/ivCancelTrip"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_70sdp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_toEndOf="@+id/ic_call"
+                    android:src="@drawable/cancel_trip" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlDriver1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/driver_image"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:src="@drawable/user_ic"
+                    app:civ_border_color="@color/white"
+                    app:civ_border_width="@dimen/_10sdp" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/driver_image"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Picking up James Smith"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+                <RatingBar
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvName"
+                    android:layout_centerHorizontal="true"
+                    android:progressTint="@color/yellow"
+                    android:rating="4.0"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:background="@drawable/login_bt_back_yellow"
+                android:fontFamily="@font/poppins_medium"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/start"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16sdp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlFeedback"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="@dimen/_340sdp"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_33sdp"
+                android:background="@drawable/border_gray"
+                android:padding="@dimen/_10sdp">
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlDriver3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivDriverPropic3"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:src="@drawable/user_ic"
+                    app:civ_border_color="@color/white"
+                    app:civ_border_width="@dimen/_15sdp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ivDriverPropic3"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="Patrick"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp" />
+            </RelativeLayout>
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rlDriver3"
+                android:layout_centerHorizontal="true"
+                android:rating="5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvFeedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ratingBar"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Excellent"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11sdp" />
+
+            <EditText
+                android:id="@+id/edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_below="@id/tvFeedback"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/border_gray"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="top"
+                android:hint="@string/msg"
+                android:inputType="text|textMultiLine"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:textSize="@dimen/_12sdp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_60sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/login_bt_back_yellow"
+                android:fontFamily="@font/poppins_medium"
+                android:padding="@dimen/_5sdp"
+                android:text="@string/rate"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16sdp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</layout>

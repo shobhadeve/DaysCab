@@ -1,6 +1,7 @@
 package com.dayscab.user.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dayscab.R;
 import com.dayscab.databinding.ItemRideHistoryBinding;
+import com.dayscab.user.activities.RideDetailsAct;
 
 public class AdapterRideHistory extends RecyclerView.Adapter<AdapterRideHistory.MyRideHolder> {
 
@@ -30,6 +32,10 @@ public class AdapterRideHistory extends RecyclerView.Adapter<AdapterRideHistory.
 
     @Override
     public void onBindViewHolder(@NonNull MyRideHolder holder, int position) {
+
+        holder.binding.GoDetail.setOnClickListener(v -> {
+            mContext.startActivity(new Intent(mContext, RideDetailsAct.class));
+        });
 
     }
 

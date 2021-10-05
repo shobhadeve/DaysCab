@@ -39,12 +39,85 @@
     <string name="add_vehicle">Add Vehicle</string>
     <string name="add_vehicle_and_pic">Add Profile Picture &amp; Vehicle</string>
     <string name="number_plate">Number Plate</string>
+    <string name="purchase_plan">Purchase Plan</string>
+    <string name="_25_40_trips">$25 / 40 Trips</string>
+    <string name="slide_to_begin_trip">Slide to begin Trip</string>
+    <string name="slide_to_end_trip">Slide to End Trip</string>
+    <string name="pick_up_passenger">Pick Up Passenger</string>
+    <string name="ride_cancel_text">Are you sure want to cancel Ride?</string>
+    <string name="purchase">Purchase</string>
+    <string name="_50_90_trips">$50 / 90 Trips</string>
+    <string name="_100_120_trips">$100 / 120 Trips</string>
+    <string name="arrived">Arrived</string>
+    <string name="navigate">Navigate</string>
+    <string name="reject">Reject</string>
+    <string name="accept">Accept</string>
+    <string name="race_ask">Race ask</string>
+    <string name="location_of_taken_in_charge">location of taken in charge</string>
+    <string name="destination_address">Destination address</string>
+    <string name="fare">Fare</string>
+    <string name="distance">Distance</string>
+    <string name="estimated_trip_time">Estimated trip time</string>
+    <string name="color">Color</string>
+    <string name="i_m_coming">I\'m Coming</string>
+    <string name="call">Call</string>
+    <string name="msg">Message</string>
+    <string name="rate">Rate</string>
+    <string name="cancel_booking">Cancel Booking</string>
+    <string name="please_select_the_reason_for_cancellation">Please select the reason<br /> for cancellation:</string>
+    <string name="i_don_t_want_to_share">I don’t want to share</string>
+    <string name="can_t_contact_the_driver">Can\'t contact the driver</string>
+    <string name="driver_is_late">Driver is late</string>
+    <string name="the_price_is_not_reasonable">The price is not reasonable</string>
+    <string name="pickup_address_is_incorrect">Pickup address is incorrect</string>
+    <string name="your_trip_has_ended">Your trip has ended</string>
+    <string name="your_taxi_has_arrived">Your taxi has arrived</string>
+    <string name="upload_picture">Upload Picture</string>
+    <string name="term_text">By Continuing, I confirm that I have read and agree to the <font fgcolor="#F6E24F">Terms and Conditions</font> and <font fgcolor="#F6E24F">Privacy Policy</font>.</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="city_name">City</string>
+    <string name="home_add">Home Address</string>
+    <string name="home_address2">Home Address 2</string>
+    <string name="start">Start</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="rider_isn_t_here">Rider Isn\'t Here</string>
+    <string name="wrong_address_shown">Wrong address shown</string>
+    <string name="don_t_charge_rider">Don\'t charge Rider</string>
+    <string name="rate_rider">Rate Rider</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="ok">Ok</string>
+    <string name="collect_payment">Collect Payment</string>
+    <string name="ride_has_ended">Ride has Ended</string>
+    <string name="available_balance">Available Balance</string>
+    <string name="wallet_recharge">Wallet Recharge</string>
+    <string name="payment_history">Payment History</string>
+    <string name="earnings">Earnings</string>
+    <string name="total_earnings">Total Earnings</string>
 
     <string-array name="taxi_type">
         <item>Select Vehicle Type</item>
-        <item>3 Wheeler</item>
-        <item>4 Wheeler</item>
-        <item>8 Wheeler</item>
+        <item>Bike</item>
+        <item>Car</item>
+    </string-array>
+
+    <string-array name="taxi_brand">
+        <item>Select Brand Type</item>
+        <item>Hero Honda</item>
+        <item>Maruti Suzuki Mahindra</item>
+        <item>Volkswagen Tata</item>
+        <item>Toyota Kia</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="taxi_model">
+        <item>Select Model</item>
+        <item>Chevrolet Silverado</item>
+        <item>Toyota RAV4</item>
+        <item>Honda CR-V</item>
+        <item>Toyota Camry</item>
+        <item>Other</item>
     </string-array>
 
 </resources>

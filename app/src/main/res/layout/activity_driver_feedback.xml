@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp">
+
+                <ImageView
+                    android:id="@+id/ivBack"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:src="@drawable/ic_back_black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:padding="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/send_feedback"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlLocations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/one_side_round_back"
+                android:elevation="@dimen/_5sdp"
+                android:padding="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/tvFrom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:backgroundTint="@color/white"
+                    android:maxLines="3"
+                    android:text="14837 S New Lothrop Rd, Byron, MI, 48418 Pleasant Hill Rd, Picayune"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/_12sdp" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_150sdp"
+                android:paddingTop="@dimen/_20sdp"
+                android:paddingBottom="@dimen/_20sdp"
+                android:src="@drawable/map_direction"/>
+
+            <RelativeLayout
+                android:id="@+id/rlFeedback"
+                android:layout_width="match_parent"
+                android:layout_marginTop="-50dp"
+                android:layout_height="@dimen/_340sdp"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_33sdp"
+                    android:background="@drawable/border_gray"
+                    android:padding="@dimen/_10sdp">
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlDriver3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivDriverPropic3"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_80sdp"
+                        android:src="@drawable/user_ic"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="@dimen/_15sdp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ivDriverPropic3"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="Rockdean"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp" />
+                </RelativeLayout>
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rlDriver3"
+                    android:layout_centerHorizontal="true"
+                    android:rating="5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvFeedback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ratingBar"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Excellent"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11sdp" />
+
+                <EditText
+                    android:id="@+id/edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_below="@id/tvFeedback"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/border_gray"
+                    android:fontFamily="@font/poppins_regular"
+                    android:gravity="top"
+                    android:hint="@string/msg"
+                    android:inputType="text|textMultiLine"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:textSize="@dimen/_12sdp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_60sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:background="@drawable/login_bt_back_yellow"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_5sdp"
+                    android:text="@string/rate_rider"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_16sdp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>

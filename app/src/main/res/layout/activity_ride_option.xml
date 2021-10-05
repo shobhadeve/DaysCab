@@ -5,8 +5,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".activities.RideOptionActivity">
+        android:layout_height="match_parent">
 
         <fragment
             android:id="@+id/map"
@@ -68,7 +67,7 @@
                     android:padding="@dimen/_5sdp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-                <!-- <LinearLayout
+                 <LinearLayout
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
                      android:orientation="horizontal"
@@ -76,14 +75,14 @@
 
                      <LinearLayout
                          android:layout_width="0dp"
+                         android:layout_weight="1"
                          android:layout_height="match_parent"
-                         android:layout_weight=".4"
                          android:orientation="vertical">
 
                          <TextView
                              android:layout_width="wrap_content"
                              android:layout_height="wrap_content"
-                             android:text="@string/trip_distance"
+                             android:text="@string/estimated_trip_time"
                              android:textColor="@color/black"
                              android:textSize="@dimen/_12sdp"
                              android:layout_marginTop="@dimen/_5sdp"
@@ -94,8 +93,7 @@
                              android:id="@+id/tv_ride_distance"
                              android:layout_width="wrap_content"
                              android:layout_height="wrap_content"
-                             android:text="12 min"
-                             android:layout_marginTop="@dimen/_6sdp"
+                             android:text="22 min"
                              android:textColor="@color/black"
                              android:textSize="@dimen/_12sdp"
                              android:layout_marginStart="@dimen/_15sdp"
@@ -107,13 +105,13 @@
                          android:layout_width="0dp"
                          android:layout_height="wrap_content"
                          android:layout_weight="0.6"
+                         android:visibility="gone"
                          android:gravity="center_vertical"
                          android:orientation="vertical">
 
                          <TextView
                              android:layout_width="wrap_content"
                              android:layout_height="wrap_content"
-                             android:text="@string/select_payment_type"
                              android:textColor="@color/black"
                              android:textSize="@dimen/_11sdp"
                              android:layout_marginTop="@dimen/_5sdp"
@@ -150,7 +148,7 @@
 
                      </LinearLayout>
 
-                 </LinearLayout> -->
+                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnBook"

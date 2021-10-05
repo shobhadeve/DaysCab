@@ -153,7 +153,6 @@
                             android:textSize="@dimen/_12sdp" />
                     </RelativeLayout>
 
-
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -165,9 +164,9 @@
                         android:id="@+id/GoDetail"
                         android:layout_width="@dimen/_25sdp"
                         android:layout_height="@dimen/_25sdp"
+                        android:background="@drawable/right_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true" />
-
 
                     <TextView
                         android:layout_width="match_parent"

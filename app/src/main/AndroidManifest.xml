@@ -10,10 +10,49 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DaysCab">
         <activity
+            android:name=".driver.activities.EarningAct"
+            android:exported="true" />
+        <activity
+            android:name=".driver.activities.WalletAct"
+            android:exported="true" />
+        <activity
+            android:name=".driver.activities.EndTripDriverAct"
+            android:exported="true" />
+        <activity
+            android:name=".driver.activities.DriverFeedbackAct"
+            android:exported="true" />
+        <activity
+            android:name=".driver.activities.RideDriverCancelAct"
+            android:exported="true" />
+        <activity
+            android:name=".driver.activities.SignUpDriverAct"
+            android:exported="true" />
+        <activity
+            android:name=".user.activities.RideDetailsAct"
+            android:exported="true" />
+        <activity
+            android:name=".user.activities.PaymentAct"
+            android:exported="true" />
+        <activity
+            android:name=".user.activities.RideCancelationAct"
+            android:exported="true" />
+        <activity
+            android:name=".user.activities.CancelBookingAct"
+            android:exported="true" />
+        <activity
+            android:name=".driver.activities.TrackDriverAct"
+            android:exported="true" />
+        <activity
+            android:name=".driver.activities.PurchasePlanAct"
+            android:exported="true" />
+        <activity
             android:name=".driver.activities.AddBankAccAct"
             android:exported="true" />
         <activity
             android:name=".driver.activities.UploadVehicleAct"
+            android:exported="true" />
+        <activity
+            android:name=".driver.activities.DriverHomeAct"
             android:exported="true" />
         <activity
             android:name=".user.activities.TrackAct"

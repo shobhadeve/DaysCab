@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp">
+
+                <ImageView
+                    android:id="@+id/ivBack"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:src="@drawable/ic_back_black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_10sdp"
+                    android:text="@string/earnings"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabIndicator="@color/yellow"
+                app:tabTextColor="@color/black"
+                app:tabIndicatorHeight="@dimen/_4sdp"
+                app:tabIndicatorColor="@color/yellow"
+                app:tabSelectedTextColor="@color/yellow"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/poppins_medium"
+                android:padding="@dimen/_5sdp"
+                android:gravity="center"
+                android:text="Mon, 18 Feb 2021"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/poppins_medium"
+                android:padding="@dimen/_5sdp"
+                android:gravity="center"
+                android:text="$ 154.75"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/_15sdp" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chart"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_150sdp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="@dimen/_3sdp"
+                        android:gravity="center"
+                        android:text="8:30"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="@dimen/_3sdp"
+                        android:gravity="center"
+                        android:text="Online Hrs"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_13sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="@dimen/_3sdp"
+                        android:gravity="center"
+                        android:text="15"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="@dimen/_3sdp"
+                        android:gravity="center"
+                        android:text="Trips"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_13sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="center"
+                        android:padding="@dimen/_3sdp"
+                        android:text="$22.48"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="@dimen/_3sdp"
+                        android:gravity="center"
+                        android:text="Cash Trips"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_13sdp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="start"
+                    android:textStyle="bold"
+                    android:text="Trip fars"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="end"
+                    android:text="$40.25"
+                    android:textStyle="bold"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="start"
+                    android:textStyle="bold"
+                    android:text="Yellow Taxi Fee"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="end"
+                    android:text="$20.00"
+                    android:textStyle="bold"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="start"
+                    android:textStyle="bold"
+                    android:text="+Tax"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="end"
+                    android:text="$400.25"
+                    android:textStyle="bold"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="start"
+                    android:textStyle="bold"
+                    android:text="+Tolls"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="end"
+                    android:text="$400.25"
+                    android:textStyle="bold"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="start"
+                    android:textStyle="bold"
+                    android:text="Surge"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="end"
+                    android:text="$40.25"
+                    android:textStyle="bold"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="start"
+                    android:textStyle="bold"
+                    android:text="Discount(-)"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="end"
+                    android:text="$20.25"
+                    android:textStyle="bold"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="start"
+                    android:textStyle="bold"
+                    android:text="@string/total_earnings"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_3sdp"
+                    android:gravity="end"
+                    android:text="$920.25"
+                    android:textStyle="bold"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/_13sdp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>

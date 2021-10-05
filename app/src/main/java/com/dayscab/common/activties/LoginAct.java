@@ -10,6 +10,7 @@ import android.os.Bundle;
 import com.dayscab.R;
 import com.dayscab.databinding.ActivityLoginBinding;
 import com.dayscab.driver.activities.DriverHomeAct;
+import com.dayscab.driver.activities.SignUpDriverAct;
 import com.dayscab.user.activities.UserHomeAct;
 import com.dayscab.utils.AppContant;
 
@@ -44,7 +45,7 @@ public class LoginAct extends AppCompatActivity {
 
         binding.btSignup.setOnClickListener(v -> {
             if (type.equals(AppContant.USER)) startActivity(new Intent(mContext, SignUpAct.class).putExtra(AppContant.TYPE, AppContant.USER));
-            else startActivity(new Intent(mContext, SignUpAct.class).putExtra(AppContant.TYPE, AppContant.DRIVER));
+            else startActivity(new Intent(mContext, SignUpDriverAct.class));
         });
 
     }

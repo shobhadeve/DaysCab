@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/_10sdp"
-            app:cardBackgroundColor="@color/primaryDark"
+            app:cardBackgroundColor="@color/yellow"
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/_15sdp">
 
@@ -55,6 +55,7 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/cvImg"
+                    app:civ_border_width="@dimen/_1sdp"
                     android:layout_width="@dimen/_50sdp"
                     android:layout_height="@dimen/_50sdp"
                     android:src="@drawable/user_default" />
@@ -73,7 +74,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/_13sdp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:text="Driver David"
                         android:fontFamily="@font/poppins_regular"
                         android:layout_marginTop="@dimen/_3sdp"/>
@@ -82,7 +83,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/_11sdp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:text="A257GHSY"
                         android:layout_marginTop="-5dp"
                         android:fontFamily="@font/poppins_regular" />
@@ -96,6 +97,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerInParent="true"
                     android:text="ONLINE"
+                    android:textColorHint="@color/black"
                     android:textColor="@color/white"
                     android:theme="@style/ThemeOverlay.MySwitchCompat" />
 

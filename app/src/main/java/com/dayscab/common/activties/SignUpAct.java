@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.dayscab.R;
+import com.dayscab.common.activties.VerifyAct;
 import com.dayscab.databinding.ActivitySignUpBinding;
 import com.dayscab.utils.AppContant;
 
@@ -29,7 +30,7 @@ public class SignUpAct extends AppCompatActivity {
 
         binding.btnSignUp.setOnClickListener(v -> {
             startActivity(new Intent(mContext, VerifyAct.class)
-                    .putExtra(AppContant.TYPE, type)
+                    .putExtra(AppContant.TYPE, AppContant.USER)
             );
         });
 

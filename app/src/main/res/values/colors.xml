@@ -8,13 +8,21 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#222222</color>
+    <color name="dialog_back_color">#646d79</color>
     <color name="bg_color">#60e5e5e5</color>
     <color name="red">#EC3324</color>
     <color name="light_gray">#D5DDE0</color>
+    <color name="light_gray1">#20000000</color>
     <color name="gray">#9B9B9B</color>
+    <color name="blue_pur">#1053c3</color>
+    <color name="green_pur">#21b4aa</color>
+    <color name="red_pur">#e3000b</color>
     <color name="extra_light_grey">#F7F8F9</color>
     <color name="textColor">#4B545A</color>
     <color name="yellow">#F6E24F</color>
+
+    <color name="white1">#a1a6ad</color>
+    <color name="white2">#c7cace</color>
 
     <color name="primary">#DE0808</color>
     <color name="primaryDark">#DE0808</color>

@@ -22,7 +22,7 @@
 
             <include
                 android:id="@+id/child_nav_drawer"
-                layout="@layout/dashboard_drawer" />
+                layout="@layout/dashboard_driver_drawer" />
 
         </com.google.android.material.navigation.NavigationView>
 

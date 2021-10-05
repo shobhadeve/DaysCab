@@ -2,11 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<!--    <data>-->
-<!--        <variable-->
-<!--            name="driver"-->
-<!--            type="com.hammoniatexiapp.pojos.UserDetail" />-->
-<!--    </data>-->
+    <!--    <data>-->
+    <!--        <variable-->
+    <!--            name="driver"-->
+    <!--            type="com.hammoniatexiapp.pojos.UserDetail" />-->
+    <!--    </data>-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,6 +20,12 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/rlDriver"
             android:layout_marginBottom="-50dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_220sdp"
+            android:layout_marginTop="@dimen/_60sdp"
+            android:src="@drawable/map_screen_with_driver" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -65,58 +71,93 @@
                 android:background="@drawable/border_gray"
                 android:padding="@dimen/_15sdp">
 
-                <TextView
-                    android:id="@+id/tvCaraNumber"
+                <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:fontFamily="@font/poppins_bold"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/_13sdp" />
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/_40sdp"
+                    android:elevation="@dimen/_5sdp"
+                    app:cardCornerRadius="@dimen/_10sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/yellow_outline_back"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_7sdp">
+
+                        <ImageView
+                            android:id="@+id/ivCar"
+                            android:layout_width="@dimen/_70sdp"
+                            android:layout_height="@dimen/_35sdp"
+                            android:background="@drawable/car" />
+
+                        <TextView
+                            android:id="@+id/tvCarName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="Standard"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="$78"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:background="@drawable/login_bt_back_yellow"
+                            android:gravity="center"
+                            android:paddingHorizontal="@dimen/_8sdp"
+                            android:paddingVertical="@dimen/_3sdp"
+                            android:text="3 min"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_10sdp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
 
                 <TextView
-                    android:id="@+id/tvCar"
+                    android:id="@+id/tvCarNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tvCaraNumber"
-                    android:textStyle="bold"
-                    android:layout_alignParentEnd="true"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Car Number :\nAJS5647"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/_12sdp" />
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="HS785K"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp" />
 
-                <RelativeLayout
-                    android:id="@+id/ivCancel"
+                <ImageView
+                    android:id="@+id/ic_call"
                     android:layout_width="@dimen/_70sdp"
                     android:layout_height="@dimen/_70sdp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="@dimen/_40sdp"
-                    android:layout_alignParentBottom="true">
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/ic_call" />
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/cancel_trip" />
-                </RelativeLayout>
-
-                <RelativeLayout
+                <ImageView
+                    android:id="@+id/ivCancelTrip"
                     android:layout_width="@dimen/_70sdp"
-                    android:layout_marginLeft="@dimen/_40sdp"
                     android:layout_height="@dimen/_70sdp"
-                    android:layout_alignParentBottom="true">
-
-                    <ImageView
-                        android:id="@+id/ic_call"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/ic_call" />
-
-                </RelativeLayout>
-
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_toEndOf="@+id/ic_call"
+                    android:src="@drawable/cancel_trip" />
 
             </RelativeLayout>
 
@@ -131,7 +172,7 @@
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="@dimen/_80sdp"
                     android:src="@drawable/user_ic"
-                    app:civ_border_color="@color/yellow"
+                    app:civ_border_color="@color/white"
                     app:civ_border_width="@dimen/_10sdp" />
 
                 <TextView
@@ -140,11 +181,12 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/driver_image"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Driver David"
+                    android:text="Patrick\nVolkswagen Jetta"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_14sdp" />
+                    android:textSize="@dimen/_12sdp" />
 
                 <RatingBar
                     style="?android:attr/ratingBarStyleSmall"
@@ -153,22 +195,20 @@
                     android:layout_below="@+id/tvName"
                     android:layout_centerHorizontal="true"
                     android:progressTint="@color/yellow"
-                    android:rating="4.0" />
+                    android:rating="4.0"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
         </RelativeLayout>
 
-
-        <!-- Relative layout for Feedback-->
-
         <RelativeLayout
             android:id="@+id/rlFeedback"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="@dimen/_340sdp"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -179,75 +219,68 @@
 
             </RelativeLayout>
 
-            <!--            <RelativeLayout
-                            android:id="@+id/rlDriver3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_10sdp">
+            <RelativeLayout
+                android:id="@+id/rlDriver3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp">
 
-                            <RelativeLayout
-                                android:id="@+id/rlDriverPropic3"
-                                android:layout_width="@dimen/_80sdp"
-                                android:layout_height="@dimen/_80sdp"
-                                android:background="@drawable/white_circular_bg">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivDriverPropic3"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:src="@drawable/user_ic"
+                    app:civ_border_color="@color/white"
+                    app:civ_border_width="@dimen/_15sdp" />
 
-                                <ImageView
-                                    android:id="@+id/ivDriverPropic3"
-                                    android:layout_width="@dimen/_50sdp"
-                                    android:layout_height="@dimen/_50sdp"
-                                    android:layout_centerInParent="true"
-                                    android:src="@drawable/user_ic" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ivDriverPropic3"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="Patrick"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp" />
+            </RelativeLayout>
 
-                            </RelativeLayout>
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rlDriver3"
+                android:layout_centerHorizontal="true"
+                android:rating="5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/rlDriverPropic3"
-                                android:layout_centerHorizontal="true"
-                                android:fontFamily="@font/poppins_bold"
-                                android:text="@{driver.firstName}"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_14sdp" />
-                        </RelativeLayout>
+            <TextView
+                android:id="@+id/tvFeedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ratingBar"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Excellent"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11sdp" />
 
-                        <RatingBar
-                            android:id="@+id/ratingBar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/rlDriver3"
-                            android:rating="5"
-                            android:layout_centerHorizontal="true"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/tvFeedback"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/ratingBar"
-                            android:layout_centerHorizontal="true"
-                            android:fontFamily="@font/poppins_regular"
-                            android:text="Excelent"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_11sdp" />
-
-                        <EditText
-                            android:id="@+id/edit_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_100sdp"
-                            android:layout_below="@id/tvFeedback"
-                            android:layout_marginHorizontal="@dimen/_20sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:background="@drawable/border_gray"
-                            android:fontFamily="@font/poppins_regular"
-                            android:gravity="top"
-                            android:hint="@string/msg"
-                            android:inputType="text|textMultiLine"
-                            android:paddingStart="@dimen/_10sdp"
-                            android:paddingTop="@dimen/_10sdp"
-                            android:textSize="@dimen/_12sdp" />-->
+            <EditText
+                android:id="@+id/edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_below="@id/tvFeedback"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/border_gray"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="top"
+                android:hint="@string/msg"
+                android:inputType="text|textMultiLine"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:textSize="@dimen/_12sdp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnRate"
@@ -258,16 +291,16 @@
                 android:layout_marginHorizontal="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_60sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/login_bt_back_yellow"
                 android:fontFamily="@font/poppins_medium"
                 android:padding="@dimen/_5sdp"
-                android:text="Rate"
+                android:text="@string/rate"
                 android:textAllCaps="false"
+                android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp" />
 
         </RelativeLayout>
 
-
     </RelativeLayout>
-
 
 </layout>

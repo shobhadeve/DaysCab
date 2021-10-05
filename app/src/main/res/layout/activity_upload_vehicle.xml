@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/inter_semi_bold"
-                android:text="@string/add_vehicle_and_pic"
+                android:text="@string/add_vehicle"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/_14sdp" />
 
@@ -42,16 +42,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/_15sdp"
+                android:layout_margin="@dimen/_10sdp"
                 android:orientation="vertical"
                 android:padding="@dimen/_2sdp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_100sdp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/user_ic"
-                    app:civ_border_width="@dimen/_2sdp" />
+               <ImageView
+                   android:layout_width="match_parent"
+                   android:layout_height="@dimen/_100sdp"
+                   android:scaleType="fitXY"
+                   android:layout_marginLeft="@dimen/_20sdp"
+                   android:layout_marginRight="@dimen/_20sdp"
+                   android:src="@drawable/add_vehicle_img"/>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -71,6 +72,54 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:entries="@array/taxi_type"
+                            android:paddingLeft="@dimen/_15sdp"
+                            android:paddingRight="@dimen/_10sdp" />
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_5sdp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_52sdp">
+
+                        <Spinner
+                            android:id="@+id/spinnerBrand"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:entries="@array/taxi_brand"
+                            android:paddingLeft="@dimen/_15sdp"
+                            android:paddingRight="@dimen/_10sdp" />
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_5sdp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_52sdp">
+
+                        <Spinner
+                            android:id="@+id/spinnerModel"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:entries="@array/taxi_model"
                             android:paddingLeft="@dimen/_15sdp"
                             android:paddingRight="@dimen/_10sdp" />
 
@@ -121,6 +170,50 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:elevation="@dimen/_5sdp"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_5sdp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/labelColor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:backgroundTint="@color/white"
+                            android:hint="@string/color"
+                            android:padding="@dimen/_5sdp"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:hintTextColor="@color/gray">
+
+                            <EditText
+                                android:id="@+id/etColor"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/white"
+                                android:fontFamily="@font/poppins_medium"
+                                android:imeOptions="actionNext"
+                                android:inputType="text"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12sdp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnNext"
                     android:layout_width="match_parent"
@@ -135,7 +228,6 @@
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14sdp" />
-
 
             </LinearLayout>
 
