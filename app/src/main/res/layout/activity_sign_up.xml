@@ -139,7 +139,6 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
-
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/phone_edit_text"
                                 android:layout_width="match_parent"
@@ -150,7 +149,7 @@
                                 app:boxStrokeWidth="0dp"
                                 app:boxStrokeWidthFocused="0dp"
                                 app:hintTextColor="@color/gray"
-                                app:prefixText="+91">
+                                app:prefixText="+233">
 
                                 <EditText
                                     android:id="@+id/etPhone"

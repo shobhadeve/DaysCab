@@ -2,12 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--    <data>-->
-    <!--        <variable-->
-    <!--            name="driver"-->
-    <!--            type="com.hammoniatexiapp.pojos.UserDetail" />-->
-    <!--    </data>-->
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,12 +14,25 @@
             android:layout_above="@+id/rlDriver"
             android:layout_marginBottom="-50dp" />
 
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/poppins_bold"
+            android:maxLines="3"
+            android:text="@string/pickup_location"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12sdp" />
+
         <RelativeLayout
             android:id="@+id/rlLocations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_30sdp"
             android:background="@drawable/one_side_round_back"
             android:elevation="@dimen/_5sdp"
             android:padding="@dimen/_10sdp">
@@ -46,8 +53,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:padding="@dimen/_15sdp">
+            android:padding="@dimen/_15sdp"
+            android:visibility="gone">
 
             <RelativeLayout
                 android:id="@+id/btnBack"
@@ -94,25 +101,26 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerHorizontal="true"
-                    android:text="2 min"
-                    android:textStyle="bold"
                     android:layout_marginLeft="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/poppins_medium"
+                    android:text="2 min"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_14sdp" />
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/ic_call"
-                    android:layout_width="@dimen/_70sdp"
-                    android:layout_height="@dimen/_70sdp"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_call" />
 
                 <ImageView
                     android:id="@+id/ivCancelTrip"
-                    android:layout_width="@dimen/_70sdp"
-                    android:layout_height="@dimen/_70sdp"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
                     android:layout_centerInParent="true"
                     android:layout_marginLeft="@dimen/_20sdp"
                     android:layout_toEndOf="@+id/ic_call"
@@ -182,10 +190,10 @@
         <RelativeLayout
             android:id="@+id/rlFeedback"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="@dimen/_340sdp"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <RelativeLayout
                 android:layout_width="match_parent"

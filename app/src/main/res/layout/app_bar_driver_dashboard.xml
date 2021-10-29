@@ -80,6 +80,7 @@
                         android:layout_marginTop="@dimen/_3sdp"/>
 
                     <TextView
+                        android:id="@+id/tvCarNuumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/_11sdp"
@@ -97,8 +98,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerInParent="true"
                     android:text="ONLINE"
-                    android:textColorHint="@color/black"
                     android:textColor="@color/white"
+                    android:textColorHint="@color/black"
                     android:theme="@style/ThemeOverlay.MySwitchCompat" />
 
             </RelativeLayout>

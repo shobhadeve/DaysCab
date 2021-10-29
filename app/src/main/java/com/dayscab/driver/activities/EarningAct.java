@@ -46,7 +46,7 @@ public class EarningAct extends AppCompatActivity {
         getBarEntries();
 
         // creating a new bar data set.
-        barDataSet = new BarDataSet(barEntriesArrayList, "Earnigs");
+        barDataSet = new BarDataSet(barEntriesArrayList, "Earnings");
 
         // creating a new bar data and
         // passing our bar data set.

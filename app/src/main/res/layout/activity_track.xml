@@ -21,12 +21,6 @@
             android:layout_above="@+id/rlDriver"
             android:layout_marginBottom="-50dp" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_220sdp"
-            android:layout_marginTop="@dimen/_60sdp"
-            android:src="@drawable/map_screen_with_driver" />
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,6 +37,7 @@
                     android:layout_height="@dimen/_20sdp"
                     android:layout_centerInParent="true"
                     android:src="@drawable/left_arrow_black" />
+
             </RelativeLayout>
 
             <TextView
@@ -103,6 +98,7 @@
                             android:textSize="@dimen/_11sdp" />
 
                         <TextView
+                            android:id="@+id/tvPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
@@ -112,6 +108,7 @@
                             android:textSize="@dimen/_11sdp" />
 
                         <TextView
+                            android:id="@+id/tvTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
@@ -184,7 +181,6 @@
                     android:layout_marginLeft="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Patrick\nVolkswagen Jetta"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp" />
 

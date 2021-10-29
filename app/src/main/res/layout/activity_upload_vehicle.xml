@@ -18,8 +18,8 @@
                 android:id="@+id/ivBack"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
-                android:visibility="gone"
-                android:src="@drawable/left_arrow_black" />
+                android:src="@drawable/left_arrow_black"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -46,13 +46,25 @@
                 android:orientation="vertical"
                 android:padding="@dimen/_2sdp">
 
-               <ImageView
-                   android:layout_width="match_parent"
-                   android:layout_height="@dimen/_100sdp"
-                   android:scaleType="fitXY"
-                   android:layout_marginLeft="@dimen/_20sdp"
-                   android:layout_marginRight="@dimen/_20sdp"
-                   android:src="@drawable/add_vehicle_img"/>
+                <ImageView
+                    android:id="@+id/ivUploadImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/add_vehicle_img" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/inter_semi_bold"
+                    android:text="@string/vehicle_type"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/_14sdp" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -78,11 +90,22 @@
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/inter_semi_bold"
+                    android:text="@string/vehicle_make"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/_14sdp" />
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginRight="@dimen/_5sdp"
                     app:cardCornerRadius="@dimen/_5sdp"
                     app:cardElevation="@dimen/_5sdp">
@@ -92,10 +115,43 @@
                         android:layout_height="@dimen/_52sdp">
 
                         <Spinner
-                            android:id="@+id/spinnerBrand"
+                            android:id="@+id/spMakeType"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:entries="@array/taxi_brand"
+                            android:paddingLeft="@dimen/_15sdp"
+                            android:paddingRight="@dimen/_10sdp" />
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/inter_semi_bold"
+                    android:text="@string/select_vehicle_model"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/_14sdp" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_5sdp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_52sdp">
+
+                        <Spinner
+                            android:id="@+id/spModelType"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:paddingLeft="@dimen/_15sdp"
                             android:paddingRight="@dimen/_10sdp" />
 
@@ -116,10 +172,10 @@
                         android:layout_height="@dimen/_52sdp">
 
                         <Spinner
-                            android:id="@+id/spinnerModel"
+                            android:id="@+id/spYear"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:entries="@array/taxi_model"
+                            android:entries="@array/select_year"
                             android:paddingLeft="@dimen/_15sdp"
                             android:paddingRight="@dimen/_10sdp" />
 
@@ -137,36 +193,30 @@
                     app:cardCornerRadius="@dimen/_5sdp"
                     app:cardElevation="@dimen/_5sdp">
 
-                    <RelativeLayout
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/labelNumberPlate"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:backgroundTint="@color/white"
+                        android:hint="@string/number_plate"
+                        android:padding="@dimen/_5sdp"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:hintTextColor="@color/gray">
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/labelNumberPlate"
+                        <EditText
+                            android:id="@+id/etNumberPlate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@null"
                             android:backgroundTint="@color/white"
-                            android:hint="@string/number_plate"
-                            android:padding="@dimen/_5sdp"
-                            app:boxStrokeWidth="0dp"
-                            app:boxStrokeWidthFocused="0dp"
-                            app:hintTextColor="@color/gray">
+                            android:fontFamily="@font/poppins_medium"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp" />
 
-                            <EditText
-                                android:id="@+id/etNumberPlate"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="@color/white"
-                                android:fontFamily="@font/poppins_medium"
-                                android:imeOptions="actionNext"
-                                android:inputType="text"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_12sdp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                    </RelativeLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </androidx.cardview.widget.CardView>
 
@@ -178,6 +228,7 @@
                     android:layout_marginRight="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:elevation="@dimen/_5sdp"
+                    android:visibility="gone"
                     app:cardCornerRadius="@dimen/_5sdp"
                     app:cardElevation="@dimen/_5sdp">
 
@@ -220,8 +271,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/llMain"
                     android:layout_marginLeft="@dimen/_25sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_25sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
                     android:background="@drawable/login_bt_back_yellow"
                     android:fontFamily="@font/poppins_regular"
                     android:text="@string/next"

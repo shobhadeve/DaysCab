@@ -39,7 +39,6 @@
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/_14sdp" />
 
-
             <RelativeLayout
                 android:id="@+id/rlTripDetail"
                 android:layout_width="match_parent"
@@ -141,46 +140,19 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/rlPayment"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rlTripDetail"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_35sdp"
-                android:background="@drawable/rounded_white_bg"
-                android:padding="@dimen/_5sdp">
-
-                <ImageView
-                    android:id="@+id/ivCard"
-                    android:layout_width="@dimen/_25sdp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:src="@drawable/ic_mastercard" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_toRightOf="@id/ivCard"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="**** 8295"
-                    android:textColor="@color/black" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="$ 85"
-                    android:textColor="@color/black" />
-
-            </RelativeLayout>
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Payment By Cash $120"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_12sdp" />
 
         </RelativeLayout>
 

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "493909367163",
+    "project_id": "dayscabtaxi",
+    "storage_bucket": "dayscabtaxi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493909367163:android:d7d0959a623efce69b85de",
+        "android_client_info": {
+          "package_name": "com.dayscab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493909367163-2sijnl6bcs5gc51gs06qhh1lko374uhc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dayscab",
+            "certificate_hash": "f9013a7680c5a5d6bb554ef96ea250be88f7f6d2"
+          }
+        },
+        {
+          "client_id": "493909367163-q1fu54qjm79q6maf6q5g2arlos1sad49.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxUlg031m16ZKSHcKmdn3S-_oNBLsI0VI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493909367163-q1fu54qjm79q6maf6q5g2arlos1sad49.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -19,6 +19,7 @@
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:elevation="@dimen/_40sdp"
+                android:visibility="gone"
                 app:cardCornerRadius="@dimen/_50sdp">
 
                 <RelativeLayout
@@ -102,6 +103,7 @@
                                     android:inputType="text"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12sdp" />
+
                             </com.google.android.material.textfield.TextInputLayout>
 
                         </RelativeLayout>
@@ -263,8 +265,7 @@
                                     android:layout_height="wrap_content"
                                     android:backgroundTint="@color/white"
                                     android:fontFamily="@font/poppins_medium"
-                                    android:imeOptions="actionDone"
-                                    android:inputType="text"
+                                    android:inputType="number"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12sdp" />
 

@@ -50,12 +50,14 @@
                     android:layout_height="@dimen/_120sdp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profileImage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginRight="@dimen/_5sdp"
                         android:src="@drawable/gray_cirle" />
 
                     <ImageView
+                        android:id="@+id/addIcon"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="@dimen/_40sdp"
                         android:layout_alignParentRight="true"
@@ -199,7 +201,7 @@
                             app:boxStrokeWidth="0dp"
                             app:boxStrokeWidthFocused="0dp"
                             app:hintTextColor="@color/gray"
-                            app:prefixText="+91">
+                            app:prefixText="+233">
 
                             <EditText
                                 android:id="@+id/etPhone"
@@ -224,28 +226,22 @@
                     android:layout_marginTop="@dimen/_20sdp"
                     android:background="@color/white">
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <EditText
+                        android:id="@+id/etCityName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@null"
                         android:backgroundTint="@color/white"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="@font/poppins_medium"
                         android:hint="@string/city_name"
-                        app:boxStrokeWidth="0dp"
-                        app:boxStrokeWidthFocused="0dp"
-                        app:hintTextColor="@color/gray">
-
-                        <EditText
-                            android:id="@+id/etCityName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="@color/white"
-                            android:fontFamily="@font/poppins_medium"
-                            android:imeOptions="actionNext"
-                            android:inputType="textVisiblePassword"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_12sdp" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
+                        android:imeOptions="actionNext"
+                        android:inputType="textVisiblePassword"
+                        android:padding="@dimen/_12sdp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/_12sdp" />
 
                 </RelativeLayout>
 
@@ -255,59 +251,19 @@
                     android:layout_marginTop="@dimen/_20sdp"
                     android:background="@color/white">
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <EditText
+                        android:id="@+id/etAdd1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@null"
                         android:backgroundTint="@color/white"
+                        android:fontFamily="@font/poppins_medium"
                         android:hint="@string/home_add"
-                        app:boxStrokeWidth="0dp"
-                        app:boxStrokeWidthFocused="0dp"
-                        app:hintTextColor="@color/gray">
-
-                        <EditText
-                            android:id="@+id/etAdd1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="@color/white"
-                            android:fontFamily="@font/poppins_medium"
-                            android:imeOptions="actionNext"
-                            android:inputType="textVisiblePassword"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_12sdp" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:background="@color/white">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:backgroundTint="@color/white"
-                        android:hint="@string/home_address2"
-                        app:boxStrokeWidth="0dp"
-                        app:boxStrokeWidthFocused="0dp"
-                        app:hintTextColor="@color/gray">
-
-                        <EditText
-                            android:id="@+id/etaddr2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:backgroundTint="@color/white"
-                            android:fontFamily="@font/poppins_medium"
-                            android:imeOptions="actionNext"
-                            android:inputType="textVisiblePassword"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_12sdp" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
+                        android:imeOptions="actionNext"
+                        android:inputType="textVisiblePassword|textMultiLine"
+                        android:padding="@dimen/_12sdp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/_12sdp" />
 
                 </RelativeLayout>
 

@@ -41,6 +41,7 @@
                 android:textSize="@dimen/_25sdp" />
 
             <TextView
+                android:id="@+id/tvVerifyText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15sdp"
@@ -154,12 +155,26 @@
                     android:textSize="@dimen/_20sdp" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tvResend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:layout_gravity="center"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/resend"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_verify"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_30sdp"
                 android:background="@drawable/login_bt_back_yellow"
                 android:fontFamily="@font/poppins_medium"
                 android:padding="@dimen/_10sdp"

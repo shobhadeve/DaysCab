@@ -22,9 +22,11 @@ public class WalletAct extends AppCompatActivity {
     }
 
     private void itit() {
+
         binding.ivBack.setOnClickListener(v -> {
             finish();
         });
+        
     }
 
 }

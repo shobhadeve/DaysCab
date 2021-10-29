@@ -22,6 +22,7 @@
                 android:layout_width="@dimen/_150sdp"
                 android:layout_height="@dimen/_150sdp"
                 android:layout_centerHorizontal="true"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/_120sdp"
                 android:src="@drawable/marker_yellow" />
 
@@ -139,6 +140,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/inter_regular"
                 android:text="Estimated Trip Time"
+                android:visibility="gone"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/_11sdp" />
 
@@ -147,6 +149,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
                 android:text="12 min"
+                android:visibility="gone"
                 android:textColor="@color/red"
                 android:textSize="@dimen/_11sdp" />
 
