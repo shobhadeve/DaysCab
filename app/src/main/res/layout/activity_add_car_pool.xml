@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp">
+
+                <ImageView
+                    android:id="@+id/ivBack"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:src="@drawable/ic_back_black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_10sdp"
+                    android:text="@string/offer_pool"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/gray2"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.9"
+                    android:layout_height="wrap_content"
+                    android:elevation="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_5sdp">
+
+                    <EditText
+                        android:id="@+id/etStart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/start_place"
+                        android:textSize="@dimen/_10sdp"
+                        android:includeFontPadding="false"
+                        android:inputType="textVisiblePassword|textMultiLine"
+                        android:fontFamily="@font/poppins_medium"
+                        android:singleLine="false"
+                        android:textColorHint="@color/black"
+                        android:cursorVisible="false"
+                        android:drawableLeft="@drawable/green_oval_edit"
+                        android:drawablePadding="@dimen/_8sdp"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:textColor="@color/black"
+                        android:padding="@dimen/_12sdp"
+                        android:background="@null"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <ImageView
+                    android:id="@+id/startRemove"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_weight="0.1"
+                    android:layout_height="@dimen/_30sdp"
+                    android:src="@drawable/black_white_back"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.9"
+                    android:layout_height="wrap_content"
+                    android:elevation="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_5sdp">
+
+                    <EditText
+                        android:id="@+id/etEnd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/end_place"
+                        android:textSize="@dimen/_10sdp"
+                        android:includeFontPadding="false"
+                        android:inputType="textVisiblePassword|textMultiLine"
+                        android:fontFamily="@font/poppins_medium"
+                        android:singleLine="false"
+                        android:textColorHint="@color/black"
+                        android:cursorVisible="false"
+                        android:drawableLeft="@drawable/red_oval_edit"
+                        android:drawablePadding="@dimen/_8sdp"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:textColor="@color/black"
+                        android:padding="@dimen/_12sdp"
+                        android:background="@null"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <ImageView
+                    android:id="@+id/endRemove"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_weight="0.1"
+                    android:layout_height="@dimen/_30sdp"
+                    android:src="@drawable/black_white_back"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.9"
+                    android:layout_height="wrap_content"
+                    android:elevation="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <EditText
+                        android:id="@+id/etInter1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_itermediate_stops_optional"
+                        android:textSize="@dimen/_10sdp"
+                        android:inputType="textVisiblePassword|textMultiLine"
+                        android:fontFamily="@font/poppins_medium"
+                        android:singleLine="false"
+                        android:includeFontPadding="false"
+                        android:textColorHint="@color/black"
+                        android:cursorVisible="false"
+                        android:drawableLeft="@drawable/purpal_oval_edit"
+                        android:drawablePadding="@dimen/_8sdp"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:textColor="@color/black"
+                        android:padding="@dimen/_12sdp"
+                        android:background="@null"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <ImageView
+                    android:id="@+id/inter1Remove"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_weight="0.1"
+                    android:layout_height="@dimen/_30sdp"
+                    android:src="@drawable/black_white_back"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.9"
+                    android:layout_height="wrap_content"
+                    android:elevation="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <EditText
+                        android:id="@+id/etInter2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_itermediate_stops_optional"
+                        android:textSize="@dimen/_10sdp"
+                        android:includeFontPadding="false"
+                        android:inputType="textVisiblePassword|textMultiLine"
+                        android:fontFamily="@font/poppins_medium"
+                        android:singleLine="false"
+                        android:textColorHint="@color/black"
+                        android:cursorVisible="false"
+                        android:drawableLeft="@drawable/purpal_oval_edit"
+                        android:drawablePadding="@dimen/_8sdp"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:textColor="@color/black"
+                        android:padding="@dimen/_12sdp"
+                        android:background="@null"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <ImageView
+                    android:id="@+id/inter2Remove"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_weight="0.1"
+                    android:layout_height="@dimen/_30sdp"
+                    android:src="@drawable/black_white_back"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.9"
+                    android:layout_height="wrap_content"
+                    android:elevation="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    app:cardElevation="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <EditText
+                        android:id="@+id/etInter3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/add_itermediate_stops_optional"
+                        android:textSize="@dimen/_10sdp"
+                        android:inputType="textVisiblePassword|textMultiLine"
+                        android:fontFamily="@font/poppins_medium"
+                        android:singleLine="false"
+                        android:includeFontPadding="false"
+                        android:textColorHint="@color/black"
+                        android:cursorVisible="false"
+                        android:drawableLeft="@drawable/purpal_oval_edit"
+                        android:drawablePadding="@dimen/_8sdp"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:textColor="@color/black"
+                        android:padding="@dimen/_12sdp"
+                        android:background="@null"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <ImageView
+                    android:id="@+id/inter3Remove"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_weight="0.1"
+                    android:layout_height="@dimen/_30sdp"
+                    android:src="@drawable/black_white_back"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:elevation="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp">
+
+                    <EditText
+                        android:id="@+id/etDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/select_date"
+                        android:textSize="@dimen/_10sdp"
+                        android:includeFontPadding="false"
+                        android:inputType="textVisiblePassword"
+                        android:fontFamily="@font/poppins_medium"
+                        android:singleLine="true"
+                        android:textColorHint="@color/black"
+                        android:cursorVisible="false"
+                        android:drawableLeft="@drawable/edit_date_time"
+                        android:drawablePadding="@dimen/_8sdp"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:textColor="@color/black"
+                        android:padding="@dimen/_12sdp"
+                        android:background="@null"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:elevation="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    app:cardCornerRadius="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_10sdp">
+
+                    <EditText
+                        android:id="@+id/etTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/select_time"
+                        android:textSize="@dimen/_10sdp"
+                        android:includeFontPadding="false"
+                        android:inputType="textVisiblePassword"
+                        android:fontFamily="@font/poppins_medium"
+                        android:singleLine="true"
+                        android:textColorHint="@color/black"
+                        android:cursorVisible="false"
+                        android:drawableLeft="@drawable/edit_date_time"
+                        android:drawablePadding="@dimen/_8sdp"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:textColor="@color/black"
+                        android:padding="@dimen/_12sdp"
+                        android:background="@null"/>
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/_10sdp"
+                app:cardElevation="@dimen/_10sdp"
+                app:cardCornerRadius="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp">
+
+                <EditText
+                    android:id="@+id/etAvalSeat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/seat_offer"
+                    android:textSize="@dimen/_10sdp"
+                    android:includeFontPadding="false"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:fontFamily="@font/poppins_medium"
+                    android:singleLine="true"
+                    android:textColorHint="@color/black"
+                    android:drawableLeft="@drawable/edit_passenger"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:textColor="@color/black"
+                    android:padding="@dimen/_12sdp"
+                    android:background="@null"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btOfferPool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:background="@drawable/login_bt_back_yellow"
+                android:fontFamily="@font/poppins_medium"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/submit"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sdp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+</layout>

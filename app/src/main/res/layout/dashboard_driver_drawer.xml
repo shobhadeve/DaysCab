@@ -82,6 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
+                        android:includeFontPadding="false"
                         android:fontFamily="@font/poppins_semibold"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:gravity="center_vertical"
@@ -106,6 +107,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:fontFamily="@font/poppins_semibold"
+                        android:includeFontPadding="false"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:gravity="center_vertical"
                         android:padding="@dimen/_5sdp"
@@ -114,16 +116,14 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/_15sdp" />
 
-
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/btnPayment"
+                    android:id="@+id/btnActiveRides"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/btnHistory"
-                    android:padding="@dimen/_10sdp"
-                    android:visibility="gone">
+                    android:padding="@dimen/_10sdp">
 
                     <TextView
                         android:id="@+id/payment"
@@ -133,8 +133,33 @@
                         android:fontFamily="@font/poppins_semibold"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:gravity="center_vertical"
+                        android:includeFontPadding="false"
                         android:padding="@dimen/_7sdp"
-                        android:text="@string/payment"
+                        android:text="@string/active_rides"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_15sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/btnOfferPool"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btnActiveRides"
+                    android:padding="@dimen/_10sdp">
+
+                    <TextView
+                        android:id="@+id/offerPool"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:gravity="center_vertical"
+                        android:includeFontPadding="false"
+                        android:padding="@dimen/_7sdp"
+                        android:text="@string/offer_pool"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_15sdp" />
@@ -145,7 +170,7 @@
                     android:id="@+id/btnPurchase"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/btnHistory"
+                    android:layout_below="@+id/btnOfferPool"
                     android:padding="@dimen/_10sdp">
 
                     <TextView
@@ -156,6 +181,7 @@
                         android:fontFamily="@font/poppins_semibold"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:gravity="center_vertical"
+                        android:includeFontPadding="false"
                         android:padding="@dimen/_5sdp"
                         android:text="@string/purchase_plan"
                         android:textAllCaps="true"
@@ -166,10 +192,34 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/btnWallet"
+                    android:id="@+id/btnCurrentPlan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/btnPurchase"
+                    android:padding="@dimen/_10sdp">
+
+                    <TextView
+                        android:id="@+id/tvCurrentPlane"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:includeFontPadding="false"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_5sdp"
+                        android:text="@string/current_plan"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_15sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/btnWallet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btnCurrentPlan"
                     android:padding="@dimen/_10sdp">
 
                     <TextView
@@ -180,17 +230,17 @@
                         android:fontFamily="@font/poppins_semibold"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:gravity="center_vertical"
+                        android:includeFontPadding="false"
                         android:padding="@dimen/_5sdp"
                         android:text="@string/my_wallet"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_15sdp" />
 
-
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/btnEarning"
+                    android:id="@+id/btnEditProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/btnWallet"
@@ -205,7 +255,7 @@
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:gravity="center_vertical"
                         android:padding="@dimen/_5sdp"
-                        android:text="@string/earnings"
+                        android:text="@string/edit_profiel"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_15sdp" />
@@ -214,10 +264,33 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/btnAppSetting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btnEditProfile"
+                    android:padding="@dimen/_10sdp">
+
+                    <TextView
+                        android:id="@+id/setting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_5sdp"
+                        android:text="@string/app_settings"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_15sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/btnSignout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/btnEarning"
+                    android:layout_below="@+id/btnAppSetting"
                     android:layout_alignParentBottom="true"
                     android:padding="@dimen/_10sdp">
 

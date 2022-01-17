@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!--    <data>-->
-    <!--        <variable-->
-    <!--            name="data"-->
-    <!--            type="com.hammoniatexiapp.pojos.ModelRideHistory.Result" />-->
-    <!--    </data>-->
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_9sdp"
+        app:cardElevation="@dimen/_10sdp"
         android:elevation="@dimen/_40sdp"
         app:cardCornerRadius="@dimen/_10sdp">
 
@@ -24,6 +21,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/tvDateTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
@@ -32,6 +30,7 @@
                     android:textSize="@dimen/_12sdp" />
 
                 <TextView
+                    android:id="@+id/tvStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -48,6 +47,34 @@
                 android:layout_height="@dimen/_1sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/light_gray" />
+
+            <RelativeLayout
+                android:id="@+id/rlPick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/pickup_time"
+                    android:textColor="@color/purple_700"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:id="@+id/tvPickupTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Complete"
+                    android:textAllCaps="true"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,7 +93,7 @@
                         android:id="@+id/tvFromTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginRight="@dimen/_5sdp"
                         android:fontFamily="@font/poppins_regular"
                         android:textColor="@color/black"
@@ -95,7 +122,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:layout_toRightOf="@+id/ivfrom"
                         android:backgroundTint="@color/white"
                         android:ellipsize="end"
@@ -164,9 +191,9 @@
                         android:id="@+id/GoDetail"
                         android:layout_width="@dimen/_25sdp"
                         android:layout_height="@dimen/_25sdp"
-                        android:background="@drawable/right_arrow"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true" />
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/right_arrow" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -176,14 +203,42 @@
                         android:fontFamily="@font/poppins_regular"
                         android:gravity="center_horizontal"
                         android:text="120$"
-                        android:visibility="gone"
                         android:textColor="@color/textColor"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textSize="@dimen/_12sdp"
+                        android:visibility="gone" />
 
 
                 </RelativeLayout>
 
             </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlDrop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_3sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="@string/dropoff_time"
+                    android:textColor="@color/purple_700"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:id="@+id/tvEndTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Complete"
+                    android:textAllCaps="true"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 

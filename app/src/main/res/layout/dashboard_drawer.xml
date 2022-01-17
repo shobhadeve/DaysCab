@@ -76,7 +76,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/layoutUserDetail"
-                    android:layout_marginTop="@dimen/_35sdp"
                     android:padding="@dimen/_10sdp">
 
                     <TextView
@@ -125,13 +124,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/btnHistory"
-                    android:padding="@dimen/_10sdp"
-                    android:visibility="gone"
-
-                    >
+                    android:padding="@dimen/_10sdp">
 
                     <TextView
-                        android:id="@+id/payment"
+                        android:id="@+id/tvActiveRides"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
@@ -139,7 +135,7 @@
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:gravity="center_vertical"
                         android:padding="@dimen/_7sdp"
-                        android:text="@string/payment"
+                        android:text="@string/active_rides"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_15sdp" />
@@ -153,9 +149,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/btnPayment"
                     android:padding="@dimen/_10sdp"
-                    android:visibility="gone"
-
-                    >
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -173,15 +167,13 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/btnPromocode"
+                    android:id="@+id/btnEditProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/btnWallet"
-                    android:padding="@dimen/_10sdp"
-                    android:visibility="gone">
+                    android:padding="@dimen/_10sdp">
 
                     <TextView
-                        android:id="@+id/promocode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
@@ -189,7 +181,7 @@
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:gravity="center_vertical"
                         android:padding="@dimen/_7sdp"
-                        android:text="@string/promocode"
+                        android:text="@string/edit_profiel"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_15sdp" />
@@ -201,7 +193,7 @@
                     android:id="@+id/btnSupport"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/btnPromocode"
+                    android:layout_below="@+id/btnEditProfile"
                     android:padding="@dimen/_10sdp">
 
                     <TextView

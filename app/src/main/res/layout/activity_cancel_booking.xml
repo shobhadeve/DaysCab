@@ -165,7 +165,7 @@
                 android:padding="@dimen/_10sdp"
                 android:text="@string/cancel_booking"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
         </LinearLayout>
 

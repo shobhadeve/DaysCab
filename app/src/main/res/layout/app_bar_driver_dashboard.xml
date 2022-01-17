@@ -40,54 +40,103 @@
 
         </RelativeLayout>
 
-        <androidx.cardview.widget.CardView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:cardBackgroundColor="@color/yellow"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/_15sdp">
+            android:layout_above="@+id/cvDriverDetails"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:orientation="horizontal"
+            android:padding="@dimen/_5sdp">
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/tvCompleteRide"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_weight="0.5"
+                android:background="@drawable/yellow_outline_back"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="center"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingRight="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13sdp" />
+
+            <TextView
+                android:id="@+id/tvNormalRide"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_weight="0.5"
+                android:background="@drawable/yellow_outline_back"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="center"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingRight="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13sdp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvDriverDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            app:cardBackgroundColor="@color/yellow"
+            app:cardCornerRadius="@dimen/_10sdp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_10sdp">
+                android:padding="@dimen/_10sdp"
+                android:orientation="horizontal"
+                android:weightSum="10">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/cvImg"
-                    app:civ_border_width="@dimen/_1sdp"
-                    android:layout_width="@dimen/_50sdp"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/_50sdp"
-                    android:src="@drawable/user_default" />
+                    android:layout_weight="2"
+                    android:src="@drawable/user_default"
+                    app:civ_border_width="@dimen/_1sdp" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/cvImg"
-                    android:layout_toLeftOf="@+id/switchOnOff"
-                    android:layout_marginLeft="@dimen/_10sdp">
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_weight="6"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tvName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/_13sdp"
-                        android:textColor="@color/black"
-                        android:text="Driver David"
+                        android:layout_marginTop="@dimen/_3sdp"
                         android:fontFamily="@font/poppins_regular"
-                        android:layout_marginTop="@dimen/_3sdp"/>
+                        android:text="Driver David"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13sdp" />
 
                     <TextView
                         android:id="@+id/tvCarNuumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/_11sdp"
-                        android:textColor="@color/black"
-                        android:text="A257GHSY"
                         android:layout_marginTop="-5dp"
-                        android:fontFamily="@font/poppins_regular" />
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="A257GHSY"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11sdp" />
 
                 </LinearLayout>
 
@@ -102,7 +151,37 @@
                     android:textColorHint="@color/black"
                     android:theme="@style/ThemeOverlay.MySwitchCompat" />
 
-            </RelativeLayout>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llChange"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:includeFontPadding="false"
+                        android:text="@string/change"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_8sdp" />
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_width="match_parent"
+                        android:src="@drawable/car_top"
+                        android:scaleType="fitXY"
+                        app:riv_border_width="@dimen/_1sdp"
+                        app:riv_border_color="@color/white"
+                        app:riv_corner_radius="@dimen/_5sdp"
+                        android:layout_height="@dimen/_35sdp"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.cardview.widget.CardView>
 

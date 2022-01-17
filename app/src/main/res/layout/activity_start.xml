@@ -16,7 +16,7 @@
 
             <ImageView
                 android:layout_width="@dimen/_150sdp"
-                android:layout_height="@dimen/_120sdp"
+                android:layout_height="@dimen/_150sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:src="@drawable/ic_logo"/>
 
@@ -33,7 +33,7 @@
                 android:padding="@dimen/_10sdp"
                 android:text="@string/taxi_user"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/_16sdp" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -50,7 +50,7 @@
                 android:padding="@dimen/_10sdp"
                 android:text="@string/taxi_driver"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/_16sdp" />
 
         </LinearLayout>

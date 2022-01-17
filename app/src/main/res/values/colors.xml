@@ -11,7 +11,9 @@
     <color name="dialog_back_color">#646d79</color>
     <color name="bg_color">#60e5e5e5</color>
     <color name="red">#EC3324</color>
+    <color name="translucent_black">#60000000</color>
     <color name="light_gray">#D5DDE0</color>
+    <color name="transparent">#50D5DDE0</color>
     <color name="light_gray1">#20000000</color>
     <color name="gray">#9B9B9B</color>
     <color name="blue_pur">#1053c3</color>
@@ -29,8 +31,10 @@
     <color name="login_bg_color">#f9f9f9</color>
     <color name="btn_yello_color">#e5e5e5</color>
     <color name="btn_yello_color_selected">#F8B036</color>
-    <color name="btn_green_color">#1C9A97 </color>
+    <color name="btn_green_color">#1C9A97</color>
+    <color name="green">#4CAF50</color>
     <color name="gray_color_100">#c1c1c1</color>
+    <color name="gray_color_new">#50c1c1c1</color>
     <color name="gray2">#C4C4C4</color>
     <color name="blue">#1152FD</color>
     <color name="color_gray_100">#F7F8F9</color>

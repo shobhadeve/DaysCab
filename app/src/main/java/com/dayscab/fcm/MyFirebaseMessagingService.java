@@ -17,6 +17,7 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 
 import com.dayscab.R;
+import com.dayscab.common.activties.ChatingAct;
 import com.dayscab.driver.activities.DriverHomeAct;
 import com.dayscab.user.activities.UserHomeAct;
 import com.dayscab.utils.AppConstant;
@@ -28,7 +29,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
-import java.util.Random;;
+import java.util.Random;
+
+;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -36,6 +39,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private NotificationChannel mChannel;
     private NotificationManager notificationManager;
     private MediaPlayer mPlayer;
+    String name, requestId, receiverId;
     Intent intent;
     SharedPref sharedPref;
 
@@ -50,7 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             try {
 
-                String title = "", key = "", status = "", noti_type = "", bookindStatus = "";
+                String title = "", key = "", status = "", noti_type = "", bookindStatus = "", bookType = "";
 
                 JSONObject object = new JSONObject(data.get("message"));
 
@@ -60,9 +64,35 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 }
 
                 try {
+                    bookType = object.getString("booktype");
+                } catch (Exception e) {
+                }
+
+                try {
+                    requestId = object.getString("request_id");
+                } catch (Exception e) {
+                }
+
+                try {
+                    receiverId = object.getString("user_id");
+                } catch (Exception e) {
+                }
+
+                try {
+                    name = object.getString("user_name");
+                } catch (Exception e) {
+                }
+
+                try {
+                    bookindStatus = object.getString("booking_status");
+                } catch (Exception e) {
+                }
+
+                try {
                     key = object.getString("key");
                     status = object.getString("status");
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
 
                 Log.e("fasdfsadfsfs", "key = " + key);
                 Log.e("fasdfsadfsfs", "bookindStatus = " + bookindStatus);
@@ -70,7 +100,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Log.e("fasdfsadfsfs", "status = " + status);
 
                 if (AppConstant.USER.equals(noti_type)) {
-                    if ("Cancel".equals(status)) {
+                    if ("Cancel".equals(bookindStatus)) {
+                        title = "New Booking Request";
+                        key = object.getString("key");
+                        Intent intent1 = new Intent("Job_Status_Action");
+                        Log.e("SendData ===== ", object.toString());
+                        intent1.putExtra("status", "Cancel");
+                        sendBroadcast(intent1);
+                    } else if ("Cancel".equals(status)) {
                         // title = object.getString("title");
                         title = "New Booking Request";
                         key = object.getString("key");
@@ -99,6 +136,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         Log.e("SendData ===== ", object.toString());
                         intent1.putExtra("status", "Arrived");
                         sendBroadcast(intent1);
+                    } else if ("Accept".equals(status)) {
+                        title = "New Booking Request";
+                        key = object.getString("key");
+                        Intent intent1 = new Intent("Job_Status_Action_Accept");
+                        Log.e("SendData ===== ", object.toString());
+                        if (bookType != null && bookType.equals("LATER")) {
+                            intent1.putExtra("booktype", "LATER");
+                        } else {
+                            intent1.putExtra("booktype", "NOW");
+                        }
+                        intent1.putExtra("request_id", requestId);
+                        intent1.putExtra("status", "Accept");
+                        sendBroadcast(intent1);
+                    } else if ("Finish".equals(status)) {
+                        title = "New Booking Request";
+                        key = object.getString("key");
+                        Intent intent1 = new Intent("Job_Status_Action");
+                        Log.e("SendData ===== ", object.toString());
+                        intent1.putExtra("status", "Arrived");
+                        sendBroadcast(intent1);
                     }
                 } else {
                     if ("Pending".equals(status)) {
@@ -109,7 +166,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         Log.e("SendData=====", object.toString());
                         intent1.putExtra("object", object.toString());
                         sendBroadcast(intent1);
-                    } else if ("Cancel_by_user".equals(bookindStatus)) {
+                    } else if ("Cancel_by_user".equals(status)) {
                         Intent intent1 = new Intent("job_status");
                         Log.e("SendData=====", object.toString());
                         intent1.putExtra("status", "Cancel");
@@ -136,18 +193,29 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void displayCustomTaxiNotifyForDriver(String status, String title, String msg, String data) {
 
+//        MusicManager.getInstance().initalizeMediaPlayer(this, Uri.parse
+//                (ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/" + R.raw.doogee_ringtone));
+//        MusicManager.getInstance().startPlaying();
+
         Log.e("ggddfdfdfd", "Displaying Notify Cancel");
         Log.e("ggddfdfdfd", "status = " + status);
         Log.e("ggddfdfdfd", "Data Status 123= " + data);
         Log.e("ggddfdfdfd", "Cancel_by_user = " + !"Cancel_by_user".equals(status));
 
-        intent = new Intent(this, DriverHomeAct.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
         if (!"Cancel_by_user".equals(status)) {
-            intent.putExtra("type", "dialog");
-            intent.putExtra("data", data);
-            intent.putExtra("object", data);
+            if (msg.contains("message")) {
+                intent = new Intent(this, ChatingAct.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("request_id", requestId);
+                intent.putExtra("name", name);
+                intent.putExtra("receiver_id", receiverId);
+            } else {
+                intent = new Intent(this, DriverHomeAct.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("type", "dialog");
+                intent.putExtra("data", data);
+                intent.putExtra("object", data);
+            }
         }
 
 //      intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -159,8 +227,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 (0, PendingIntent.FLAG_UPDATE_CURRENT);
         /*PendingIntent.getActivity(this, 123, intent,PendingIntent.FLAG_UPDATE_CURRENT);*/
         String channelId = "123";
-        // Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,channelId)
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
                 .setSmallIcon(R.drawable.ic_logo)
                 //.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_logo))
@@ -169,7 +237,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentText(msg)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true)
-                /*.setSound(defaultSoundUri)*/
+                .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager = (NotificationManager)
@@ -193,14 +261,38 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void displayCustomTaxiNotifyForUser(String status, String title, String msg, String data) {
 
-        intent = new Intent(this, UserHomeAct.class);
-        intent.putExtra("type", "dialog");
-        intent.putExtra("data", data);
-        intent.putExtra("object", data);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (msg.contains("message")) {
+            intent = new Intent(this, ChatingAct.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("request_id", requestId);
+            intent.putExtra("name", name);
+            intent.putExtra("receiver_id", receiverId);
+        } else {
+            intent = new Intent(this, UserHomeAct.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("type", "dialog");
+            intent.putExtra("data", data);
+            intent.putExtra("object", data);
+        }
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
         String channelId = "1";
+
+        String message = "";
+
+        if ("Arrived".equals(status)) {
+            message = "Driver is Arrived";
+        } else if ("Start".equals(status)) {
+            message = "Your Trip is started";
+        } else if ("End".equals(status)) {
+            message = "Trip is Ended";
+        } else if ("Finish".equals(status)) {
+            message = "Trip is Finish";
+        } else {
+            message = msg;
+        }
+
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
@@ -208,7 +300,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle(getString(R.string.app_name))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setContentText(msg)
+                .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
@@ -218,8 +310,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Channel human readable title
             NotificationChannel channel = new NotificationChannel(channelId,
-                    "Cloud Messaging Service",
-                    NotificationManager.IMPORTANCE_HIGH);
+                    "Cloud Messaging Service", NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
         }
 

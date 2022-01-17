@@ -55,7 +55,8 @@ public class ModelCar {
     @SerializedName("cab_find")
     @Expose
     private String cabFind;
-    private boolean isSelected=false;
+
+    private boolean isSelected = false;
 
     public boolean isSelected() {
         return isSelected;
@@ -146,7 +147,7 @@ public class ModelCar {
     }
 
     public String getFreeTimeMin() {
-        return freeTimeMin+" Min";
+        return freeTimeMin + " Min";
     }
 
     public void setFreeTimeMin(String freeTimeMin) {
@@ -194,7 +195,7 @@ public class ModelCar {
     }
 
     public String getCabFind() {
-        return cabFind.equalsIgnoreCase("no_cab")?"No Cab Found":cabFind.concat(" Min");
+        return cabFind.equalsIgnoreCase("no_cab") ? "No Cab Found" : cabFind.concat(" Min");
     }
 
     public void setCabFind(String cabFind) {

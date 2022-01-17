@@ -13,47 +13,37 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_20sdp">
 
-            <androidx.cardview.widget.CardView
+            <ImageView
                 android:id="@+id/ivBack"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
-                android:elevation="@dimen/_40sdp"
-                app:cardCornerRadius="@dimen/_50sdp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/left_arrow_black" />
-
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
+                android:src="@drawable/left_arrow_black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
+                android:layout_centerInParent="true"
                 android:fontFamily="@font/inter_semi_bold"
-                android:text="Ride history"
+                android:text="@string/ride_history"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/_14sdp" />
 
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvRideHistory"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_5sdp"
-            tools:listitem="@layout/item_ride_history"
-            android:orientation="vertical"
-            tools:itemCount="3"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRideHistory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 

@@ -1,39 +1,50 @@
 package com.dayscab.common.activties;
 
 import android.Manifest;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.util.Base64;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.dayscab.R;
 import com.dayscab.common.models.ModelLogin;
-import com.dayscab.driver.activities.SignUpDriverAct;
+import com.dayscab.driver.activities.DriverHomeAct;
+import com.dayscab.driver.activities.PurchasePlanAct;
 import com.dayscab.driver.activities.UploadDriverDocumentsAct;
 import com.dayscab.driver.activities.UploadVehicleAct;
 import com.dayscab.user.activities.UserHomeAct;
-import com.dayscab.driver.activities.DriverHomeAct;
 import com.dayscab.utils.AppConstant;
+import com.dayscab.utils.InternetConnection;
+import com.dayscab.utils.MyApplication;
+import com.dayscab.utils.MyService;
+import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
-import com.google.android.gms.location.LocationRequest;
+import com.dayscab.utils.retrofitutils.Api;
+import com.dayscab.utils.retrofitutils.ApiFactory;
+import com.google.gson.Gson;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -41,32 +52,70 @@ public class SplashActivity extends AppCompatActivity {
     SharedPref sharedPref;
     ModelLogin modelLogin;
     int PERMISSION_ID = 44;
-    private boolean isDialogEnable = true;
+    boolean isDialogEnable = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_splash);
         sharedPref = SharedPref.getInstance(mContext);
-        printHashKey(mContext);
     }
 
-    public static void printHashKey(Context pContext) {
-        Log.i("dsadadsdad", "printHashKey() Hash Key: aaya ander");
-        try {
-            PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(),
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                String hashKey = new String(Base64.encode(md.digest(), 0));
-                Log.i("dsadadsdad", "printHashKey() Hash Key: " + hashKey);
+    @Override
+    protected void onResume() {
+
+        Log.e("versionosos", "version code = " + android.os.Build.VERSION.SDK_INT);
+
+        if (android.os.Build.VERSION.SDK_INT >= 29) {
+            int backgroundLocationPermissionApproved = ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+            if (backgroundLocationPermissionApproved != 0) {
+                if (isDialogEnable) {
+                    isDialogEnable = false;
+                    showLocationDialog();
+                } else {
+                    if (checkPermissions()) {
+                        if (isLocationEnabled()) {
+                            processNextActivity();
+                        } else {
+                            Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(intent);
+                        }
+                    } else {
+                        requestPermissions();
+                    }
+                }
+            } else {
+                if (checkPermissions()) {
+                    if (isLocationEnabled()) {
+                        processNextActivity();
+                    } else {
+                        Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(intent);
+                    }
+                } else {
+                    requestPermissions();
+                }
             }
-        } catch (NoSuchAlgorithmException e) {
-            Log.e("dsadadsdad", "printHashKey()", e);
-        } catch (Exception e) {
-            Log.e("dsadadsdad", "printHashKey()", e);
+        } else {
+            if (checkPermissions()) {
+                if (isLocationEnabled()) {
+                    processNextActivity();
+                } else {
+                    Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent);
+                }
+            } else {
+                requestPermissions();
+            }
         }
+        super.onResume();
     }
 
     private boolean checkPermissions() {
@@ -110,81 +159,106 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        if (android.os.Build.VERSION.SDK_INT >= 29) {
-            int backgroundLocationPermissionApproved = ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION);
-            if (backgroundLocationPermissionApproved != 0) {
-                if (isDialogEnable) {
-                    isDialogEnable = false;
-                    showLocationDialog();
-                }
-            } else {
-                if (checkPermissions()) {
-                    if (isLocationEnabled()) {
-                        processNextActivity();
-                    } else {
-                        Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(intent);
-                    }
-                } else {
-                    requestPermissions();
-                }
-            }
-        } else {
-            if (checkPermissions()) {
-                if (isLocationEnabled()) {
-                    processNextActivity();
-                } else {
-                    Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivity(intent);
-                }
-            } else {
-                requestPermissions();
-            }
-        }
-        super.onResume();
-    }
-
     private void processNextActivity() {
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 if (sharedPref.getBooleanValue(AppConstant.IS_REGISTER)) {
                     modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
-                    if (modelLogin.getResult().getType().equals(AppConstant.USER)) {
+                    if (AppConstant.DRIVER.equalsIgnoreCase(modelLogin.getResult().getType())) {
+                        if (InternetConnection.checkConnection(mContext)) {
+                            getProfileApiCall();
+                        } else {
+                            MyApplication.showConnectionDialog(mContext);
+                        }
+                    } else if (AppConstant.USER.equalsIgnoreCase(modelLogin.getResult().getType())) {
                         startActivity(new Intent(mContext, UserHomeAct.class));
                         finish();
-                    } else {
-                        Log.e("sadasdsd", "modelLogin.getResult().getStep() = " + modelLogin.getResult().getStep());
-                        if ("1".equals(modelLogin.getResult().getStep())) {
-                            startActivity(new Intent(mContext, UploadVehicleAct.class));
-                            finish();
-                        } else if ("2".equals(modelLogin.getResult().getStep())) {
-                            if (modelLogin.getResult().getDriver_lisence_img() == null ||
-                                    modelLogin.getResult().getDriver_lisence_img().equals("")) {
-                                startActivity(new Intent(mContext, UploadDriverDocumentsAct.class));
-                                finish();
-                            } else {
-                                startActivity(new Intent(mContext, DriverHomeAct.class));
-                                finish();
-                            }
-                        } else if ("0".equals(modelLogin.getResult().getStep())) {
-                            startActivity(new Intent(mContext, SignUpDriverAct.class));
-                            finish();
-                        }
                     }
                 } else {
-                    startActivity(new Intent(mContext, StartAct.class));
+                    Intent i = new Intent(SplashActivity.this, StartAct.class);
+                    startActivity(i);
                     finish();
                 }
             }
-        }, 2000);
+        }, 3000);
+    }
 
+    private void getProfileApiCall() {
+        // ProjectUtil.showProgressDialog(mContext,false,getString(R.string.please_wait));
+
+        HashMap<String, String> paramHash = new HashMap<>();
+        paramHash.put("user_id", modelLogin.getResult().getId());
+
+        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+        Call<ResponseBody> call = api.getProfileCall(paramHash);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ProjectUtil.pauseProgressDialog();
+                try {
+
+                    String stringResponse = response.body().string();
+
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(stringResponse);
+
+                        if (jsonObject.getString("status").equals("1")) {
+
+                            Log.e("getProfileApiCall", "getProfileApiCall = " + stringResponse);
+
+                            modelLogin = new Gson().fromJson(stringResponse, ModelLogin.class);
+
+                            ContextCompat.startForegroundService(SplashActivity.this, new Intent(SplashActivity.this, MyService.class));
+
+                            Log.e("adfasdfss", "getDriver_lisence_img = " + modelLogin.getResult().getDriver_lisence_img());
+                            if (modelLogin.getResult().getStep().equals("1")) {
+                                startActivity(new Intent(mContext, UploadVehicleAct.class));
+                                finish();
+                            } else if (modelLogin.getResult().getStep().equals("2")) {
+                                if (modelLogin.getResult().getDriver_lisence_img() == null ||
+                                        "".equals(modelLogin.getResult().getDriver_lisence_img()) ||
+                                        modelLogin.getResult().getDriver_lisence_img()
+                                                .equals("https://dayscab.com/dayscab_taxi/uploads/images/")) {
+                                    startActivity(new Intent(mContext, UploadDriverDocumentsAct.class));
+                                    finish();
+                                } else {
+                                    if (modelLogin.getResult().getRide_count() != null &&
+                                            !modelLogin.getResult().getRide_count().equals("0")) {
+                                        startActivity(new Intent(mContext, DriverHomeAct.class));
+                                        finish();
+                                    } else {
+                                        startActivity(new Intent(mContext, PurchasePlanAct.class)
+                                            .putExtra("which","splash")
+                                        );
+                                        finish();
+                                       // Toast.makeText(mContext, mContext.getString(R.string.please_purchase_plan), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        } else {}
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("JSONException", "JSONException = " + e.getMessage());
+                    }
+
+                  //  Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ProjectUtil.pauseProgressDialog();
+            }
+
+        });
     }
 
     private void showLocationDialog() {
@@ -200,8 +274,7 @@ public class SplashActivity extends AppCompatActivity {
                 Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                 Uri uri = Uri.fromParts("package", getPackageName(), null);
                 intent.setData(uri);
-                intent.addCategory(Intent.CATEGORY_DEFAULT);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         }).create().show();

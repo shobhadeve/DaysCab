@@ -11,7 +11,7 @@ public interface AppConstant {
     String LOGIN_API = "login";
     String MY_LOCATION = "Your Location";
     String RES_DRIVER = "RES_DRIVER";
-    String CURRENCY = "Birr";
+    String CURRENCY = "GHC";
     String EBIRR = "EBIRR";
     String SAHAY = "Sahay";
     String HELLO_CASH = "Hello Cash";
@@ -31,6 +31,7 @@ public interface AppConstant {
     String FILTER_SELECTED_DATA = "filter_selected_item";
 
     String IS_REGISTER = "user_register";
+    String COUNTRY = "GH";
     String USER_DETAILS = "user_details";
     String UPDATE_ORDER_STATUS = "update_order_status";
     String DEV_FOOD = "DEV_FOOD";

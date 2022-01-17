@@ -12,6 +12,7 @@ import com.dayscab.R;
 import com.dayscab.databinding.ItemRideBookBinding;
 import com.dayscab.databinding.ItemRideHistoryBinding;
 import com.dayscab.user.models.ModelCar;
+import com.dayscab.utils.AppConstant;
 
 import java.util.ArrayList;
 
@@ -45,10 +46,11 @@ public class AdapterCarTypes extends RecyclerView.Adapter<AdapterCarTypes.MyRide
 
     @Override
     public void onBindViewHolder(@NonNull AdapterCarTypes.MyRideHolder holder, int position) {
+
         holder.binding.setCar(arrayList.get(position));
         holder.binding.executePendingBindings();
 
-        holder.binding.tvTotal.setText(arrayList.get(position).getTotal() +"/Km");
+        holder.binding.tvTotal.setText(arrayList.get(position).getTotal() + " " + AppConstant.CURRENCY);
 
         holder.binding.getRoot().setOnClickListener(v -> {
             for (int i = 0; i < arrayList.size(); i++) {
@@ -58,6 +60,7 @@ public class AdapterCarTypes extends RecyclerView.Adapter<AdapterCarTypes.MyRide
             listener.onCarSelected(arrayList.get(position));
             notifyDataSetChanged();
         });
+
     }
 
     @Override

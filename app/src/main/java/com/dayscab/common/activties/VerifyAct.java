@@ -2,6 +2,7 @@ package com.dayscab.common.activties;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.Context;
@@ -21,6 +22,7 @@ import com.dayscab.driver.activities.UploadVehicleAct;
 import com.dayscab.user.activities.UserHomeAct;
 import com.dayscab.utils.AppConstant;
 import com.dayscab.utils.InternetConnection;
+import com.dayscab.utils.MyService;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.retrofitutils.Api;
@@ -334,6 +336,8 @@ public class VerifyAct extends AppCompatActivity {
                         sharedPref.setBooleanValue(AppConstant.IS_REGISTER, true);
                         sharedPref.setUserDetails(AppConstant.USER_DETAILS, modelLogin);
 
+                        ContextCompat.startForegroundService(VerifyAct.this, new Intent(VerifyAct.this, MyService.class));
+
                         startActivity(new Intent(mContext, UploadVehicleAct.class));
                         finish();
 
@@ -381,7 +385,6 @@ public class VerifyAct extends AppCompatActivity {
                         sharedPref.setUserDetails(AppConstant.USER_DETAILS, modelLogin);
 
                         startActivity(new Intent(mContext, UserHomeAct.class));
-
                         finish();
 
                     } else {

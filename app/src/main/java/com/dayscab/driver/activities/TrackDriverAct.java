@@ -2,19 +2,19 @@ package com.dayscab.driver.activities;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.databinding.DataBindingUtil;
-
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
@@ -22,28 +22,37 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.os.StrictMode;
 import android.os.Vibrator;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.databinding.DataBindingUtil;
+
 import com.bumptech.glide.Glide;
 import com.dayscab.R;
+import com.dayscab.common.activties.ChatingAct;
 import com.dayscab.common.models.ModelCurrentBooking;
 import com.dayscab.common.models.ModelCurrentBookingResult;
 import com.dayscab.common.models.ModelLogin;
-import com.dayscab.databinding.ActivityTrackBinding;
 import com.dayscab.databinding.ActivityTrackDriverBinding;
-import com.dayscab.databinding.DialogDriverArrivedDialogBinding;
-import com.dayscab.databinding.TripStatusDailogBinding;
-import com.dayscab.user.activities.PaymentAct;
+import com.dayscab.databinding.DriverChangeStatusDialogBinding;
+import com.dayscab.databinding.NavigateDialogBinding;
+import com.dayscab.databinding.OtpDialogForDriverBinding;
 import com.dayscab.utils.AppConstant;
 import com.dayscab.utils.LatLngInterpolator;
 import com.dayscab.utils.MarkerAnimation;
 import com.dayscab.utils.MusicManager;
+import com.dayscab.utils.MyApplication;
+import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.directionclasses.DrawPollyLine;
+import com.dayscab.utils.retrofitutils.Api;
+import com.dayscab.utils.retrofitutils.ApiFactory;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -54,6 +63,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -64,9 +74,16 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.SquareCap;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.HashMap;
+import java.util.TimeZone;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -80,8 +97,8 @@ public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallb
     private ModelCurrentBookingResult result;
     private String requestId, userMobile, userId, userName;
     private LocationRequest mLocationRequest;
-    private long UPDATE_INTERVAL = 2000;  /* 5 secs */
-    private long FASTEST_INTERVAL = 2000; /* 2 sec */
+    private long UPDATE_INTERVAL = 4000;  /* 5 secs */
+    private long FASTEST_INTERVAL = 4000; /* 2 sec */
     Location currentLocation;
     Vibrator vibrator;
     GoogleMap mMap;
@@ -89,6 +106,7 @@ public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallb
     private LatLng pickLocation, droplocation;
     SupportMapFragment mapFragment;
     private String status;
+    String type = "";
     private Marker pCurrentLocationMarker;
     private Marker dcurrentLocationMarker;
 
@@ -108,11 +126,13 @@ public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallb
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_track_driver);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_track_driver);
+        // setting up the flag programmatically so that the
+        // device screen should be always on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
 
@@ -124,7 +144,7 @@ public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallb
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
+        type = getIntent().getStringExtra("type");
         startLocationUpdates();
 
         try {
@@ -144,7 +164,8 @@ public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallb
                             .into(binding.driverImage);
                 }
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         itit();
 
@@ -172,41 +193,172 @@ public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallb
         pickLocation = new LatLng(Double.parseDouble(result.getPicuplat()), Double.parseDouble(result.getPickuplon()));
         droplocation = new LatLng(Double.parseDouble(result.getDroplat()), Double.parseDouble(result.getDroplon()));
 
-        binding.tvFrom.setText(result.getPicuplocation());
+        binding.pickUp.setText(result.getPicuplocation());
+        binding.tvDestination.setText(result.getDropofflocation());
         binding.tvName.setText(result.getUser_details().get(0).getUser_name());
 
         try {
             droplocation = new LatLng(Double.parseDouble(result.getDroplat()), Double.parseDouble(result.getDroplon()));
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         if (result.getStatus().equalsIgnoreCase("Accept")) {
-            binding.btnStatus.setText("Arriving");
+            binding.btnStatus.setText(R.string.update_when_you_arrived);
         } else if (result.getStatus().equalsIgnoreCase("Arrived")) {
-            binding.btnStatus.setText("Start");
+            binding.tvFrom.setText(R.string.desti_loc);
+            binding.tvFrom.setText(result.getDropofflocation());
+            binding.btnStatus.setText(R.string.start_the_trip);
         } else if (result.getStatus().equalsIgnoreCase("Start")) {
-            binding.btnStatus.setText("End");
+            binding.tvFrom.setText(R.string.desti_loc);
+            binding.tvFrom.setText(result.getDropofflocation());
+            binding.btnStatus.setText(R.string.end_the_trip);
         } else if (result.getStatus().equalsIgnoreCase("End")) {
             binding.btnStatus.setText("Finish");
         } else if (result.getStatus().equalsIgnoreCase("Cancel")) {
             finish();
         }
 
-        binding.ivCancelTrip.setOnClickListener(v -> {
-
+        binding.icCall.setOnClickListener(v -> {
+            ProjectUtil.call(mContext, userMobile);
         });
+
+        binding.ivNavigate.setOnClickListener(v -> {
+            openNavigateionDialog();
+        });
+
+        binding.icChat.setOnClickListener(v -> {
+            startActivity(new Intent(mContext, ChatingAct.class)
+                    .putExtra("request_id", result.getId())
+                    .putExtra("receiver_id", result.getUserId())
+                    .putExtra("name", userName)
+            );
+        });
+
+        binding.ivCancelTrip.setOnClickListener(v -> {
+            startActivity(new Intent(mContext, RideCancelDriverAct1.class)
+                    .putExtra("data", data)
+            );
+        });
+
+        binding.btnStatus.setOnClickListener(v -> {
+            startEndTripDialog(result.getStatus());
+        });
+
+    }
+
+    public void AcceptCancel(String status) {
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("driver_id", modelLogin.getResult().getId());
+        map.put("request_id", result.getId());
+        map.put("status", status);
+        map.put("cancel_reaison", "");
+        map.put("timezone", TimeZone.getDefault().getID());
+
+        Log.e("AcceptCancel", "AcceptCancel = " + map);
+
+        ProjectUtil.showProgressDialog(mContext, false, getString(R.string.please_wait));
+        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+        Call<ResponseBody> call = api.acceptCancelOrderCallTaxi(map);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    String stringResponse = response.body().string();
+
+                    Log.e("asdfasdfasdfas", "stringResponse = " + stringResponse);
+
+                    JSONObject jsonObject = new JSONObject(stringResponse);
+                    if (jsonObject.getString("status").equals("1")) {
+                        ProjectUtil.pauseProgressDialog();
+                        ProjectUtil.clearNortifications(mContext);
+                        Log.e("AcceptCancel", "stringResponse = " + stringResponse);
+                        if (status.equalsIgnoreCase("Arrived")) {
+                            result.setStatus("Arrived");
+                            binding.btnStatus.setText(R.string.start_the_trip);
+                        } else if (status.equalsIgnoreCase("Start")) {
+                            result.setStatus("Start");
+                            binding.btnStatus.setText(R.string.end_the_trip);
+                        } else if (status.equalsIgnoreCase("End")) {
+                            startActivity(new Intent(mContext, EndTripDriverAct.class)
+                                    .putExtra("data", data)
+                            );
+                            result.setStatus("End");
+                            finish();
+                        }
+                    } else {
+                        MyApplication.showToast(mContext, getString(R.string.req_cancelled));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ProjectUtil.pauseProgressDialog();
+                Log.e("sfasfsdfdsf", "Exception = " + t.getMessage());
+            }
+        });
+
+    }
+
+    private void openNavigateionDialog() {
+
+        Dialog dialog = new Dialog(mContext, WindowManager.LayoutParams.MATCH_PARENT);
+        NavigateDialogBinding dialogBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext),
+                R.layout.navigate_dialog, null, false);
+        dialog.setContentView(dialogBinding.getRoot());
+
+        dialog.getWindow().setBackgroundDrawableResource(R.color.dialog_back_color);
+
+        dialogBinding.btPickup.setOnClickListener(v -> {
+            naigateToMap(pickLocation.latitude, pickLocation.longitude);
+            // startActivity(new Intent(mContext, WebviewNavAct.class));
+        });
+
+        dialogBinding.btDropOff.setOnClickListener(v -> {
+            naigateToMap(droplocation.latitude, droplocation.longitude);
+            // startActivity(new Intent(mContext, WebviewNavAct.class));
+        });
+
+        dialog.show();
+
+    }
+
+    private void naigateToMap(double start, double end) {
+
+        String url = "google.navigation:q=" + start + "," + end;
+        Log.e("zsdfasdasdas", "url = " + url);
+
+        try {
+            Uri navigationIntentUri = Uri.parse("google.navigation:q=" + start + "," + end);//creating intent with latlng
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, navigationIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
+        } catch (Exception e) {
+            Uri navigationIntentUri = Uri.parse("google.navigation:q=" + start + "," + end);//creating intent with latlng
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, navigationIntentUri);
+            startActivity(mapIntent);
+        }
 
     }
 
     @NonNull
     private CameraPosition getCameraPositionWithBearing(LatLng latLng) {
-        return new CameraPosition.Builder().target(latLng).zoom(15).build();
+        return new CameraPosition.Builder().target(latLng).zoom(19).build();
     }
 
     private void showMarkerCurrentLocation(@NonNull LatLng currentLocation) {
         if (currentLocation != null) {
             if (currentLocationMarker == null) {
+                int height = 95;
+                int width = 65;
+                Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.car_top);
+                Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                BitmapDescriptor smallMarkerIcon = BitmapDescriptorFactory.fromBitmap(smallMarker);
                 currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentlocation).title("My Location")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.car_top)));
+                        .icon(smallMarkerIcon));
                 animateCamera(currentLocation);
             } else {
                 Log.e("sdfdsfdsfds", "Hello Marker Anuimation");
@@ -241,6 +393,7 @@ public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallb
     }
 
     // Trigger new location updates at interval
+    @SuppressLint("MissingPermission")
     protected void startLocationUpdates() {
 
         // Create the location request to start receiving updates
@@ -276,36 +429,150 @@ public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallb
 
     }
 
+    private void startEndDialog(String status) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
-    private void startEndTripDialog(String text) {
+        if (status.equalsIgnoreCase("Accept")) {
+            builder.setTitle(getString(R.string.arrived_text));
+        } else if (status.equalsIgnoreCase("Arrived")) {
+            builder.setTitle(getString(R.string.start_the_trip_text));
+        } else if (status.equalsIgnoreCase("Start")) {
+            builder.setTitle(getString(R.string.end_the_trip_text));
+        }
+
+        builder.setCancelable(false)
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (status.equalsIgnoreCase("Accept")) {
+                            AcceptCancel("Arrived");
+                        } else if (status.equalsIgnoreCase("Arrived")) {
+                            AcceptCancel("Start");
+                        } else if (status.equalsIgnoreCase("Start")) {
+                            AcceptCancel("End");
+                        }
+                    }
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).create().show();
+    }
+
+    private void startEndTripDialog(String status) {
         Dialog dialog = new Dialog(mContext, WindowManager.LayoutParams.MATCH_PARENT);
-        TripStatusDailogBinding dialogBinding = DataBindingUtil
-                .inflate(LayoutInflater.from(mContext), R.layout.trip_status_dailog, null, false);
+        DriverChangeStatusDialogBinding dialogBinding = DataBindingUtil
+                .inflate(LayoutInflater.from(mContext), R.layout.driver_change_status_dialog, null, false);
         dialog.setContentView(dialogBinding.getRoot());
 
-        dialogBinding.tvText.setText(text);
+        if (status.equalsIgnoreCase("Accept")) {
+            dialogBinding.tvMessage.setText(getString(R.string.arrived_text));
+        } else if (status.equalsIgnoreCase("Arrived")) {
+            dialogBinding.tvMessage.setText(getString(R.string.start_the_trip_text));
+        } else if (status.equalsIgnoreCase("Start")) {
+            dialogBinding.tvMessage.setText(getString(R.string.end_the_trip_text));
+        }
 
-        dialogBinding.btnYes.setOnClickListener(v -> {
+        // dialogBinding.tvMessage.setText(text);
+
+        dialogBinding.tvOk.setOnClickListener(v -> {
             dialog.dismiss();
-            if(status.equals("Start")) {
-                status = "finish";
-                binding.btnStatus.setText("Finish");
-            } else {
-                startActivity(new Intent(mContext,EndTripDriverAct.class));
-                finish();
+            if (status.equalsIgnoreCase("Accept")) {
+                AcceptCancel("Arrived");
+            } else if (status.equalsIgnoreCase("Arrived")) {
+                enterOtpDialog();
+            } else if (status.equalsIgnoreCase("Start")) {
+                AcceptCancel("End");
             }
         });
 
-        dialogBinding.btnNo.setOnClickListener(v -> {
+        dialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+
+        dialogBinding.tvCancel.setOnClickListener(v -> {
             dialog.dismiss();
         });
 
         dialog.show();
     }
 
+    private void enterOtpDialog() {
+
+        Dialog dialog = new Dialog(mContext, WindowManager.LayoutParams.MATCH_PARENT);
+        OtpDialogForDriverBinding dialogBinding = DataBindingUtil
+                .inflate(LayoutInflater.from(mContext),
+                        R.layout.otp_dialog_for_driver, null, false);
+        dialog.setContentView(dialogBinding.getRoot());
+
+        dialogBinding.btSubmit.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(dialogBinding.etOtp.getText().toString().trim())) {
+                Toast.makeText(mContext, getString(R.string.please_enter_otp), Toast.LENGTH_SHORT).show();
+            } else {
+                checkIsOtpCorrect(dialogBinding.etOtp.getText().toString().trim(), dialog);
+            }
+        });
+
+        dialogBinding.btnCancel.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+        dialog.show();
+
+    }
+
+    private void checkIsOtpCorrect(String otp, Dialog dialog) {
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("driver_id", modelLogin.getResult().getId());
+        map.put("request_id", result.getId());
+        map.put("otp", otp);
+
+        Log.e("AcceptCancel", "AcceptCancel = " + map);
+
+        ProjectUtil.showProgressDialog(mContext, false, getString(R.string.please_wait));
+        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+        Call<ResponseBody> call = api.checkOtpApiCall(map);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ProjectUtil.pauseProgressDialog();
+                try {
+                    String stringResponse = response.body().string();
+
+                    Log.e("asdfasdfasdfas", "stringResponse = " + stringResponse);
+
+                    JSONObject jsonObject = new JSONObject(stringResponse);
+                    if (jsonObject.getString("status").equals("1")) {
+                        ProjectUtil.pauseProgressDialog();
+                        dialog.dismiss();
+                        AcceptCancel("Start");
+                        Log.e("AcceptCancel", "stringResponse = " + stringResponse);
+                    } else {
+                        MyApplication.showToast(mContext, getString(R.string.wrong_otp));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ProjectUtil.pauseProgressDialog();
+                Log.e("sfasfsdfdsf", "Exception = " + t.getMessage());
+            }
+        });
+    }
+
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(@NonNull LatLng latLng) {
+                Log.e("markermarker", "marker position = " + latLng);
+            }
+        });
 
         mMap.getUiSettings().setMapToolbarEnabled(false);
 

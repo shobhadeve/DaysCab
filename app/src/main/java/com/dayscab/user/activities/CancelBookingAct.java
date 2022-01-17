@@ -57,7 +57,7 @@ public class CancelBookingAct extends AppCompatActivity implements OnMapReadyCal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_cancel_booking);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_cancel_booking);
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
 
@@ -75,11 +75,10 @@ public class CancelBookingAct extends AppCompatActivity implements OnMapReadyCal
 
             try {
                 DropLatLon = new LatLng(Double.parseDouble(result.getDroplat()), Double.parseDouble(result.getDroplon()));
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
 
         }
-
-        drawRoute();
 
         itit();
 
@@ -136,7 +135,7 @@ public class CancelBookingAct extends AppCompatActivity implements OnMapReadyCal
                     }
                 });
 
-        zoomMapInitial(PicLatLon,DropLatLon);
+        zoomMapInitial(PicLatLon, DropLatLon);
 
     }
 
@@ -152,8 +151,6 @@ public class CancelBookingAct extends AppCompatActivity implements OnMapReadyCal
         }
     }
 
-
-
     private void itit() {
 
         binding.tvFrom.setText(result.getPicuplocation());
@@ -164,8 +161,10 @@ public class CancelBookingAct extends AppCompatActivity implements OnMapReadyCal
         });
 
         binding.btCancelBooking.setOnClickListener(v -> {
-           startActivity(new Intent(mContext, RideCancelationAct.class));
-           finish();
+            startActivity(new Intent(mContext, RideCancelationAct.class)
+                    .putExtra("id", result.getId())
+            );
+            finish();
         });
 
     }
@@ -174,6 +173,7 @@ public class CancelBookingAct extends AppCompatActivity implements OnMapReadyCal
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setMapToolbarEnabled(false);
+        drawRoute();
     }
 
 }

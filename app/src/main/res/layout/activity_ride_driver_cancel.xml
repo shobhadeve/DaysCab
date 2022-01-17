@@ -41,7 +41,7 @@
                 android:padding="@dimen/_10sdp">
 
                 <CheckBox
-                    android:id="@+id/checkbox_discount"
+                    android:id="@+id/reason1"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
                     android:layout_marginLeft="@dimen/_15sdp"
@@ -73,6 +73,7 @@
                 android:padding="@dimen/_10sdp">
 
                 <CheckBox
+                    android:id="@+id/reason2"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
                     android:layout_marginLeft="@dimen/_15sdp"
@@ -104,6 +105,7 @@
                 android:padding="@dimen/_10sdp">
 
                 <CheckBox
+                    android:id="@+id/reason3"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
                     android:layout_marginLeft="@dimen/_15sdp"
@@ -137,9 +139,9 @@
             android:background="@drawable/login_bt_back_yellow"
             android:fontFamily="@font/poppins_medium"
             android:padding="@dimen/_10sdp"
-            android:text="Submit"
+            android:text="@string/submit"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="@dimen/_12sdp" />
 
     </RelativeLayout>

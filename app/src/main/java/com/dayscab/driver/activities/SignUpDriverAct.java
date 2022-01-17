@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -24,6 +25,7 @@ import com.dayscab.common.models.ModelLogin;
 import com.dayscab.databinding.ActivitySignUpDriverBinding;
 import com.dayscab.utils.AppConstant;
 import com.dayscab.utils.Compress;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
 import com.google.android.gms.maps.model.LatLng;
@@ -59,6 +61,11 @@ public class SignUpDriverAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up_driver);
+
+        // setting up the flag programmatically so that the
+        // device screen should be always on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         sharedPref = SharedPref.getInstance(mContext);
 
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token -> {
@@ -120,6 +127,7 @@ public class SignUpDriverAct extends AppCompatActivity {
             List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS);
             Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                     .setTypeFilter(TypeFilter.CITIES)
+                    .setCountry(AppConstant.COUNTRY)
                     .build(this);
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE_CITY);
         });
@@ -138,27 +146,25 @@ public class SignUpDriverAct extends AppCompatActivity {
 
         binding.btnSignUp.setOnClickListener(v -> {
             if (TextUtils.isEmpty(binding.etFirstName.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.enter_name_firsttext), Toast.LENGTH_SHORT).show();
+                MyApplication.showAlert(mContext,getString(R.string.enter_name_firsttext));
             } else if (TextUtils.isEmpty(binding.etLastName.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.enter_name_lasttext), Toast.LENGTH_SHORT).show();
+                MyApplication.showAlert(mContext,getString(R.string.enter_name_lasttext));
             } else if (TextUtils.isEmpty(binding.etEmail.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.enter_email_text), Toast.LENGTH_SHORT).show();
+                MyApplication.showAlert(mContext,getString(R.string.enter_email_text));
             } else if (TextUtils.isEmpty(binding.etPhone.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.enter_phone_text), Toast.LENGTH_SHORT).show();
+                MyApplication.showAlert(mContext,getString(R.string.enter_phone_text));
             } else if (TextUtils.isEmpty(binding.etCityName.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.enter_city_text), Toast.LENGTH_SHORT).show();
+                MyApplication.showAlert(mContext,getString(R.string.enter_city_text));
             } else if (TextUtils.isEmpty(binding.etAdd1.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.enter_address1_text), Toast.LENGTH_SHORT).show();
-            }/* else if (TextUtils.isEmpty(binding.etaddr2.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.enter_address2_text), Toast.LENGTH_SHORT).show();
-            }*/ else if (!ProjectUtil.isValidEmail(binding.etEmail.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.enter_valid_email), Toast.LENGTH_SHORT).show();
+                MyApplication.showAlert(mContext,getString(R.string.enter_address1_text));
+            } else if (!ProjectUtil.isValidEmail(binding.etEmail.getText().toString().trim())) {
+                MyApplication.showAlert(mContext,getString(R.string.enter_valid_email));
             } else if (TextUtils.isEmpty(binding.etPassword.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.please_enter_pass), Toast.LENGTH_SHORT).show();
-            } else if (!(binding.etPassword.getText().toString().trim().length() > 4)) {
-                Toast.makeText(mContext, getString(R.string.password_validation_text), Toast.LENGTH_SHORT).show();
+                MyApplication.showAlert(mContext,getString(R.string.please_enter_pass));
+            } else if (!(binding.etPassword.getText().toString().trim().length() > 8)) {
+                MyApplication.showAlert(mContext,getString(R.string.password_validation_text));
             } else if (profileImage == null) {
-                Toast.makeText(mContext, getString(R.string.please_upload_profile), Toast.LENGTH_SHORT).show();
+                MyApplication.showAlert(mContext,getString(R.string.please_upload_profile));
             } else {
                 HashMap<String, String> params = new HashMap<>();
                 HashMap<String, File> fileHashMap = new HashMap<>();
@@ -180,7 +186,8 @@ public class SignUpDriverAct extends AppCompatActivity {
                 Log.e("signupDriver", "signupDriver = " + params);
                 Log.e("signupDriver", "fileHashMap = " + fileHashMap);
 
-                String mobileNumber = "+233" + binding.etPhone.getText().toString().trim();
+                 String mobileNumber = "+233" + binding.etPhone.getText().toString().trim();
+                //String mobileNumber = "+91" + binding.etPhone.getText().toString().trim();
 
                 startActivity(new Intent(mContext, VerifyAct.class)
                         .putExtra("resgisterHashmap", params)
@@ -190,10 +197,6 @@ public class SignUpDriverAct extends AppCompatActivity {
                 );
 
             }
-
-//            startActivity(new Intent(mContext, VerifyAct.class)
-//                    .putExtra(AppContant.TYPE, AppContant.USER)
-//            );
 
         });
 
@@ -271,39 +274,6 @@ public class SignUpDriverAct extends AppCompatActivity {
                 }).CompressedImage(str_image_path);
             }
         }
-
-       /* if (requestCode == GALLERY) {
-            if (resultCode == RESULT_OK) {
-                if (data != null) {
-                    Uri contentURI = data.getData();
-                    try {
-                        String path = ProjectUtil.getRealPathFromURI(mContext, contentURI);
-                        Compress.get(mContext).setQuality(80).execute(new Compress.onSuccessListener() {
-                            @Override
-                            public void response(boolean status, String message, File file) {
-                                profileImage = file;
-                                binding.profileImage.setImageURI(Uri.parse(file.getPath()));
-                            }
-                        }).CompressedImage(path);
-                    } catch (Exception e) {
-                        Log.e("hjagksads", "image = " + e.getMessage());
-                        e.printStackTrace();
-                    }
-                }
-            }
-        } else if (requestCode == CAMERA) {
-            if (resultCode == RESULT_OK) {
-                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-                String path = ProjectUtil.getRealPathFromURI(mContext, ProjectUtil.getImageUri(mContext, thumbnail));
-                Compress.get(mContext).setQuality(80).execute(new Compress.onSuccessListener() {
-                    @Override
-                    public void response(boolean status, String message, File file) {
-                        profileImage = file;
-                        binding.profileImage.setImageURI(Uri.parse(file.getPath()));
-                    }
-                }).CompressedImage(path);
-            }
-        }*/
 
     }
 

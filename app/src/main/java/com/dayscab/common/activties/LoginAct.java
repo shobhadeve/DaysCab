@@ -1,18 +1,17 @@
 package com.dayscab.common.activties;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 
 import com.dayscab.R;
 import com.dayscab.common.models.ModelLogin;
@@ -22,6 +21,8 @@ import com.dayscab.driver.activities.SignUpDriverAct;
 import com.dayscab.user.activities.UserHomeAct;
 import com.dayscab.utils.AppConstant;
 import com.dayscab.utils.InternetConnection;
+import com.dayscab.utils.MyApplication;
+import com.dayscab.utils.MyService;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.retrofitutils.Api;
@@ -160,7 +161,9 @@ public class LoginAct extends AppCompatActivity {
         });
 
         binding.ivForgotPass.setOnClickListener(v -> {
-            startActivity(new Intent(mContext, ForgotPasswordAct.class));
+            startActivity(new Intent(mContext, ForgotPasswordAct.class)
+                    .putExtra("type", type)
+            );
         });
 
         binding.btnSignin.setOnClickListener(v -> {
@@ -398,17 +401,20 @@ public class LoginAct extends AppCompatActivity {
                         sharedPref.setBooleanValue(AppConstant.IS_REGISTER, true);
                         sharedPref.setUserDetails(AppConstant.USER_DETAILS, modelLogin);
 
-//                        ContextCompat.startForegroundService(getApplicationContext()
-//                                ,new Intent(getApplicationContext(),MyService.class));
+                        ContextCompat.startForegroundService(getApplicationContext()
+                                , new Intent(getApplicationContext(), MyService.class));
 
                         if (modelLogin.getResult().getType().equals(AppConstant.USER)) {
                             startActivity(new Intent(mContext, UserHomeAct.class));
                             finish();
                         } else {
+                            // ContextCompat.startForegroundService(LoginAct.this, new Intent(LoginAct.this, MyService.class));
                             startActivity(new Intent(mContext, DriverHomeAct.class));
                             finish();
                         }
 
+                    } else if (jsonObject.getString("status").equals("3")) {
+                        MyApplication.showAlert(mContext, getString(R.string.deactivate_account_text));
                     } else {
                         Toast.makeText(LoginAct.this, getString(R.string.invalid_credentials), Toast.LENGTH_SHORT).show();
                     }

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.dayscab.R;
 import com.dayscab.databinding.ActivityEarningBinding;
@@ -37,6 +38,9 @@ public class EarningAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_earning);
+        // setting up the flag programmatically so that the
+        // device screen should be always on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         itit();
     }
 

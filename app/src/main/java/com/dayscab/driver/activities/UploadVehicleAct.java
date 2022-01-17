@@ -17,6 +17,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -73,6 +74,9 @@ public class UploadVehicleAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_upload_vehicle);
+        // setting up the flag programmatically so that the
+        // device screen should be always on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
         itit();
@@ -161,7 +165,8 @@ public class UploadVehicleAct extends AppCompatActivity {
                                 }
 
                                 @Override
-                                public void onNothingSelected(AdapterView<?> parent) {}
+                                public void onNothingSelected(AdapterView<?> parent) {
+                                }
 
                             });
 
@@ -227,12 +232,14 @@ public class UploadVehicleAct extends AppCompatActivity {
                                 }
 
                                 @Override
-                                public void onNothingSelected(AdapterView<?> parent) {}
+                                public void onNothingSelected(AdapterView<?> parent) {
+                                }
 
                             });
 
                             Log.e("getModels", "response = " + stringResponse);
                             Log.e("getModels", "modelId = " + modelId);
+
                         } else {
                             Toast.makeText(mContext, getString(R.string.no_data_found), Toast.LENGTH_LONG).show();
                         }
@@ -376,60 +383,61 @@ public class UploadVehicleAct extends AppCompatActivity {
         Log.e("gfsfasfasfas", "modelId = " + modelId);
         Log.e("gfsfasfasfas", "binding.spYear.getSelectedItem().toString().trim() = " + binding.spYear.getSelectedItem().toString().trim());
 
-//        ProjectUtil.showProgressDialog(mContext, false, getString(R.string.please_wait));
-//
-//        MultipartBody.Part vehicleFilePart;
-//
-//        RequestBody userId = RequestBody.create(MediaType.parse("text/plain"), modelLogin.getResult().getId());
-//        RequestBody carType = RequestBody.create(MediaType.parse("text/plain"), carId);
-//        RequestBody carBrand = RequestBody.create(MediaType.parse("text/plain"), makeId);
-//        RequestBody carModel = RequestBody.create(MediaType.parse("text/plain"), modelId);
-//        RequestBody year = RequestBody.create(MediaType.parse("text/plain"), binding.spYear.getSelectedItem().toString().trim());
-//        RequestBody carNumber = RequestBody.create(MediaType.parse("text/plain"), binding.etNumberPlate.getText().toString().trim());
-//
-//        vehicleFilePart = MultipartBody.Part.createFormData("car_image", vehicleImage.getName(), RequestBody.create(MediaType.parse("car_document/*"), vehicleImage));
-//
-//        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
-//        Call<ResponseBody> call = api.addDriverVehicle(userId, carType, carBrand, carModel, carNumber, year, vehicleFilePart);
-//        call.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                ProjectUtil.pauseProgressDialog();
-//                try {
-//                    String responseString = response.body().string();
-//                    JSONObject jsonObject = new JSONObject(responseString);
-//
-//                    Log.e("vehicleData", "responseString = " + responseString);
-//
-//                    if (jsonObject.getString("status").equals("1")) {
-//
-//                        modelLogin = new Gson().fromJson(responseString, ModelLogin.class);
-//                        modelLogin.getResult().setStep("2");
-//                        sharedPref.setUserDetails(AppConstant.USER_DETAILS, modelLogin);
-//
-//                        startActivity(new Intent(mContext, UploadDriverDocumentsAct.class));
-//                        finish();
-//
-////                      startActivity(new Intent(mContext, AddBankAccAct.class));
-////                      finish();
-//
-//                    }
-//
-//                } catch (Exception e) {
-//                    Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    Log.e("Exception", "Exception = " + e.getMessage());
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                ProjectUtil.pauseProgressDialog();
-//                Log.e("Exception", "Throwable = " + t.getMessage());
-//            }
-//
-//        });
-//    }
+        ProjectUtil.showProgressDialog(mContext, false, getString(R.string.please_wait));
+
+        MultipartBody.Part vehicleFilePart;
+
+        RequestBody userId = RequestBody.create(MediaType.parse("text/plain"), modelLogin.getResult().getId());
+        RequestBody carType = RequestBody.create(MediaType.parse("text/plain"), carId);
+        RequestBody carBrand = RequestBody.create(MediaType.parse("text/plain"), makeId);
+        RequestBody carModel = RequestBody.create(MediaType.parse("text/plain"), modelId);
+        RequestBody year = RequestBody.create(MediaType.parse("text/plain"), binding.spYear.getSelectedItem().toString().trim());
+        RequestBody color = RequestBody.create(MediaType.parse("text/plain"), binding.spColor.getSelectedItem().toString().trim());
+        RequestBody carNumber = RequestBody.create(MediaType.parse("text/plain"), binding.etNumberPlate.getText().toString().trim());
+
+        vehicleFilePart = MultipartBody.Part.createFormData("car_image", vehicleImage.getName(), RequestBody.create(MediaType.parse("car_document/*"), vehicleImage));
+
+        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+        Call<ResponseBody> call = api.addDriverVehicle(userId, carType, carBrand, carModel, carNumber, year, color, vehicleFilePart);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ProjectUtil.pauseProgressDialog();
+                try {
+                    String responseString = response.body().string();
+                    JSONObject jsonObject = new JSONObject(responseString);
+
+                    Log.e("vehicleData", "responseString = " + responseString);
+
+                    if (jsonObject.getString("status").equals("1")) {
+
+                        modelLogin = new Gson().fromJson(responseString, ModelLogin.class);
+                        modelLogin.getResult().setStep("2");
+                        sharedPref.setUserDetails(AppConstant.USER_DETAILS, modelLogin);
+
+                        startActivity(new Intent(mContext, UploadDriverDocumentsAct.class));
+                        finish();
+
+//                      startActivity(new Intent(mContext, AddBankAccAct.class));
+//                      finish();
+
+                    }
+
+                } catch (Exception e) {
+                    Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("Exception", "Exception = " + e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ProjectUtil.pauseProgressDialog();
+                Log.e("Exception", "Throwable = " + t.getMessage());
+            }
+
+        });
 
     }
+
 }

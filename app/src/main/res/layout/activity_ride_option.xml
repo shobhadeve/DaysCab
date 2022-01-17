@@ -161,19 +161,40 @@
 
                 </LinearLayout>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnBook"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@color/yellow"
-                    android:fontFamily="@font/poppins_medium"
-                    android:padding="@dimen/_10sdp"
-                    android:text="@string/book_ride"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_16sdp" />
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnBook"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:background="@color/yellow"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="@dimen/_10sdp"
+                        android:text="@string/book_ride"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_16sdp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnScheduleRide"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="wrap_content"
+                        android:background="@color/purple_700"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="@dimen/_10sdp"
+                        android:text="@string/schedule_ride"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_16sdp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </LinearLayout>
 

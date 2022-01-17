@@ -14,6 +14,7 @@ import com.dayscab.R;
 import com.dayscab.common.models.ModelLogin;
 import com.dayscab.databinding.ActivitySignUpBinding;
 import com.dayscab.utils.AppConstant;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -46,25 +47,25 @@ public class SignUpAct extends AppCompatActivity {
         }).addOnCanceledListener(() -> {
         }).addOnCompleteListener(task -> Log.e("tokentoken", "This is the token : " + task.getResult()));
 
-
         itit();
+
     }
 
     private void itit() {
 
         binding.btnSignUp.setOnClickListener(v -> {
             if (TextUtils.isEmpty(binding.etName.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.enter_name_text), Toast.LENGTH_SHORT).show();
+                MyApplication.showAlert(mContext,getString(R.string.enter_name_text));
             } else if (TextUtils.isEmpty(binding.etEmail.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.enter_email_text), Toast.LENGTH_SHORT).show();
+                MyApplication.showAlert(mContext,getString(R.string.enter_email_text));
             } else if (TextUtils.isEmpty(binding.etPhone.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.enter_phone_text), Toast.LENGTH_SHORT).show();
+                MyApplication.showAlert(mContext,getString(R.string.enter_phone_text));
             } else if (!ProjectUtil.isValidEmail(binding.etEmail.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.enter_valid_email), Toast.LENGTH_SHORT).show();
+                MyApplication.showAlert(mContext,getString(R.string.enter_valid_email));
             } else if (TextUtils.isEmpty(binding.etPassword.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.please_enter_pass), Toast.LENGTH_SHORT).show();
+                MyApplication.showAlert(mContext,getString(R.string.please_enter_pass));
             } else if (!(binding.etPassword.getText().toString().trim().length() > 4)) {
-                Toast.makeText(mContext, getString(R.string.password_validation_text), Toast.LENGTH_SHORT).show();
+                MyApplication.showAlert(mContext,getString(R.string.password_validation_text));
             } else {
                 HashMap<String, String> params = new HashMap<>();
 
@@ -87,9 +88,9 @@ public class SignUpAct extends AppCompatActivity {
 
             }
 
-//            startActivity(new Intent(mContext, VerifyAct.class)
-//                    .putExtra(AppContant.TYPE, AppContant.USER)
-//            );
+//          startActivity(new Intent(mContext, VerifyAct.class)
+//                .putExtra(AppContant.TYPE, AppContant.USER)
+//          );
 
         });
 

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.dayscab.R;
@@ -39,6 +40,9 @@ public class AddBankAccAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_bank_acc);
+        // setting up the flag programmatically so that the
+        // device screen should be always on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         itit();
     }
 
@@ -66,7 +70,7 @@ public class AddBankAccAct extends AppCompatActivity {
     }
 
     private void addBankAccountApiCall() {
-        ProjectUtil.showProgressDialog(mContext,false,getString(R.string.please_wait));
+        ProjectUtil.showProgressDialog(mContext, false, getString(R.string.please_wait));
         Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
 
         HashMap<String, String> paramHash = new HashMap<>();
@@ -89,7 +93,7 @@ public class AddBankAccAct extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(stringRes);
 
                     if (jsonObject.getString("status").equals("1")) {
-                        startActivity(new Intent(mContext,DriverHomeAct.class));
+                        startActivity(new Intent(mContext, DriverHomeAct.class));
                         finish();
                     }
 

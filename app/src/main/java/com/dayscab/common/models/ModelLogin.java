@@ -40,11 +40,27 @@ public class ModelLogin implements Serializable {
 
         private String profile_image;
 
+        private String on_way_ride;
+
+        private String complete_rides;
+
         private String email;
 
         private String mobile;
 
         private String password;
+
+        private String plan_name;
+
+        private String plan_amount;
+
+        private String plan_total_ride;
+
+        private String plan_ride_fees;
+
+        private String plan_bonus_trip;
+
+        private String ride_count;
 
         private String register_id;
 
@@ -94,6 +110,8 @@ public class ModelLogin implements Serializable {
 
         private String car_id;
 
+        private String car_detail_id;
+
         private String car_type_id;
 
         private String online_status;
@@ -131,6 +149,78 @@ public class ModelLogin implements Serializable {
         private String step;
 
         private String brand;
+
+        public String getCar_detail_id() {
+            return car_detail_id;
+        }
+
+        public void setCar_detail_id(String car_detail_id) {
+            this.car_detail_id = car_detail_id;
+        }
+
+        public String getOn_way_ride() {
+            return on_way_ride;
+        }
+
+        public void setOn_way_ride(String on_way_ride) {
+            this.on_way_ride = on_way_ride;
+        }
+
+        public String getComplete_rides() {
+            return complete_rides;
+        }
+
+        public void setComplete_rides(String complete_rides) {
+            this.complete_rides = complete_rides;
+        }
+
+        public String getPlan_name() {
+            return plan_name;
+        }
+
+        public void setPlan_name(String plan_name) {
+            this.plan_name = plan_name;
+        }
+
+        public String getPlan_amount() {
+            return plan_amount;
+        }
+
+        public void setPlan_amount(String plan_amount) {
+            this.plan_amount = plan_amount;
+        }
+
+        public String getPlan_total_ride() {
+            return plan_total_ride;
+        }
+
+        public void setPlan_total_ride(String plan_total_ride) {
+            this.plan_total_ride = plan_total_ride;
+        }
+
+        public String getPlan_ride_fees() {
+            return plan_ride_fees;
+        }
+
+        public void setPlan_ride_fees(String plan_ride_fees) {
+            this.plan_ride_fees = plan_ride_fees;
+        }
+
+        public String getPlan_bonus_trip() {
+            return plan_bonus_trip;
+        }
+
+        public void setPlan_bonus_trip(String plan_bonus_trip) {
+            this.plan_bonus_trip = plan_bonus_trip;
+        }
+
+        public String getRide_count() {
+            return ride_count;
+        }
+
+        public void setRide_count(String ride_count) {
+            this.ride_count = ride_count;
+        }
 
         public String getProfile_image() {
             return profile_image;

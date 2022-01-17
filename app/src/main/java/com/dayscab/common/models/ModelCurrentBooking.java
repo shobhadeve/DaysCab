@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class ModelCurrentBooking implements Serializable {
+
     @SerializedName("estimated_time")
     @Expose
     private String estimatedTime;

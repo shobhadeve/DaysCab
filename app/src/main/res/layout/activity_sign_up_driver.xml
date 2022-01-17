@@ -211,6 +211,7 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
+                                android:maxLength="12"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_12sdp" />
 
@@ -321,7 +322,7 @@
                     android:padding="@dimen/_10sdp"
                     android:text="@string/sign_up"
                     android:textAllCaps="false"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_16sdp" />
 
             </LinearLayout>

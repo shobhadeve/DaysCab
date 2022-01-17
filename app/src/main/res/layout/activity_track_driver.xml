@@ -23,6 +23,7 @@
             android:backgroundTint="@color/white"
             android:fontFamily="@font/poppins_bold"
             android:maxLines="3"
+            android:visibility="gone"
             android:text="@string/pickup_location"
             android:textColor="@color/black"
             android:textSize="@dimen/_12sdp" />
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_30sdp"
+            android:visibility="gone"
             android:background="@drawable/one_side_round_back"
             android:elevation="@dimen/_5sdp"
             android:padding="@dimen/_10sdp">
@@ -122,9 +124,29 @@
                     android:layout_width="@dimen/_60sdp"
                     android:layout_height="@dimen/_60sdp"
                     android:layout_centerInParent="true"
-                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_toEndOf="@+id/ic_call"
                     android:src="@drawable/cancel_trip" />
+
+                <ImageView
+                    android:id="@+id/ivNavigate"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_toRightOf="@+id/ivCancelTrip"
+                    android:src="@drawable/navigate_icon" />
+
+                <ImageView
+                    android:id="@+id/icChat"
+                    android:layout_width="@dimen/_60sdp"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_toRightOf="@+id/ivNavigate"
+                    android:elevation="@dimen/_10sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:src="@drawable/chat_icon" />
 
             </RelativeLayout>
 
@@ -179,11 +201,12 @@
                 android:layout_marginBottom="@dimen/_15sdp"
                 android:background="@drawable/login_bt_back_yellow"
                 android:fontFamily="@font/poppins_medium"
+                android:includeFontPadding="false"
                 android:padding="@dimen/_10sdp"
                 android:text="@string/start"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_16sdp" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13sdp" />
 
         </RelativeLayout>
 
@@ -283,6 +306,79 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@drawable/rounded_white_bg"
+            android:elevation="@dimen/_5sdp"
+            android:padding="@dimen/_10sdp">
+
+            <ImageView
+                android:id="@+id/ivfrom"
+                android:layout_width="@dimen/_6sdp"
+                android:layout_height="@dimen/_6sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/small_red_circle" />
+
+            <TextView
+                android:id="@+id/pickUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_toEndOf="@+id/ivfrom"
+                android:backgroundTint="@color/white"
+                android:hint="@string/select_pick_up_address"
+                android:maxLines="3"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_12sdp" />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_below="@+id/ivfrom"
+                android:layout_marginVertical="@dimen/_2sdp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:background="@color/gray" />
+
+            <ImageView
+                android:id="@+id/ivto"
+                android:layout_width="@dimen/_6sdp"
+                android:layout_height="@dimen/_6sdp"
+                android:layout_below="@+id/view1"
+                android:background="@drawable/down_arrow" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_below="@+id/pickUp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_toEndOf="@id/view1"
+                android:background="@color/light_gray" />
+
+            <TextView
+                android:id="@+id/tvDestination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view2"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_toEndOf="@id/ivto"
+                android:backgroundTint="@color/white"
+                android:ellipsize="end"
+                android:hint="@string/sel_destination"
+                android:inputType="none"
+                android:maxLines="3"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_12sdp" />
 
         </RelativeLayout>
 

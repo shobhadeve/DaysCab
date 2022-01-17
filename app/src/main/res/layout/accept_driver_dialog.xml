@@ -53,7 +53,7 @@
                         android:background="@drawable/bt_yellow_back10"
                         android:paddingHorizontal="@dimen/_15sdp"
                         android:text="@string/ok"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/black" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnCancel"

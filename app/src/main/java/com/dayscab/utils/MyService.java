@@ -26,6 +26,8 @@ import androidx.core.app.NotificationCompat;
 
 import com.dayscab.R;
 import com.dayscab.common.models.ModelLogin;
+import com.dayscab.utils.retrofitutils.Api;
+import com.dayscab.utils.retrofitutils.ApiFactory;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -124,6 +126,7 @@ public class MyService extends Service {
         }
     }
 
+    @SuppressLint("MissingPermission")
     private void getLastLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -141,13 +144,13 @@ public class MyService extends Service {
                                 intent1.putExtra("lat", location.getLatitude());
                                 intent1.putExtra("lon", location.getLongitude());
 
-                                Log.e("fasdasdasd","Lat = " + String.valueOf(location.getLatitude()));
+                                Log.e("c","Lat = " + String.valueOf(location.getLatitude()));
                                 Log.e("fasdasdasd","Lon = " + String.valueOf(location.getLongitude()));
 
                                 sendBroadcast(intent1);
 
                                 if (sharedPref.getBooleanValue(AppConstant.IS_REGISTER)) {
-                                   // updateProviderLatLon(String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()));
+                                   updateProviderLatLon(String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()));
                                 }
 
                             }
@@ -159,38 +162,38 @@ public class MyService extends Service {
 
     }
 
-//    public void updateProviderLatLon(String lat,String lon) {
-//
-//        modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
-//
-//        HashMap<String,String> map = new HashMap<>();
-//        map.put("user_id",modelLogin.getResult().getId());
-//        map.put("lat",lat);
-//        map.put("lon",lon);
-//        Log.e(TAG,"Upldate Driver Location Request " + map);
-//        Api api = ApiFactory.getClientWithoutHeader(this).create(Api.class);
-//        Call<Map<String,String>> loginCall = api.updateLocation(map);
-//        loginCall.enqueue(new Callback<Map<String,String>>() {
-//            @Override
-//            public void onResponse(Call<Map<String,String>> call,Response<Map<String,String>> response) {
-//                try {
-//                    Map<String,String> data = response.body();
-//                    String responseString = new Gson().toJson(response.body());
-//                    Log.e(TAG,"Upldate Driver Location Response :" + responseString);
-//                    // getCurrentBooking();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Map<String,String>> call, Throwable t) {
-//                call.cancel();
-//            }
-//
-//        });
-//
-//    }
+    public void updateProviderLatLon(String lat,String lon) {
+
+        modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
+
+        HashMap<String,String> map = new HashMap<>();
+        map.put("user_id",modelLogin.getResult().getId());
+        map.put("lat",lat);
+        map.put("lon",lon);
+        Log.e(TAG,"Upldate Driver Location Request " + map);
+        Api api = ApiFactory.getClientWithoutHeader(this).create(Api.class);
+        Call<Map<String,String>> loginCall = api.updateLocation(map);
+        loginCall.enqueue(new Callback<Map<String,String>>() {
+            @Override
+            public void onResponse(Call<Map<String,String>> call,Response<Map<String,String>> response) {
+                try {
+                    Map<String,String> data = response.body();
+                    String responseString = new Gson().toJson(response.body());
+                    Log.e(TAG,"Upldate Driver Location Response :" + responseString);
+                    // getCurrentBooking();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String,String>> call, Throwable t) {
+                call.cancel();
+            }
+
+        });
+
+    }
 
     @SuppressLint("MissingPermission")
     private void requestNewLocationData() {

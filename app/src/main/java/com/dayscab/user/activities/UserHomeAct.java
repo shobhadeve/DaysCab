@@ -4,17 +4,23 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,11 +32,15 @@ import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.dayscab.R;
+import com.dayscab.common.activties.ChatingAct;
 import com.dayscab.common.activties.StartAct;
+import com.dayscab.common.activties.UpdateProfileUserAct;
 import com.dayscab.common.models.ModelCurrentBooking;
 import com.dayscab.common.models.ModelCurrentBookingResult;
 import com.dayscab.common.models.ModelLogin;
 import com.dayscab.databinding.ActivityUserHomeBinding;
+import com.dayscab.driver.activities.ActiveBookingAct;
+import com.dayscab.driver.activities.DriverFeedbackAct;
 import com.dayscab.user.models.ModelAvailableDriver;
 import com.dayscab.utils.AppConstant;
 import com.dayscab.utils.LatLngInterpolator;
@@ -50,6 +60,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -103,16 +114,26 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user_home);
+
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(UserHomeAct.this);
 
         BindExecutor();
+
         startLocationUpdates();
 
         itit();
 
+    }
+
+    public static boolean isActivityActive(Activity activity) {
+        if (null != activity)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+                return !activity.isFinishing() && !activity.isDestroyed();
+            else return !activity.isFinishing();
+        return false;
     }
 
     private void BindExecutor() {
@@ -129,7 +150,7 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
         super.onResume();
         startLocationUpdates();
         BindExecutor();
-        getCurrentBooking();
+        // getCurrentBooking();
     }
 
     private void getCurrentBooking() {
@@ -153,35 +174,41 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
 
                     if (jsonObject.getString("status").equals("1")) {
                         Log.e("getCurrentBooking", "getCurrentBooking = " + responseString);
+                        Log.e("getCurrentBooking", "getCurrentBooking = " + responseString);
                         Type listType = new TypeToken<ModelCurrentBooking>() {
                         }.getType();
                         ModelCurrentBooking data = new GsonBuilder().create().fromJson(responseString, listType);
                         if (data.getStatus().equals(1)) {
                             ModelCurrentBookingResult result = data.getResult().get(0);
-                            if (result.getStatus().equalsIgnoreCase("Pending")) {
-
-                            } else if (result.getStatus().equalsIgnoreCase("Accept")) {
+                            Log.e("getUserRatingStatus", "getUserRatingStatus = " + result.getUserRatingStatus());
+                            Log.e("getUserRatingStatus", "ModelCurrentBookingResult = " + result.getPayment_status());
+                            if (result.getStatus().equalsIgnoreCase("Accept")) {
                                 Intent k = new Intent(mContext, TrackAct.class);
                                 k.putExtra("data", data);
                                 startActivity(k);
+                            } else if (result.getStatus().equalsIgnoreCase("Arrived")) {
+                                Intent j = new Intent(mContext, TrackAct.class);
+                                j.putExtra("data", data);
+                                startActivity(j);
+                            } else if (result.getStatus().equalsIgnoreCase("Start")) {
+                                Intent j = new Intent(mContext, TrackAct.class);
+                                j.putExtra("data", data);
+                                startActivity(j);
+                            } else if (result.getStatus().equalsIgnoreCase("End")) {
+                                if ("Success".equals(result.getPayment_status())) {
+                                    if (null == result.getUserRatingStatus() ||
+                                            "".equals(result.getUserRatingStatus())) {
+                                        Intent j = new Intent(mContext, DriverFeedbackAct.class);
+                                        j.putExtra("data", data);
+                                        startActivity(j);
+                                    }
+                                } else {
+                                    Intent j = new Intent(mContext, EndUserAct.class);
+                                    j.putExtra("data", data);
+                                    startActivity(j);
+                                }
                             }
-
-//                            else if (result.getStatus().equalsIgnoreCase("Arrived")) {
-//                                Intent j = new Intent(mContext, TrackAct.class);
-//                                j.putExtra("data", data);
-//                                startActivity(j);
-//                            } else if (result.getStatus().equalsIgnoreCase("Start")) {
-//                                Intent j = new Intent(mContext, TrackAct.class);
-//                                j.putExtra("data", data);
-//                                startActivity(j);
-//                            } else if (result.getStatus().equalsIgnoreCase("End")) {
-////                                      Intent j = new Intent(TaxiHomeAct.this, PaymentSummary.class);
-////                                      j.putExtra("data",data);
-////                                      startActivity(j);
-//                            }
                         }
-                    } else {
-
                     }
                 } catch (Exception e) {
                     Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -201,13 +228,13 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
 
     private void getNearDriver() {
 
-        HashMap<String,String>param=new HashMap<>();
-        param.put("latitude","" + PickUpLatLng.latitude);
-        param.put("longitude","" + PickUpLatLng.longitude);
+        HashMap<String, String> param = new HashMap<>();
+        param.put("latitude", "" + PickUpLatLng.latitude);
+        param.put("longitude", "" + PickUpLatLng.longitude);
         param.put("user_id", modelLogin.getResult().getId());
         param.put("timezone", TimeZone.getDefault().getID());
 
-        Log.e("user_iduser_id","param = " + param);
+        Log.e("user_iduser_id", "param = " + param);
 
         Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
         Call<ResponseBody> call = api.getAvailableCarDriversHome(param);
@@ -228,14 +255,18 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
                         if (mMap != null) {
                             AddDefaultMarker();
                             for (ModelAvailableDriver driver : drivers) {
+                                int height = 95;
+                                int width = 65;
+                                Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.car_top);
+                                Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                                BitmapDescriptor smallMarkerIcon = BitmapDescriptorFactory.fromBitmap(smallMarker);
                                 MarkerOptions car = new MarkerOptions()
                                         .position(new LatLng(Double.valueOf(driver.getLat()), Double.valueOf(driver.getLon()))).title(driver.getUser_name())
-                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.car_top));
+                                        .icon(smallMarkerIcon);
                                 mMap.addMarker(car);
                             }
                         }
                     } else {
-
                     }
                 } catch (Exception e) {
                     // Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -286,8 +317,16 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
             List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS);
 
             Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                    .setCountry(AppConstant.COUNTRY)
                     .build(this);
             startActivityForResult(intent, 1002);
+        });
+
+        binding.chlidDashboard.tvAvailableDriversPool.setOnClickListener(v -> {
+            startActivity(new Intent(mContext, AvailablePoolDriversAct.class)
+                    .putExtra("lat", String.valueOf(currentLocation.getLatitude()))
+                    .putExtra("lon", String.valueOf(currentLocation.getLongitude()))
+            );
         });
 
         binding.chlidDashboard.tvDestination.setOnClickListener(v -> {
@@ -295,6 +334,7 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
                     Place.Field.LAT_LNG, Place.Field.ADDRESS);
 
             Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                    //.setCountry(AppConstant.COUNTRY)
                     .build(this);
             startActivityForResult(intent, 1003);
         });
@@ -311,7 +351,21 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
         });
 
         binding.childNavDrawer.btnHistory.setOnClickListener(v -> {
-            startActivity(new Intent(this, RideHistoryAct.class));
+            navmenu();
+            startActivity(new Intent(this, RideHistoryAct.class)
+                    .putExtra("type", AppConstant.USER)
+            );
+        });
+
+        binding.childNavDrawer.btnEditProfile.setOnClickListener(v -> {
+            navmenu();
+            startActivity(new Intent(this, UpdateProfileUserAct.class));
+            finish();
+        });
+
+        binding.childNavDrawer.tvActiveRides.setOnClickListener(v -> {
+            navmenu();
+            startActivity(new Intent(this, ActiveBookingAct.class));
         });
 
         binding.childNavDrawer.btnSupport.setOnClickListener(v -> {
@@ -319,9 +373,22 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
         });
 
         binding.childNavDrawer.signout.setOnClickListener(v -> {
+            navmenu();
             logoutAppDialog();
         });
 
+    }
+
+    protected Boolean isActivityRunning(Class activityClass) {
+        ActivityManager activityManager = (ActivityManager) getBaseContext().getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
+
+        for (ActivityManager.RunningTaskInfo task : tasks) {
+            if (activityClass.getCanonicalName().equalsIgnoreCase(task.baseActivity.getClassName()))
+                return true;
+        }
+
+        return false;
     }
 
     private void logoutAppDialog() {

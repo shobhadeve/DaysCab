@@ -17,6 +17,9 @@ public class ModelCurrentBookingResult implements Serializable {
     @SerializedName("driver_id")
     @Expose
     private String driverId;
+    @SerializedName("otp")
+    @Expose
+    private String otp;
     @SerializedName("picuplocation")
     @Expose
     private String picuplocation;
@@ -26,6 +29,9 @@ public class ModelCurrentBookingResult implements Serializable {
     @SerializedName("dropofflocation")
     @Expose
     private String dropofflocation;
+    @SerializedName("payment_status")
+    @Expose
+    private String payment_status;
     @SerializedName("picuplat")
     @Expose
     private String picuplat;
@@ -110,7 +116,7 @@ public class ModelCurrentBookingResult implements Serializable {
     @SerializedName("status")
     @Expose
     private String status;
-    @SerializedName("user_rating_status")
+    @SerializedName("user_review_rating")
     @Expose
     private String userRatingStatus;
     @SerializedName("tip_amount")
@@ -161,6 +167,22 @@ public class ModelCurrentBookingResult implements Serializable {
     @SerializedName("amount")
     @Expose
     private String amount;
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+
+    public String getPayment_status() {
+        return payment_status;
+    }
+
+    public void setPayment_status(String payment_status) {
+        this.payment_status = payment_status;
+    }
 
     public String getAmount() {
         return amount;

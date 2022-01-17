@@ -53,12 +53,11 @@ public class NewRequestDialogTaxiNew {
         return ourInstance;
     }
 
-    private NewRequestDialogTaxiNew() {
-    }
+    private NewRequestDialogTaxiNew() {}
 
     private long timeCountInMilliSeconds = 1 * 60000;
 
-    private enum TimerStatus {STARTED, STOPPED}
+    private enum TimerStatus { STARTED, STOPPED }
 
     private ProgressBar progressBarCircle;
     private TimerStatus timerStatus = TimerStatus.STOPPED;
@@ -87,7 +86,8 @@ public class NewRequestDialogTaxiNew {
 
             try {
                 request_id = String.valueOf(object.get("request_id"));
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
 
             // Log.e("DialogChala","Request Id = " + String.valueOf(object.get("request_id")));
 
@@ -108,13 +108,13 @@ public class NewRequestDialogTaxiNew {
         binding.btAccept.setOnClickListener(v -> {
             dialog.dismiss();
             binding.ripple.stopRippleAnimation();
-            AcceptCancel(context,request_id,"Accept"/*"Pending"*/);
+            AcceptCancel(context, request_id, "Accept"/*"Pending"*/);
         });
 
         binding.btReject.setOnClickListener(v -> {
             dialog.dismiss();
             binding.ripple.stopRippleAnimation();
-            AcceptCancel(context,request_id,"Cancel");
+            AcceptCancel(context, request_id, "Cancel");
         });
 
         startStop();
@@ -176,18 +176,14 @@ public class NewRequestDialogTaxiNew {
         countDownTimer = new CountDownTimer(timeCountInMilliSeconds, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-
                 binding.textViewTime.setText(hmsTimeFormatter(millisUntilFinished));
-
                 // binding.progressBarCircle.setProgress((int) (millisUntilFinished / 1000));
-
             }
 
             @Override
             public void onFinish() {
-
                 //  textViewTime.setText(hmsTimeFormatter(timeCountInMilliSeconds));
-                // call to initialize the progress bar values
+                //  call to initialize the progress bar values
                 //  setProgressBarValues();
                 timerStatus = TimerStatus.STOPPED;
                 dialog.dismiss();
@@ -213,10 +209,8 @@ public class NewRequestDialogTaxiNew {
 //        binding.progressBarCircle.setProgress((int) timeCountInMilliSeconds / 1000);
     }
 
-
     /**
      * method to convert millisecond to time format
-     *
      * @param milliSeconds
      * @return HH:mm:ss time formatted string
      */
@@ -237,7 +231,7 @@ public class NewRequestDialogTaxiNew {
 
     }
 
-    public void AcceptCancel(Context context,String request_id,String status) {
+    public void AcceptCancel(Context context, String request_id, String status) {
 
         SharedPref sharedPref = SharedPref.getInstance(context);
         ModelLogin modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
@@ -248,9 +242,9 @@ public class NewRequestDialogTaxiNew {
         map.put("status", status);
         map.put("timezone", TimeZone.getDefault().getID());
 
-        Log.e("AcceptCancel","AcceptCancel = " + map);
+        Log.e("AcceptCancel", "AcceptCancel = " + map);
 
-        ProjectUtil.showProgressDialog(context,false,context.getString(R.string.please_wait));
+        ProjectUtil.showProgressDialog(context, false, context.getString(R.string.please_wait));
         Api api = ApiFactory.getClientWithoutHeader(context).create(Api.class);
         Call<ResponseBody> call = api.acceptCancelOrderCallTaxi(map);
         call.enqueue(new Callback<ResponseBody>() {
@@ -259,11 +253,11 @@ public class NewRequestDialogTaxiNew {
                 try {
                     String stringResponse = response.body().string();
                     JSONObject jsonObject = new JSONObject(stringResponse);
-                    if(jsonObject.getString("status").equals("1")) {
+                    if (jsonObject.getString("status").equals("1")) {
                         ProjectUtil.pauseProgressDialog();
                         ProjectUtil.clearNortifications(context);
-                        Log.e("AcceptCancel","stringResponse = " + stringResponse);
-                        if(status.equals("Accept")) {
+                        Log.e("AcceptCancel", "stringResponse = " + stringResponse);
+                        if (status.equals("Accept")) {
                             MusicManager.getInstance().initalizeMediaPlayer(context, Uri.parse
                                     (ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.doogee_ringtone));
                             MusicManager.getInstance().stopPlaying();
@@ -278,7 +272,7 @@ public class NewRequestDialogTaxiNew {
                         }
                     } else {
                         dialog.dismiss();
-                        MyApplication.showToast(context,context.getString(R.string.req_cancelled));
+                        MyApplication.showToast(context, context.getString(R.string.req_cancelled));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -288,7 +282,7 @@ public class NewRequestDialogTaxiNew {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 ProjectUtil.pauseProgressDialog();
-                Log.e("sfasfsdfdsf","Exception = " + t.getMessage());
+                Log.e("sfasfsdfdsf", "Exception = " + t.getMessage());
             }
         });
 
