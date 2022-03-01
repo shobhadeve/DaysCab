@@ -192,7 +192,6 @@ public class SignUpDriverAct extends AppCompatActivity {
 
                 fileHashMap.put("image", profileImage);
 
-
                 Log.e("signupDriver", "signupDriver = " + params);
                 Log.e("signupDriver", "fileHashMap = " + fileHashMap);
 
