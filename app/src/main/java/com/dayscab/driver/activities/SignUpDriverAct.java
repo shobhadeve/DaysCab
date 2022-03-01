@@ -195,8 +195,8 @@ public class SignUpDriverAct extends AppCompatActivity {
                 Log.e("signupDriver", "signupDriver = " + params);
                 Log.e("signupDriver", "fileHashMap = " + fileHashMap);
 
-                // String mobileNumber = "+233" + binding.etPhone.getText().toString().trim();
-                 String mobileNumber = "+91" + binding.etPhone.getText().toString().trim();
+                 String mobileNumber = "+233" + binding.etPhone.getText().toString().trim();
+                 // String mobileNumber = "+91" + binding.etPhone.getText().toString().trim();
 
                 startActivity(new Intent(mContext, VerifyAct.class)
                         .putExtra("resgisterHashmap", params)
