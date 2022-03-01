@@ -23,6 +23,26 @@ public class ModelCurrentBookingResult implements Serializable {
     @SerializedName("picuplocation")
     @Expose
     private String picuplocation;
+    @SerializedName("waitng_time")
+    @Expose
+    private String waitng_time;
+    @SerializedName("cancel_amount")
+    @Expose
+    private String cancel_amount;
+    @SerializedName("per_minute")
+    @Expose
+    private String per_minute;
+    @SerializedName("per_minute_charge")
+    @Expose
+    private String per_minute_charge;
+    @SerializedName("total_trip_cost")
+    @Expose
+    private String total_trip_cost;
+
+    @SerializedName("no_of_passenger")
+    @Expose
+    private String no_of_passenger;
+
     @SerializedName("service_type")
     @Expose
     private Object serviceType;
@@ -104,15 +124,27 @@ public class ModelCurrentBookingResult implements Serializable {
     @SerializedName("card_id")
     @Expose
     private String cardId;
+
     @SerializedName("apply_code")
     @Expose
     private String applyCode;
+
     @SerializedName("payment_type")
     @Expose
     private String paymentType;
+
     @SerializedName("favorite_ride")
     @Expose
     private String favoriteRide;
+
+    @SerializedName("complete_rides")
+    @Expose
+    private String driver_complete_ride;
+
+    @SerializedName("driver_avg_rating")
+    @Expose
+    private String driver_rating;
+
     @SerializedName("status")
     @Expose
     private String status;
@@ -167,6 +199,70 @@ public class ModelCurrentBookingResult implements Serializable {
     @SerializedName("amount")
     @Expose
     private String amount;
+
+    public String getDriver_complete_ride() {
+        return driver_complete_ride;
+    }
+
+    public void setDriver_complete_ride(String driver_complete_ride) {
+        this.driver_complete_ride = driver_complete_ride;
+    }
+
+    public String getDriver_rating() {
+        return driver_rating;
+    }
+
+    public void setDriver_rating(String driver_rating) {
+        this.driver_rating = driver_rating;
+    }
+
+    public String getNo_of_passenger() {
+        return no_of_passenger;
+    }
+
+    public void setNo_of_passenger(String no_of_passenger) {
+        this.no_of_passenger = no_of_passenger;
+    }
+
+    public String getCancel_amount() {
+        return cancel_amount;
+    }
+
+    public void setCancel_amount(String cancel_amount) {
+        this.cancel_amount = cancel_amount;
+    }
+
+    public String getWaitng_time() {
+        return waitng_time;
+    }
+
+    public void setWaitng_time(String waitng_time) {
+        this.waitng_time = waitng_time;
+    }
+
+    public String getPer_minute() {
+        return per_minute;
+    }
+
+    public void setPer_minute(String per_minute) {
+        this.per_minute = per_minute;
+    }
+
+    public String getPer_minute_charge() {
+        return per_minute_charge;
+    }
+
+    public void setPer_minute_charge(String per_minute_charge) {
+        this.per_minute_charge = per_minute_charge;
+    }
+
+    public String getTotal_trip_cost() {
+        return total_trip_cost;
+    }
+
+    public void setTotal_trip_cost(String total_trip_cost) {
+        this.total_trip_cost = total_trip_cost;
+    }
 
     public String getOtp() {
         return otp;

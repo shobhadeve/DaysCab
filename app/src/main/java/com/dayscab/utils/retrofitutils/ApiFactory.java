@@ -3,12 +3,12 @@ package com.dayscab.utils.retrofitutils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.androidnetworking.interceptors.HttpLoggingInterceptor;
 import com.dayscab.utils.AppConstant;
 
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -22,7 +22,7 @@ public class ApiFactory {
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-    public static Retrofit getClientWithoutHeader(Context context) {
+    public static Retrofit  getClientWithoutHeader(Context context) {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

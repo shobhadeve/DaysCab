@@ -74,6 +74,8 @@ public class AdapterActiveBooking extends RecyclerView.Adapter<AdapterActiveBook
 
         if (data.getBooktype().equals("NOW")) {
             holder.binding.tvDateTime.setText(data.getAccept_time());
+        } else if(data.getBooktype().equals("POOL")) {
+            holder.binding.tvDateTime.setText(data.getNo_of_passenger() + " Passenger Pool");
         } else {
             holder.binding.tvDateTime.setText(data.getPicklaterdate() + " " + data.getPicklatertime());
         }
@@ -83,48 +85,50 @@ public class AdapterActiveBooking extends RecyclerView.Adapter<AdapterActiveBook
         holder.binding.GoDetail.setOnClickListener(v -> {
 
             if (data.getStatus().equals("Accept") || data.getStatus().equals("Start") ||
-                    data.getStatus().equals("End")) {
+                    data.getStatus().equals("End") || data.getStatus().equals("Arrived")) {
                 if (type.equals("USER")) {
                     if (data.getBooktype().equals("POOL")) {
-                        Date date1 = null, date2 = null;
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        try {
-                            date1 = sdf.parse(data.getPicklaterdate());
-                            date2 = sdf.parse(ProjectUtil.getCurrentDateNEW());
-
-                            if (date1.equals(date2)) {
-                                getBookingDetails(data.getId(), type);
-                            } else if (date1.before(date2)) {
-                                getBookingDetails(data.getId(), type);
-                            } else {
-                                Toast.makeText(mContext, "Not allowed to access because your booking date is : " + data.getPicklaterdate(), Toast.LENGTH_LONG).show();
-                            }
-                        } catch (ParseException e) {
-                            Log.e("sdfsfdsffsd", "Date Exception = " + e.getMessage());
-                            e.printStackTrace();
-                        }
+                        getBookingDetails(data.getId(), type);
+                    //                        Date date1 = null, date2 = null;
+//                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//                        try {
+//                            date1 = sdf.parse(data.getPicklaterdate());
+//                            date2 = sdf.parse(ProjectUtil.getCurrentDateNEW());
+//
+//                            if (date1.equals(date2)) {
+//                                getBookingDetails(data.getId(), type);
+//                            } else if (date1.before(date2)) {
+//                                getBookingDetails(data.getId(), type);
+//                            } else {
+//                                Toast.makeText(mContext, "Not allowed to access because your booking date is : " + data.getPicklaterdate(), Toast.LENGTH_LONG).show();
+//                            }
+//                        } catch (ParseException e) {
+//                            Log.e("sdfsfdsffsd", "Date Exception = " + e.getMessage());
+//                            e.printStackTrace();
+//                        }
                     } else {
                         getBookingDetails(data.getId(), type);
                     }
                 } else {
                     if (data.getBooktype().equals("POOL")) {
-                        Date date1 = null, date2 = null;
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        try {
-                            date1 = sdf.parse(data.getPicklaterdate());
-                            date2 = sdf.parse(ProjectUtil.getCurrentDateNEW());
-
-                            if (date1.equals(date2)) {
-                                getBookingDetails(data.getId(), type);
-                            } else if (date1.before(date2)) {
-                                getBookingDetails(data.getId(), type);
-                            } else {
-                                Toast.makeText(mContext, "Not allowed to access because your booking date is : " + data.getPicklaterdate(), Toast.LENGTH_LONG).show();
-                            }
-                        } catch (ParseException e) {
-                            Log.e("sdfsfdsffsd", "Date Exception = " + e.getMessage());
-                            e.printStackTrace();
-                        }
+                        getBookingDetails(data.getId(), type);
+//                        Date date1 = null, date2 = null;
+//                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//                        try {
+//                            date1 = sdf.parse(data.getPicklaterdate());
+//                            date2 = sdf.parse(ProjectUtil.getCurrentDateNEW());
+//
+//                            if (date1.equals(date2)) {
+//                                getBookingDetails(data.getId(), type);
+//                            } else if (date1.before(date2)) {
+//                                getBookingDetails(data.getId(), type);
+//                            } else {
+//                                Toast.makeText(mContext, "Not allowed to access because your booking date is : " + data.getPicklaterdate(), Toast.LENGTH_LONG).show();
+//                            }
+//                        } catch (ParseException e) {
+//                            Log.e("sdfsfdsffsd", "Date Exception = " + e.getMessage());
+//                            e.printStackTrace();
+//                        }
                     } else {
                         getBookingDetails(data.getId(), type);
                     }
@@ -171,6 +175,8 @@ public class AdapterActiveBooking extends RecyclerView.Adapter<AdapterActiveBook
                                 if (type.equals("USER")) {
                                     Intent k = new Intent(mContext, TrackAct.class);
                                     k.putExtra("data", data);
+                                    k.putExtra("ride_count", result.getDriver_complete_ride());
+                                    k.putExtra("rating", result.getDriver_rating());
                                     mContext.startActivity(k);
                                 } else {
                                     Intent k = new Intent(mContext, TrackDriverAct.class);
@@ -181,6 +187,8 @@ public class AdapterActiveBooking extends RecyclerView.Adapter<AdapterActiveBook
                                 if (type.equals("USER")) {
                                     Intent j = new Intent(mContext, TrackAct.class);
                                     j.putExtra("data", data);
+                                    j.putExtra("ride_count", result.getDriver_complete_ride());
+                                    j.putExtra("rating", result.getDriver_rating());
                                     mContext.startActivity(j);
                                 } else {
                                     Intent j = new Intent(mContext, TrackDriverAct.class);
@@ -191,6 +199,8 @@ public class AdapterActiveBooking extends RecyclerView.Adapter<AdapterActiveBook
                                 if (type.equals("USER")) {
                                     Intent j = new Intent(mContext, TrackAct.class);
                                     j.putExtra("data", data);
+                                    j.putExtra("ride_count", result.getDriver_complete_ride());
+                                    j.putExtra("rating", result.getDriver_rating());
                                     mContext.startActivity(j);
                                 } else {
                                     Intent j = new Intent(mContext, TrackDriverAct.class);

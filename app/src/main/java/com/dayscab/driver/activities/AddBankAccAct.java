@@ -17,6 +17,7 @@ import com.dayscab.databinding.ActivityAddBankAccBinding;
 import com.dayscab.databinding.ActivityUploadVehicleBinding;
 import com.dayscab.user.activities.UserHomeAct;
 import com.dayscab.utils.AppConstant;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.retrofitutils.Api;
 import com.dayscab.utils.retrofitutils.ApiFactory;
@@ -40,6 +41,7 @@ public class AddBankAccAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_bank_acc);
+        MyApplication.checkToken(mContext);
         // setting up the flag programmatically so that the
         // device screen should be always on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

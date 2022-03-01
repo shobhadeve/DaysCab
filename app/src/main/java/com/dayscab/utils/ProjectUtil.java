@@ -307,7 +307,7 @@ public class ProjectUtil {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
-    private boolean isValidPhoneNumber(CharSequence phoneNumber) {
+    public static boolean isValidPhoneNumber(CharSequence phoneNumber) {
         if (!TextUtils.isEmpty(phoneNumber)) {
             return Patterns.PHONE.matcher(phoneNumber).matches();
         }

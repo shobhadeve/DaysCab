@@ -17,6 +17,7 @@ import com.dayscab.common.models.ModelCurrentBookingResult;
 import com.dayscab.common.models.ModelLogin;
 import com.dayscab.databinding.ActivityCancelBookingBinding;
 import com.dayscab.utils.AppConstant;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.directionclasses.DrawPollyLine;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -58,6 +59,7 @@ public class CancelBookingAct extends AppCompatActivity implements OnMapReadyCal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_cancel_booking);
+        MyApplication.checkToken(mContext);
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
 
@@ -163,6 +165,7 @@ public class CancelBookingAct extends AppCompatActivity implements OnMapReadyCal
         binding.btCancelBooking.setOnClickListener(v -> {
             startActivity(new Intent(mContext, RideCancelationAct.class)
                     .putExtra("id", result.getId())
+                    .putExtra("data", data)
             );
             finish();
         });

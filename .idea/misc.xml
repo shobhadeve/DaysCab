@@ -3,116 +3,49 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/adapter_manage_vehicles.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/add_icon_manage.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/border_gray.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/dotted_black_back.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/edit_date_time.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/edit_passenger.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/gray_home_icons_back.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/green_oval.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/green_oval_edit.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/ic_back_white.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/light_gray_circular_bg.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/login_bt_back_yellow.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/minu_icon.xml" value="0.18518518518518517" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/purpal_back_round.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/purpal_oval.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/purpal_oval_edit.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/red_back_5.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/red_oval.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/red_oval_edit.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/rounded_white_bg.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/send_msg_back.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/splash_grad_2.xml" value="0.2203125" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/active_deactive_back.xml" value="0.2203125" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/arrived_code_back.xml" value="0.2203125" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/torq_chat_back_right.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/white_above_back.xml" value="0.18518518518518517" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/white_arrow_back.xml" value="0.18518518518518517" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/white_bg_5.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/white_chat_back_left.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/yellow_add_icon.xml" value="0.18518518518518517" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/yellow_back.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/yellow_below_round_back.xml" value="0.18518518518518517" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/yellow_outline_back.xml" value="0.2203125" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/accept_driver_dialog.xml" value="0.15" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_active_booking.xml" value="0.20416666666666666" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/drawable/yellow_below_round_back.xml" value="0.2203125" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_account.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_active_schedule_driver.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_add_bank_acc.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_add_car_pool.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_add_vehicle.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_app_settings.xml" value="0.25" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_available_pool_drivers.xml" value="0.19010416666666666" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_app_settings.xml" value="0.20416666666666666" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_app_settings_act_user.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_cancel_booking.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_chating.xml" value="0.2" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_driver_feedback.xml" value="0.20416666666666666" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_chating.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_driver_home.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_earning.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_end_trip_driver.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_end_trip_driver2.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_end_trip_driver3.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_end_user.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_forgot_password.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_manage_vehicle.xml" value="0.19010416666666666" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_manage_vehicle.xml" value="0.22" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_offer_pool_list.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_payment.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_payment_webview.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_pin_location.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_purchase_plan.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_ride_cancel_driver.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_ride_cancelation.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_ride_details.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_ride_driver_cancel.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_ride_history.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_ride_option.xml" value="0.2" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_sign_up.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_sign_up_driver.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_splash.xml" value="0.22" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_start.xml" value="0.20416666666666666" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_statistics.xml" value="0.22" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_track.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_track_driver.xml" value="0.25" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_update_profile.xml" value="0.22" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_update_profile_driver.xml" value="0.25" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_upload_driver_documents.xml" value="0.2" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_upload_vehicle.xml" value="0.25" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_user_feedback.xml" value="0.20416666666666666" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_track_driver.xml" value="0.20416666666666666" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_upload_driver_documents.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_user_home.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_verify.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_wallet.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_webview_nav.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/adapter_active_booking.xml" value="0.20416666666666666" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/activity_user_pool_request.xml" value="0.20416666666666666" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/adapter_accounts_options.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/adapter_chating.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/adapter_chats.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/adapter_manage_vehicles.xml" value="0.20416666666666666" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/adapter_manage_vehicles.xml" value="0.2" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/adapter_oofer_pool.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/adapter_plans.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/adapter_pool_user.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/adapter_select_car.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/adapter_transactions.xml" value="0.22" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/adapter_users_feedback.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/add_money_dialog.xml" value="0.20416666666666666" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/adapter_transactions.xml" value="0.20416666666666666" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/adapter_user_pool_requests.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/app_bar_dashboard.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/app_bar_driver_dashboard.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/card_fields_dialog.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/current_plan_dialog.xml" value="0.25" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/dashboard_drawer.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/dashboard_driver_drawer.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/dialog_driver_arrived_dialog.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/dialog_new_request.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/dialog_new_request_new.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/dialog_search_driver.xml" value="0.22" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/driver_change_status_dialog.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/end_trip_dialog.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/item_ride_book.xml" value="0.20416666666666666" />
         <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/item_ride_history.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/navigate_dialog.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/otp_dialog_for_driver.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/payment_item.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/schedule_booking_dialog.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/send_money_dialog_new.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/taxi_select_dialog.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/trip_status_dailog.xml" value="0.20416666666666666" />
-        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/trip_status_dialog_new.xml" value="0.20416666666666666" />
+        <entry key="..\:/Aksha_data/Akash_New_Running_Projects/DaysCabTaxi/DaysCab-master/DayscabNew/dayscabnew06_12/DaysCab/app/src/main/res/layout/passenger_dialog.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>

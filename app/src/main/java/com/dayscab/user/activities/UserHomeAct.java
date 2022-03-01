@@ -6,10 +6,13 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,31 +23,31 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.dayscab.R;
-import com.dayscab.common.activties.ChatingAct;
+import com.dayscab.common.activties.AccountAct;
+import com.dayscab.common.activties.AppSettingsActUser;
 import com.dayscab.common.activties.StartAct;
-import com.dayscab.common.activties.UpdateProfileUserAct;
 import com.dayscab.common.models.ModelCurrentBooking;
 import com.dayscab.common.models.ModelCurrentBookingResult;
 import com.dayscab.common.models.ModelLogin;
 import com.dayscab.databinding.ActivityUserHomeBinding;
 import com.dayscab.driver.activities.ActiveBookingAct;
 import com.dayscab.driver.activities.DriverFeedbackAct;
+import com.dayscab.driver.activities.WalletAct;
 import com.dayscab.user.models.ModelAvailableDriver;
 import com.dayscab.utils.AppConstant;
 import com.dayscab.utils.LatLngInterpolator;
 import com.dayscab.utils.MarkerAnimation;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.directionclasses.DrawPollyLine;
@@ -71,6 +74,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
@@ -109,6 +114,18 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
     private ScheduledExecutorService scheduleTaskExecutor;
     private PolylineOptions lineOptions;
     SupportMapFragment mapFragment;
+    String registerId = "";
+    ArrayList<Marker> makresList = new ArrayList<>();
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("action_change")) {
+                Log.e("actionchange", "getNearDriver called");
+                getNearDriver();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +136,19 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(UserHomeAct.this);
+
+        MyApplication.checkToken(mContext);
+
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token -> {
+            if (!TextUtils.isEmpty(token)) {
+                registerId = token;
+                Log.e("tokentoken", "retrieve token successful : " + token);
+            } else {
+                Log.e("tokentoken", "token should not be null...");
+            }
+        }).addOnFailureListener(e -> {
+        }).addOnCanceledListener(() -> {
+        }).addOnCompleteListener(task -> Log.e("tokentoken", "This is the token : " + task.getResult()));
 
         BindExecutor();
 
@@ -148,9 +178,84 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
+        registerReceiver(broadcastReceiver, new IntentFilter("action_change"));
         startLocationUpdates();
         BindExecutor();
+        getProfileApiCall();
+        // getNearDriver();
         // getCurrentBooking();
+    }
+
+    private void getProfileApiCall() {
+        // ProjectUtil.showProgressDialog(mContext,false,getString(R.string.please_wait));
+
+        HashMap<String, String> paramHash = new HashMap<>();
+        paramHash.put("user_id", modelLogin.getResult().getId());
+
+        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+        Call<ResponseBody> call = api.getProfileCall(paramHash);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ProjectUtil.pauseProgressDialog();
+                try {
+
+                    String stringResponse = response.body().string();
+
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(stringResponse);
+
+                        if (jsonObject.getString("status").equals("1")) {
+
+                            Log.e("getProfileApiCall", "getProfileApiCall = " + stringResponse);
+
+                            modelLogin = new Gson().fromJson(stringResponse, ModelLogin.class);
+
+                            Log.e("adfasdfss", "getDriver_lisence_img = " + modelLogin.getResult().getDriver_lisence_img());
+
+                            if (!registerId.equals(modelLogin.getResult().getRegister_id())) {
+                                logoutAlertDialog();
+                            }
+
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.e("JSONException", "JSONException = " + e.getMessage());
+                    }
+
+                    //  Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ProjectUtil.pauseProgressDialog();
+            }
+
+        });
+
+    }
+
+    private void logoutAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage("Your session is expired Please login Again!")
+                .setCancelable(false)
+                .setPositiveButton(mContext.getString(R.string.ok)
+                        , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sharedPref.clearAllPreferences();
+                                finishAffinity();
+                                startActivity(new Intent(mContext, StartAct.class));
+                                dialog.dismiss();
+                            }
+                        }).create().show();
     }
 
     private void getCurrentBooking() {
@@ -226,11 +331,15 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    private void getNearDriver() {
-
+    private void getNearByDriverBroadcast() {
         HashMap<String, String> param = new HashMap<>();
-        param.put("latitude", "" + PickUpLatLng.latitude);
-        param.put("longitude", "" + PickUpLatLng.longitude);
+        if (PickUpLatLng != null) {
+            param.put("latitude", "" + PickUpLatLng.latitude);
+            param.put("longitude", "" + PickUpLatLng.longitude);
+        } else {
+            param.put("latitude", "0.0");
+            param.put("longitude", "0.0");
+        }
         param.put("user_id", modelLogin.getResult().getId());
         param.put("timezone", TimeZone.getDefault().getID());
 
@@ -255,15 +364,91 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
                         if (mMap != null) {
                             AddDefaultMarker();
                             for (ModelAvailableDriver driver : drivers) {
-                                int height = 95;
-                                int width = 65;
+                                int height = 75;
+                                int width = 45;
                                 Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.car_top);
                                 Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
                                 BitmapDescriptor smallMarkerIcon = BitmapDescriptorFactory.fromBitmap(smallMarker);
                                 MarkerOptions car = new MarkerOptions()
-                                        .position(new LatLng(Double.valueOf(driver.getLat()), Double.valueOf(driver.getLon()))).title(driver.getUser_name())
+                                        .position(new LatLng(Double.valueOf(driver.getLat()), Double.valueOf(driver.getLon()))).title(driver.getUser_name() + " (" + driver.getCar_name() + ")")
                                         .icon(smallMarkerIcon);
                                 mMap.addMarker(car);
+                            }
+                        }
+                    } else {
+                        try {
+                            mMap.clear();
+//                            currentLocationMarker = null;
+//                            showMarkerCurrentLocation(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
+//                            DrawPolyLine();
+                        } catch (Exception e) {
+                        }
+                    }
+                } catch (Exception e) {
+                    // Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("Exception", "Exception = " + e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ProjectUtil.pauseProgressDialog();
+            }
+
+        });
+
+    }
+
+    private void getNearDriver() {
+
+        for (int i = 0; i < makresList.size(); i++) {
+            makresList.get(i).remove();
+        }
+        makresList.clear();
+
+        HashMap<String, String> param = new HashMap<>();
+
+        if (PickUpLatLng != null) {
+            param.put("latitude", "" + PickUpLatLng.latitude);
+            param.put("longitude", "" + PickUpLatLng.longitude);
+        } else {
+            param.put("latitude", "0.0");
+            param.put("longitude", "0.0");
+        }
+        param.put("user_id", modelLogin.getResult().getId());
+        param.put("timezone", TimeZone.getDefault().getID());
+
+        Log.e("user_iduser_id", "param = " + param);
+
+        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+        Call<ResponseBody> call = api.getAvailableCarDriversHome(param);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ProjectUtil.pauseProgressDialog();
+                try {
+                    String responseString = response.body().string();
+                    JSONObject jsonObject = new JSONObject(responseString);
+
+                    Log.e("responseString", "responseString = " + responseString);
+
+                    if (jsonObject.getString("status").equals("1")) {
+                        Type listType = new TypeToken<ArrayList<ModelAvailableDriver>>() {
+                        }.getType();
+                        ArrayList<ModelAvailableDriver> drivers = new GsonBuilder().create().fromJson(jsonObject.getString("result"), listType);
+                        if (mMap != null) {
+                            AddDefaultMarker();
+                            for (ModelAvailableDriver driver : drivers) {
+                                int height = 75;
+                                int width = 45;
+                                Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.car_top);
+                                Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                                BitmapDescriptor smallMarkerIcon = BitmapDescriptorFactory.fromBitmap(smallMarker);
+                                MarkerOptions car = new MarkerOptions()
+                                        .position(new LatLng(Double.valueOf(driver.getLat()), Double.valueOf(driver.getLon()))).title(driver.getUser_name() + " (" + driver.getCar_name() + ")")
+                                        .icon(smallMarkerIcon);
+                                makresList.add(mMap.addMarker(car));
                             }
                         }
                     } else {
@@ -334,7 +519,7 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
                     Place.Field.LAT_LNG, Place.Field.ADDRESS);
 
             Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
-                    //.setCountry(AppConstant.COUNTRY)
+                    .setCountry(AppConstant.COUNTRY)
                     .build(this);
             startActivityForResult(intent, 1003);
         });
@@ -357,19 +542,29 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
             );
         });
 
+        binding.childNavDrawer.btnSupport.setOnClickListener(v -> {
+            navmenu();
+            startActivity(new Intent(this, AccountAct.class)
+                    .putExtra("type", AppConstant.USER)
+            );
+        });
+
+        binding.childNavDrawer.btnWallet.setOnClickListener(v -> {
+            navmenu();
+            startActivity(new Intent(this, WalletAct.class)
+                    .putExtra("type", AppConstant.USER)
+            );
+        });
+
         binding.childNavDrawer.btnEditProfile.setOnClickListener(v -> {
             navmenu();
-            startActivity(new Intent(this, UpdateProfileUserAct.class));
-            finish();
+            startActivity(new Intent(this, AppSettingsActUser.class));
+            // finish();
         });
 
         binding.childNavDrawer.tvActiveRides.setOnClickListener(v -> {
             navmenu();
             startActivity(new Intent(this, ActiveBookingAct.class));
-        });
-
-        binding.childNavDrawer.btnSupport.setOnClickListener(v -> {
-            // startActivity(new Intent(this, SupportActivity.class));
         });
 
         binding.childNavDrawer.signout.setOnClickListener(v -> {
@@ -389,6 +584,7 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
         }
 
         return false;
+
     }
 
     private void logoutAppDialog() {
@@ -427,6 +623,33 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    private void exitAppDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage(getString(R.string.close_app_text))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                }).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        exitAppDialog();
+    }
+
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
@@ -463,6 +686,7 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
                             Log.e("hdasfkjhksdf", "StartLocationUpdate = " + locationResult.getLastLocation());
                             currentLocation = locationResult.getLastLocation();
                             showMarkerCurrentLocation(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
+                            // getNearDriver();
                         }
                     }
                 }, Looper.myLooper());
@@ -474,6 +698,7 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
             if (currentLocationMarker == null) {
                 if (mMap != null) {
                     if (TextUtils.isEmpty(binding.chlidDashboard.tvFrom.getText().toString().trim())) {
+                        getNearDriver();
                         if (currentLocation != null) {
                             PickUpLatLng = new LatLng(currentLocation.latitude, currentLocation.longitude);
                             binding.chlidDashboard.tvFrom.setText(ProjectUtil.getCompleteAddressString(this, currentLocation.latitude, currentLocation.longitude));
@@ -541,24 +766,28 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void DrawPolyLine() {
-        DrawPollyLine.get(this).setOrigin(PickUpLatLng)
-                .setDestination(DropOffLatLng)
-                .execute(new DrawPollyLine.onPolyLineResponse() {
-                    @Override
-                    public void Success(ArrayList<LatLng> latLngs) {
-                        mMap.clear();
-                        lineOptions = new PolylineOptions();
-                        lineOptions.addAll(latLngs);
-                        lineOptions.width(10);
-                        lineOptions.color(Color.BLUE);
-                        AddDefaultMarker();
-                    }
-                });
+        try {
+            DrawPollyLine.get(this).setOrigin(PickUpLatLng)
+                    .setDestination(DropOffLatLng)
+                    .execute(new DrawPollyLine.onPolyLineResponse() {
+                        @Override
+                        public void Success(ArrayList<LatLng> latLngs) {
+                            mMap.clear();
+                            lineOptions = new PolylineOptions();
+                            lineOptions.addAll(latLngs);
+                            lineOptions.width(10);
+                            lineOptions.color(Color.BLUE);
+                            AddDefaultMarker();
+                        }
+                    });
+        } catch (Exception e) {
+
+        }
     }
 
     protected void zoomMapInitial(LatLng finalPlace, LatLng currenLoc) {
         try {
-            int padding = 200;
+            int padding = 100;
             LatLngBounds.Builder bc = new LatLngBounds.Builder();
             bc.include(finalPlace);
             bc.include(currenLoc);
@@ -589,6 +818,7 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onPause() {
         super.onPause();
+        unregisterReceiver(broadcastReceiver);
         scheduleTaskExecutor.shutdownNow();
     }
 
@@ -597,4 +827,5 @@ public class UserHomeAct extends AppCompatActivity implements OnMapReadyCallback
         super.onDestroy();
         scheduleTaskExecutor.shutdownNow();
     }
+
 }

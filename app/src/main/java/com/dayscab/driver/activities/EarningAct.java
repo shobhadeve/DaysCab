@@ -11,6 +11,7 @@ import android.view.WindowManager;
 
 import com.dayscab.R;
 import com.dayscab.databinding.ActivityEarningBinding;
+import com.dayscab.utils.MyApplication;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -38,6 +39,7 @@ public class EarningAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_earning);
+        MyApplication.checkToken(mContext);
         // setting up the flag programmatically so that the
         // device screen should be always on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -54,21 +56,21 @@ public class EarningAct extends AppCompatActivity {
 
         // creating a new bar data and
         // passing our bar data set.
-        barData = new BarData(barDataSet);
+       // barData = new BarData(barDataSet);
 
         // below line is to set data
         // to our bar chart.
         binding.chart.setData(barData);
 
         // adding color to our bar data set.
-        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+      //  barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
         // setting text color.
         barDataSet.setValueTextColor(Color.BLACK);
 
         // setting text size
         barDataSet.setValueTextSize(16f);
-        binding.chart.getDescription().setEnabled(false);
+       // binding.chart.getDescription().setEnabled(false);
 
         TabLayout.Tab tab1 = binding.tabLayut.newTab();
         tab1.setText("Today");
@@ -89,14 +91,11 @@ public class EarningAct extends AppCompatActivity {
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onTabReselected(TabLayout.Tab tab) {}
 
-            }
         });
 
         binding.ivBack.setOnClickListener(v -> {
@@ -106,6 +105,7 @@ public class EarningAct extends AppCompatActivity {
     }
 
     private void getBarEntries() {
+
         // creating a new array list
         barEntriesArrayList = new ArrayList<>();
 
@@ -117,6 +117,7 @@ public class EarningAct extends AppCompatActivity {
         barEntriesArrayList.add(new BarEntry(4f, 2));
         barEntriesArrayList.add(new BarEntry(5f, 4));
         barEntriesArrayList.add(new BarEntry(6f, 1));
+
     }
 
 }

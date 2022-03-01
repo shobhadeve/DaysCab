@@ -80,12 +80,16 @@ public class NewRequestDialogTaxiNew {
         dialog.setCanceledOnTouchOutside(true);
 
         try {
-            // { message = {"car_type_id":"1","driver_id":"10","booktype":"NOW","shareride_type":null,"picuplocation":"indore","result":"successful","estimated_arrival_distance":"17123.34","estimated_arrival_time":"17123.34","dropofflocation":"bhopal","droplon":"77.4126","alert":"Booking request","user_id":"1","picklatertime":"08:00","droplat":"23.2599","picuplat":"22.7196","picklaterdate":"2021-02-21","request_id":10,"key":"New Booking Request","status":"Pending","pickuplon":"75.8577"}}
+            // { message = {"car_type_id":"1","driver_id":"10","booktype":"NOW","shareride_type":null,"picuplocation":"indore","result":"successful","estimated_arrival_distance":"17123.34","estimated_arrival_time":
+            // "17123.34","dropofflocation":"bhopal","droplon":"77.4126","alert":"Booking request","user_id":"1","picklatertime":"08:00","droplat":"23.2599","picuplat":"22.7196","picklaterdate":"2021-02-21","request_id":10,
+            // "key":"New Booking Request","status":"Pending","pickuplon":"75.8577"}}
             Log.e("DialogChala====", "=======" + obj);
             object = new JSONObject(obj);
 
             try {
                 request_id = String.valueOf(object.get("request_id"));
+                binding.tvFrom.setText(String.valueOf(object.get("picuplocation")));
+                binding.tvDestination.setText(String.valueOf(object.get("dropofflocation")));
             } catch (Exception e) {
             }
 
@@ -250,11 +254,11 @@ public class NewRequestDialogTaxiNew {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ProjectUtil.pauseProgressDialog();
                 try {
                     String stringResponse = response.body().string();
                     JSONObject jsonObject = new JSONObject(stringResponse);
                     if (jsonObject.getString("status").equals("1")) {
-                        ProjectUtil.pauseProgressDialog();
                         ProjectUtil.clearNortifications(context);
                         Log.e("AcceptCancel", "stringResponse = " + stringResponse);
                         if (status.equals("Accept")) {
@@ -272,6 +276,7 @@ public class NewRequestDialogTaxiNew {
                         }
                     } else {
                         dialog.dismiss();
+                        MusicManager.getInstance().stopPlaying();
                         MyApplication.showToast(context, context.getString(R.string.req_cancelled));
                     }
                 } catch (Exception e) {

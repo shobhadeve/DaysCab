@@ -21,6 +21,7 @@ import com.dayscab.common.models.ModelLogin;
 import com.dayscab.databinding.ActivityUpdateProfileDriverBinding;
 import com.dayscab.utils.AppConstant;
 import com.dayscab.utils.Compress;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.MyService;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.RealPathUtil;
@@ -33,6 +34,8 @@ import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.gson.Gson;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONObject;
 
@@ -68,13 +71,13 @@ public class UpdateProfileDriverAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_update_profile_driver);
+        MyApplication.checkToken(mContext);
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
         itit();
     }
 
     private void itit() {
-
 
         try {
             latLng = new LatLng(Double.parseDouble(modelLogin.getResult().getLat()),
@@ -104,12 +107,13 @@ public class UpdateProfileDriverAct extends AppCompatActivity {
 
         binding.addIcon.setOnClickListener(v -> {
             if (ProjectUtil.checkPermissions(mContext)) {
-                showPictureDialog();
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
+                // showPictureDialog();
             } else {
                 ProjectUtil.requestPermissions(mContext);
             }
         });
-
+ 
         binding.ivBack.setOnClickListener(v -> {
             finish();
         });
@@ -207,6 +211,7 @@ public class UpdateProfileDriverAct extends AppCompatActivity {
             }
 
         });
+
     }
 
     private void showPictureDialog() {
@@ -233,6 +238,18 @@ public class UpdateProfileDriverAct extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                profileImage = new File(RealPathUtil.getRealPath(mContext, resultUri));
+                Glide.with(mContext).load(resultUri).into(binding.profileImage);
+                Log.e("asfasdasdad", "resultUri = " + resultUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
 
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {

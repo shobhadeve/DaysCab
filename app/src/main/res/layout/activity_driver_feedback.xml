@@ -221,7 +221,7 @@
                     android:background="@drawable/border_gray"
                     android:fontFamily="@font/poppins_regular"
                     android:gravity="top"
-                    android:hint="@string/msg"
+                    android:hint="@string/comment_opt"
                     android:inputType="text|textMultiLine"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingTop="@dimen/_10sdp"

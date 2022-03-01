@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:cardCornerRadius="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:elevation="@dimen/_10sdp"
+            app:cardElevation="@dimen/_10sdp"
+            app:contentPadding="@dimen/_10sdp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/etPassenger"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/yellow_outline_back"
+                    android:backgroundTint="@null"
+                    android:hint="@string/enter_number_of_passenger"
+                    android:maxLength="2"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:drawableLeft="@drawable/edit_passenger"
+                    android:inputType="number"
+                    android:padding="@dimen/_8sdp"
+                    android:textColorHint="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/select_payment_type"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/poppins_medium" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="3"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <RadioButton
+                            android:id="@+id/rbCash"
+                            android:layout_width="0dp"
+                            android:includeFontPadding="false"
+                            android:layout_weight="1"
+                            android:textSize="@dimen/_12sdp"
+                            android:layout_height="match_parent"
+                            android:textStyle="bold"
+                            android:text="@string/cash"/>
+
+                        <RadioButton
+                            android:id="@+id/rbWallet"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:includeFontPadding="false"
+                            android:textSize="@dimen/_12sdp"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:text="@string/wallet"/>
+
+                        <RadioButton
+                            android:id="@+id/rbCard"
+                            android:layout_width="0dp"
+                            android:includeFontPadding="false"
+                            android:layout_weight="1"
+                            android:textSize="@dimen/_12sdp"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:text="@string/online_pay"/>
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btSubmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:background="@drawable/login_bt_back_yellow"
+                    android:fontFamily="@font/poppins_medium"
+                    android:paddingLeft="@dimen/_30sdp"
+                    android:paddingRight="@dimen/_30sdp"
+                    android:text="@string/submit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+</layout>

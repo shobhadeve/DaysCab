@@ -17,6 +17,7 @@ import com.dayscab.common.models.ModelCurrentBookingResult;
 import com.dayscab.common.models.ModelLogin;
 import com.dayscab.databinding.ActivityRideCancelDriverBinding;
 import com.dayscab.utils.AppConstant;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.directionclasses.DrawPollyLine;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -57,6 +58,7 @@ public class RideCancelDriverAct1 extends AppCompatActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_ride_cancel_driver);
+        MyApplication.checkToken(mContext);
         // setting up the flag programmatically so that the
         // device screen should be always on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

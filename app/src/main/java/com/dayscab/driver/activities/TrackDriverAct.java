@@ -36,6 +36,8 @@ import androidx.databinding.DataBindingUtil;
 import com.bumptech.glide.Glide;
 import com.dayscab.R;
 import com.dayscab.common.activties.ChatingAct;
+import com.dayscab.common.activties.LoginAct;
+import com.dayscab.common.activties.StartAct;
 import com.dayscab.common.models.ModelCurrentBooking;
 import com.dayscab.common.models.ModelCurrentBookingResult;
 import com.dayscab.common.models.ModelLogin;
@@ -73,9 +75,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.SquareCap;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TimeZone;
@@ -101,7 +108,9 @@ public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallb
     private long FASTEST_INTERVAL = 4000; /* 2 sec */
     Location currentLocation;
     Vibrator vibrator;
+    private String registerId = "";
     GoogleMap mMap;
+    Polyline line;
     private LatLng currentlocation;
     private LatLng pickLocation, droplocation;
     SupportMapFragment mapFragment;
@@ -121,20 +130,75 @@ public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallb
                     Toast.makeText(context, "Ride cancelled by user", Toast.LENGTH_LONG).show();
                     finishAffinity();
                     startActivity(new Intent(TrackDriverAct.this, DriverHomeAct.class));
+                } else if (intent.getStringExtra("status").equals("changed_route")) {
+                    MusicManager.getInstance().initalizeMediaPlayer(TrackDriverAct.this, Uri.parse
+                            (ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/" + R.raw.doogee_ringtone));
+                    MusicManager.getInstance().stopPlaying();
+                    Toast.makeText(context, getString(R.string.user_changed_the_destination), Toast.LENGTH_LONG).show();
+                    double dropLat = Double.parseDouble(intent.getStringExtra("lat"));
+                    double dropLon = Double.parseDouble(intent.getStringExtra("lon"));
+                    droplocation = new LatLng(dropLat, dropLon);
+                    showAlert(intent.getStringExtra("dropofflocation"));
                 }
             }
         }
     };
 
+    public void showAlert(String dropLocationAdd) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage(mContext.getString(R.string.user_changed_the_destination))
+                .setCancelable(false)
+                .setPositiveButton(mContext.getString(R.string.yes)
+                        , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                if (line != null) {
+                                    line.remove();
+                                }
+
+                                binding.tvDestination.setText(dropLocationAdd);
+                                DrawPollyLine.get(mContext)
+                                        .setOrigin(pickLocation)
+                                        .setDestination(droplocation)
+                                        .execute(new DrawPollyLine.onPolyLineResponse() {
+                                            @Override
+                                            public void Success(ArrayList<LatLng> latLngs) {
+                                                PolylineOptions options = new PolylineOptions();
+                                                options.addAll(latLngs);
+                                                options.color(Color.BLUE);
+                                                options.width(10);
+                                                options.startCap(new SquareCap());
+                                                options.endCap(new SquareCap());
+                                                line = mMap.addPolyline(options);
+                                            }
+                                        });
+                                dialog.dismiss();
+                            }
+                        }).create().show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_track_driver);
+        MyApplication.checkToken(mContext);
         // setting up the flag programmatically so that the
         // device screen should be always on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
+
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token -> {
+            if (!TextUtils.isEmpty(token)) {
+                registerId = token;
+                Log.e("tokentoken", "retrieve token successful : " + token);
+            } else {
+                Log.e("tokentoken", "token should not be null...");
+            }
+        }).addOnFailureListener(e -> {
+        }).addOnCanceledListener(() -> {
+        }).addOnCompleteListener(task -> Log.e("tokentoken", "This is the token : " + task.getResult()));
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(TrackDriverAct.this);
@@ -174,8 +238,126 @@ public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallb
     @Override
     protected void onResume() {
         super.onResume();
+        getProfileApiCall();
         registerReceiver(statusBroadCast, new IntentFilter("job_status"));
         startLocationUpdates();
+    }
+
+    private void getProfileApiCall() {
+        // ProjectUtil.showProgressDialog(mContext,false,getString(R.string.please_wait));
+
+        HashMap<String, String> paramHash = new HashMap<>();
+        paramHash.put("user_id", modelLogin.getResult().getId());
+
+        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+        Call<ResponseBody> call = api.getProfileCall(paramHash);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ProjectUtil.pauseProgressDialog();
+                try {
+
+                    String stringResponse = response.body().string();
+
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(stringResponse);
+
+                        if (jsonObject.getString("status").equals("1")) {
+
+                            Log.e("getProfileApiCall", "getProfileApiCall = " + stringResponse);
+
+                            modelLogin = new Gson().fromJson(stringResponse, ModelLogin.class);
+
+                            Log.e("adfasdfss", "getDriver_lisence_img = " + modelLogin.getResult().getDriver_lisence_img());
+
+                            if (!registerId.equals(modelLogin.getResult().getRegister_id())) {
+                                logoutAlertDialog();
+                            }
+
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.e("JSONException", "JSONException = " + e.getMessage());
+                    }
+
+                    //  Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ProjectUtil.pauseProgressDialog();
+            }
+
+        });
+
+    }
+
+    private void getCurrentBooking() {
+
+        ProjectUtil.showProgressDialog(mContext, false, getString(R.string.please_wait));
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", modelLogin.getResult().getId());
+        param.put("type", AppConstant.DRIVER);
+        param.put("timezone", TimeZone.getDefault().getID());
+
+        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+        Call<ResponseBody> call = api.getCurrentBooking(param);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ProjectUtil.pauseProgressDialog();
+                try {
+                    String responseString = response.body().string();
+                    JSONObject jsonObject = new JSONObject(responseString);
+
+                    Log.e("responseString", "responseString = " + responseString);
+
+                    if (jsonObject.getString("status").equals("1")) {
+                        Log.e("getCurrentBooking", "getCurrentBooking = " + responseString);
+                        Type listType = new TypeToken<ModelCurrentBooking>() {
+                        }.getType();
+                        ModelCurrentBooking data = new GsonBuilder().create().fromJson(responseString, listType);
+                        startActivity(new Intent(mContext, EndTripDriverAct.class).putExtra("data", data));
+                        result.setStatus("End");
+                        finish();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("Exception", "Exception = " + e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ProjectUtil.pauseProgressDialog();
+            }
+
+        });
+
+    }
+
+    private void logoutAlertDialog() {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(mContext);
+        builder.setMessage("Your session is expired Please login Again!")
+                .setCancelable(false)
+                .setPositiveButton(mContext.getString(R.string.ok)
+                        , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sharedPref.clearAllPreferences();
+                                finishAffinity();
+                                startActivity(new Intent(mContext, StartAct.class));
+                                dialog.dismiss();
+                            }
+                        }).create().show();
     }
 
     @Override
@@ -280,11 +462,12 @@ public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallb
                             result.setStatus("Start");
                             binding.btnStatus.setText(R.string.end_the_trip);
                         } else if (status.equalsIgnoreCase("End")) {
-                            startActivity(new Intent(mContext, EndTripDriverAct.class)
-                                    .putExtra("data", data)
-                            );
-                            result.setStatus("End");
-                            finish();
+                            getCurrentBooking();
+//                            startActivity(new Intent(mContext, EndTripDriverAct.class)
+//                                    .putExtra("data", data)
+//                            );
+//                            result.setStatus("End");
+//                            finish();
                         }
                     } else {
                         MyApplication.showToast(mContext, getString(R.string.req_cancelled));
@@ -560,6 +743,7 @@ public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallb
                 ProjectUtil.pauseProgressDialog();
                 Log.e("sfasfsdfdsf", "Exception = " + t.getMessage());
             }
+
         });
     }
 
@@ -591,12 +775,11 @@ public class TrackDriverAct extends AppCompatActivity implements OnMapReadyCallb
                         options.width(10);
                         options.startCap(new SquareCap());
                         options.endCap(new SquareCap());
-                        Polyline line = mMap.addPolyline(options);
+                        line = mMap.addPolyline(options);
                     }
                 });
 
         showMarkerCurrentLocation(currentlocation);
-
     }
 
     protected void zoomMapInitial(LatLng finalPlace, LatLng currenLoc, LatLng pickup) {

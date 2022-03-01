@@ -40,6 +40,22 @@ public class ModelLogin implements Serializable {
 
         private String profile_image;
 
+        private String mute_music;
+
+        private String driver_complete_ride;
+
+        private String driver_rating;
+
+        private String mute_request_sound;
+
+        private String emergency_name;
+
+        private String token;
+
+        private String emergency_mobile;
+
+        private String emergency_email;
+
         private String on_way_ride;
 
         private String complete_rides;
@@ -149,6 +165,100 @@ public class ModelLogin implements Serializable {
         private String step;
 
         private String brand;
+
+        private String work_address;
+            
+        private String work_lat;
+        
+        private String work_lon;
+
+        public String getDriver_complete_ride() {
+            return driver_complete_ride;
+        }
+
+        public void setDriver_complete_ride(String driver_complete_ride) {
+            this.driver_complete_ride = driver_complete_ride;
+        }
+
+        public String getDriver_rating() {
+            return driver_rating;
+        }
+
+        public void setDriver_rating(String driver_rating) {
+            this.driver_rating = driver_rating;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+
+        public String getWork_address() {
+            return work_address;
+        }
+
+        public void setWork_address(String work_address) {
+            this.work_address = work_address;
+        }
+
+        public String getWork_lat() {
+            return work_lat;
+        }
+
+        public void setWork_lat(String work_lat) {
+            this.work_lat = work_lat;
+        }
+
+        public String getWork_lon() {
+            return work_lon;
+        }
+
+        public void setWork_lon(String work_lon) {
+            this.work_lon = work_lon;
+        }
+
+        public String getEmergency_name() {
+            return emergency_name;
+        }
+
+        public void setEmergency_name(String emergency_name) {
+            this.emergency_name = emergency_name;
+        }
+
+        public String getEmergency_mobile() {
+            return emergency_mobile;
+        }
+
+        public void setEmergency_mobile(String emergency_mobile) {
+            this.emergency_mobile = emergency_mobile;
+        }
+
+        public String getEmergency_email() {
+            return emergency_email;
+        }
+
+        public void setEmergency_email(String emergency_email) {
+            this.emergency_email = emergency_email;
+        }
+
+        public String getMute_music() {
+            return mute_music;
+        }
+
+        public void setMute_music(String mute_music) {
+            this.mute_music = mute_music;
+        }
+
+        public String getMute_request_sound() {
+            return mute_request_sound;
+        }
+
+        public void setMute_request_sound(String mute_request_sound) {
+            this.mute_request_sound = mute_request_sound;
+        }
 
         public String getCar_detail_id() {
             return car_detail_id;

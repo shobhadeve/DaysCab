@@ -16,6 +16,7 @@ import com.dayscab.databinding.ActivityOfferPoolListBinding;
 import com.dayscab.driver.adapters.AdapterOfferPool;
 import com.dayscab.driver.models.ModelPoolList;
 import com.dayscab.utils.AppConstant;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.retrofitutils.Api;
@@ -42,6 +43,7 @@ public class OfferPoolListAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_offer_pool_list);
+        MyApplication.checkToken(mContext);
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
         getPoolOffers();

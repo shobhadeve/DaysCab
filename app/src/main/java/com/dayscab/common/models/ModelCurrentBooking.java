@@ -84,6 +84,14 @@ public class ModelCurrentBooking implements Serializable {
     @Expose
     private String message;
 
+    @SerializedName("complete_rides")
+    @Expose
+    private String complete_rides;
+
+    @SerializedName("driver_avg_rating")
+    @Expose
+    private String driver_avg_rating;
+
     @SerializedName("distance")
     @Expose
     private String distance;
@@ -97,6 +105,21 @@ public class ModelCurrentBooking implements Serializable {
     @Expose
     private Integer status;
 
+    public String getComplete_rides() {
+        return complete_rides;
+    }
+
+    public void setComplete_rides(String complete_rides) {
+        this.complete_rides = complete_rides;
+    }
+
+    public String getDriver_avg_rating() {
+        return driver_avg_rating;
+    }
+
+    public void setDriver_avg_rating(String driver_avg_rating) {
+        this.driver_avg_rating = driver_avg_rating;
+    }
 
     public Integer getEstimate_time() {
         return estimate_time;

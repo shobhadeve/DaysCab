@@ -21,96 +21,128 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="10">
-
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/ivCarImage"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_70sdp"
-                    android:layout_weight="2"
-                    android:scaleType="fitXY"
-                    app:riv_border_color="@color/black"
-                    app:riv_border_width="@dimen/_1sdp"
-                    app:riv_corner_radius="@dimen/_10sdp" />
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
 
-                    <TextView
-                        android:id="@+id/carNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
-                        android:includeFontPadding="false"
-                        android:text="Am General"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_11sdp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/carManufactured"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:fontFamily="@font/poppins_regular"
-                        android:includeFontPadding="false"
-                        android:text="AHBHS3543"
-                        android:textColor="@color/textColor"
-                        android:textSize="@dimen/_10sdp"
-                        android:textStyle="bold" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:gravity="center_horizontal"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <com.github.angads25.toggle.widget.LabeledSwitch
-                        android:id="@+id/switch4"
-                        android:layout_width="@dimen/_70sdp"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/_10sdp"
-                        android:textSize="@dimen/_10sdp"
-                        app:colorBorder="@color/gray"
-                        app:colorOn="@color/green_pur"
-                        app:on="false"
-                        app:textOff="Deactive"
-                        app:textOn="Active" />
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/ivCarImage"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_70sdp"
+                        android:layout_weight="2"
+                        android:scaleType="fitXY"
+                        app:riv_border_color="@color/black"
+                        app:riv_border_width="@dimen/_1sdp"
+                        app:riv_corner_radius="@dimen/_10sdp" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:orientation="horizontal">
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_weight="5"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                        <ImageView
-                            android:id="@+id/ivEdit"
-                            android:layout_width="@dimen/_30sdp"
-                            android:layout_height="@dimen/_30sdp"
-                            android:visibility="gone" />
+                        <TextView
+                            android:id="@+id/carNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:includeFontPadding="false"
+                            android:text="Am General"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_11sdp"
+                            android:textStyle="bold" />
 
-                        <ImageView
-                            android:id="@+id/ivDelete"
-                            android:layout_width="@dimen/_30sdp"
-                            android:layout_height="@dimen/_30sdp"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:src="@drawable/delete_vehicle" />
+                        <TextView
+                            android:id="@+id/carManufactured"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:includeFontPadding="false"
+                            android:text="AHBHS3543"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_10sdp"
+                            android:textStyle="bold" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvActiveDeactive"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_bold"
+                            android:includeFontPadding="false"
+                            android:text="Active"
+                            android:background="@drawable/active_deactive_back"
+                            android:gravity="center"
+                            android:padding="@dimen/_5sdp"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/_11sdp"
+                            android:textStyle="bold" />
+
+                        <com.github.angads25.toggle.widget.LabeledSwitch
+                            android:id="@+id/switch4"
+                            android:layout_width="@dimen/_70sdp"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_10sdp"
+                            android:textSize="@dimen/_10sdp"
+                            app:colorBorder="@color/gray"
+                            app:colorOn="@color/green_pur"
+                            app:on="false"
+                            android:visibility="gone"
+                            app:textOff="Deactive"
+                            app:textOn="Active" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/ivEdit"
+                                android:layout_width="@dimen/_30sdp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/ivDelete"
+                                android:layout_width="@dimen/_30sdp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:src="@drawable/delete_vehicle" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <TextView
+                    android:id="@+id/tvExpriryDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/red"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:textSize="@dimen/_11sdp"
+                    android:textStyle="bold" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

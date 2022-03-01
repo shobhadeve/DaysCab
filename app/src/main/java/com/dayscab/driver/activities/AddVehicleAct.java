@@ -1,11 +1,7 @@
 package com.dayscab.driver.activities;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.databinding.DataBindingUtil;
-
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,8 +14,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.databinding.DataBindingUtil;
+
+import com.bumptech.glide.Glide;
 import com.dayscab.R;
 import com.dayscab.common.models.ModelLogin;
 import com.dayscab.databinding.ActivityAddVehicleBinding;
@@ -28,17 +31,23 @@ import com.dayscab.driver.models.ModelMake;
 import com.dayscab.utils.AppConstant;
 import com.dayscab.utils.Compress;
 import com.dayscab.utils.InternetConnection;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
+import com.dayscab.utils.RealPathUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.retrofitutils.Api;
 import com.dayscab.utils.retrofitutils.ApiFactory;
 import com.google.gson.Gson;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import okhttp3.MediaType;
@@ -66,11 +75,14 @@ public class AddVehicleAct extends AppCompatActivity {
     ArrayList<String> modelNameList = new ArrayList<>();
     ArrayList<String> modelIdList = new ArrayList<>();
     private String carId = "", makeId = "", modelId = "";
+    File carRegistrationFile = null, dvlaFile = null, vehicleInspectionFile = null;
+    private int imageCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_add_vehicle);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_vehicle);
+        MyApplication.checkToken(mContext);
         // Setting up the flag programmatically so that the
         // Device screen should be always on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -100,16 +112,95 @@ public class AddVehicleAct extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
 
         });
 
         binding.ivUploadImage.setOnClickListener(v -> {
+            imageCount = 0;
             if (checkPermissions()) {
-                showPictureDialog();
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
             } else {
                 requestPermissions();
             }
+        });
+
+        binding.ivRegistrationCertify.setOnClickListener(v -> {
+            if (checkPermissions()) {
+                imageCount = 1;
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
+            } else {
+                requestPermissions();
+            }
+        });
+
+        binding.ivVehicleBook.setOnClickListener(v -> {
+            if (checkPermissions()) {
+                imageCount = 2;
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
+            } else {
+                requestPermissions();
+            }
+        });
+
+        binding.ivVehicleInspection.setOnClickListener(v -> {
+            if (checkPermissions()) {
+                imageCount = 3;
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
+            } else {
+                requestPermissions();
+            }
+        });
+
+        binding.etExpInsurance.setOnClickListener(v -> {
+            final Calendar c = Calendar.getInstance();
+            int mYear = c.get(Calendar.YEAR);
+            int mMonth = c.get(Calendar.MONTH);
+            int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+            // Launch Date Picker Dialog
+            DatePickerDialog dpd = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    String month = String.valueOf((monthOfYear + 1));
+                    String day = String.valueOf((dayOfMonth));
+
+                    if (month.length() == 1) month = "0" + month;
+
+                    if (day.length() == 1) day = "0" + day;
+
+                    binding.etExpInsurance.setText(year + "-" + month + "-" + day);
+                }
+            }, mYear, mMonth, mDay);
+            dpd.getDatePicker().setMinDate(new Date().getTime());
+            dpd.show();
+        });
+
+        binding.etExpDVIA.setOnClickListener(v -> {
+            final Calendar c = Calendar.getInstance();
+            int mYear = c.get(Calendar.YEAR);
+            int mMonth = c.get(Calendar.MONTH);
+            int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+            // Launch Date Picker Dialog
+            DatePickerDialog dpd = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                    String month = String.valueOf((monthOfYear + 1));
+                    String day = String.valueOf((dayOfMonth));
+
+                    if (month.length() == 1) month = "0" + month;
+
+                    if (day.length() == 1) day = "0" + day;
+
+
+                    binding.etExpDVIA.setText(year + "-" + month + "-" + day);
+                }
+            }, mYear, mMonth, mDay);
+            dpd.getDatePicker().setMinDate(new Date().getTime());
+            dpd.show();
         });
 
         binding.btnNext.setOnClickListener(v -> {
@@ -121,6 +212,14 @@ public class AddVehicleAct extends AppCompatActivity {
                 Toast.makeText(mContext, getString(R.string.upload_vehicle_text), Toast.LENGTH_SHORT).show();
             } else if (binding.spYear.getSelectedItemPosition() == 0) {
                 Toast.makeText(mContext, getString(R.string.add_year_vehicle_text), Toast.LENGTH_SHORT).show();
+            } else if (carRegistrationFile == null) {
+                Toast.makeText(mContext, getString(R.string.please_upload_insurance_sticker), Toast.LENGTH_SHORT).show();
+            } else if (dvlaFile == null) {
+                Toast.makeText(mContext, getString(R.string.please_upload_rodworthiness), Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(binding.etExpInsurance.getText().toString().trim())) {
+                Toast.makeText(mContext, getString(R.string.select_expiry_date_for_insurance), Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(binding.etExpDVIA.getText().toString().trim())) {
+                Toast.makeText(mContext, getString(R.string.select_roadworthiness_text), Toast.LENGTH_SHORT).show();
             } else {
                 if (InternetConnection.checkConnection(mContext)) {
                     addVehicle();
@@ -128,6 +227,78 @@ public class AddVehicleAct extends AppCompatActivity {
                     Toast.makeText(mContext, getString(R.string.check_internet_text), Toast.LENGTH_SHORT).show();
                 }
             }
+        });
+
+    }
+
+    private void setImageFromCameraGallery(File file) {
+        Log.e("setImageFromCameraGallery", "file = " + file.getPath());
+        if (imageCount == 1) {
+            carRegistrationFile = file;
+            binding.ivRegistrationCertify.setImageURI(Uri.parse(file.getPath()));
+        } else if (imageCount == 2) {
+            dvlaFile = file;
+            binding.ivVehicleBook.setImageURI(Uri.parse(file.getPath()));
+        } else if (imageCount == 3) {
+            vehicleInspectionFile = file;
+            binding.ivVehicleInspection.setImageURI(Uri.parse(file.getPath()));
+        }
+    }
+
+    private void addVehicleDocuments(String vehicleId) {
+        ProjectUtil.showProgressDialog(mContext, false, getString(R.string.please_wait));
+
+        Log.e("adasdasdasd","addVehicleDocuments = " + vehicleId);
+
+        MultipartBody.Part responsibleFilePart;
+        MultipartBody.Part vehicle_regist_img;
+        MultipartBody.Part vehicleInspectionPart;
+        RequestBody attachmentEmpty;
+
+        RequestBody vehicle_id = RequestBody.create(MediaType.parse("text/plain"), vehicleId);
+        RequestBody car_regist_date = RequestBody.create(MediaType.parse("text/plain"), binding.etExpInsurance.getText().toString().trim());
+        RequestBody vehicle_regist_date = RequestBody.create(MediaType.parse("text/plain"), binding.etExpDVIA.getText().toString().trim());
+
+        responsibleFilePart = MultipartBody.Part.createFormData("car_regist_img", carRegistrationFile.getName(), RequestBody.create(MediaType.parse("car_document/*"), carRegistrationFile));
+        vehicle_regist_img = MultipartBody.Part.createFormData("vehicle_regist_img", dvlaFile.getName(), RequestBody.create(MediaType.parse("car_document/*"), dvlaFile));
+
+        if (vehicleInspectionFile == null) {
+            attachmentEmpty = RequestBody.create(MediaType.parse("text/plain"), "");
+            vehicleInspectionPart = MultipartBody.Part.createFormData("attachment", "", attachmentEmpty);
+        } else {
+            vehicleInspectionPart = MultipartBody.Part.createFormData("vehicle_inspection_img", vehicleInspectionFile.getName(), RequestBody.create(MediaType.parse("car_document/*"), vehicleInspectionFile));
+        }
+
+        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+        Call<ResponseBody> call = api.addVehicleDocumentApiCall(vehicle_id, car_regist_date, vehicle_regist_date,
+                responsibleFilePart, vehicle_regist_img, vehicleInspectionPart);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ProjectUtil.pauseProgressDialog();
+                try {
+                    String responseString = response.body().string();
+                    JSONObject jsonObject = new JSONObject(responseString);
+
+                    Log.e("documentsdriver", "responseString = " + responseString);
+
+                    if (jsonObject.getString("status").equals("1")) {
+                        finish();
+                    }
+
+                } catch (Exception e) {
+                    Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("Exception", "Exception = " + e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ProjectUtil.pauseProgressDialog();
+                Log.e("Exception", "Throwable = " + t.getMessage());
+            }
+
         });
 
     }
@@ -167,7 +338,8 @@ public class AddVehicleAct extends AppCompatActivity {
                                 }
 
                                 @Override
-                                public void onNothingSelected(AdapterView<?> parent) { }
+                                public void onNothingSelected(AdapterView<?> parent) {
+                                }
 
                             });
 
@@ -350,6 +522,23 @@ public class AddVehicleAct extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                File file = new File(RealPathUtil.getRealPath(mContext, resultUri));
+                if (imageCount == 0) {
+                    vehicleImage = file;
+                    Glide.with(mContext).load(resultUri).into(binding.ivUploadImage);
+                } else {
+                    setImageFromCameraGallery(file);
+                }
+                Log.e("asfasdasdad", "resultUri = " + resultUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
+
         if (requestCode == GALLERY) {
             if (resultCode == RESULT_OK) {
                 String path = ProjectUtil.getRealPathFromURI(mContext, data.getData());
@@ -411,21 +600,12 @@ public class AddVehicleAct extends AppCompatActivity {
                     Log.e("vehicleData", "responseString = " + responseString);
 
                     if (jsonObject.getString("status").equals("1")) {
-
-//                        modelLogin = new Gson().fromJson(responseString, ModelLogin.class);
-//                        modelLogin.getResult().setStep("2");
-//                        sharedPref.setUserDetails(AppConstant.USER_DETAILS, modelLogin);
-
-                        // startActivity(new Intent(mContext, UploadDriverDocumentsAct.class));
-                        finish();
-
-//                      startActivity(new Intent(mContext, AddBankAccAct.class));
-//                      finish();
-
+                        JSONObject jsonResult = jsonObject.getJSONObject("result");
+                        addVehicleDocuments(jsonResult.getString("id"));
                     }
 
                 } catch (Exception e) {
-                    Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e("Exception", "Exception = " + e.getMessage());
                 }
 

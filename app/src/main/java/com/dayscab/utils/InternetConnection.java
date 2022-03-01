@@ -1,5 +1,6 @@
 package com.dayscab.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,6 +15,8 @@ public class InternetConnection {
         final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (connMgr != null) {
+
+            @SuppressLint("MissingPermission")
             NetworkInfo activeNetworkInfo = connMgr.getActiveNetworkInfo();
 
             if (activeNetworkInfo != null) { // connected to the internet
@@ -23,6 +26,7 @@ public class InternetConnection {
                     return true;
                 } else return activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
             }
+
         }
 
         return false;

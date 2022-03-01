@@ -93,6 +93,11 @@ public class VerifyAct extends AppCompatActivity {
 
     private void itit() {
 
+        binding.tvResend.setOnClickListener(v -> {
+            if (InternetConnection.checkConnection(mContext)) sendVerificationCode();
+            else Toast.makeText(mContext, getString(R.string.check_internet_text), Toast.LENGTH_SHORT).show();
+        });
+
         binding.et1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -63,7 +63,7 @@ public class AdapterRideHistory extends RecyclerView.Adapter<AdapterRideHistory.
             holder.binding.rlDrop.setVisibility(View.GONE);
         }
 
-        holder.binding.GoDetail.setOnClickListener(v -> {
+        holder.binding.getRoot().setOnClickListener(v -> {
             mContext.startActivity(new Intent(mContext, RideDetailsAct.class)
                     .putExtra("data", data)
                     .putExtra("type", type)

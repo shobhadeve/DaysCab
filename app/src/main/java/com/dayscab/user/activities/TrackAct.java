@@ -1,8 +1,11 @@
 package com.dayscab.user.activities;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
@@ -12,6 +15,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +31,7 @@ import androidx.databinding.DataBindingUtil;
 import com.bumptech.glide.Glide;
 import com.dayscab.R;
 import com.dayscab.common.activties.ChatingAct;
+import com.dayscab.common.activties.StartAct;
 import com.dayscab.common.models.ModelCurrentBooking;
 import com.dayscab.common.models.ModelCurrentBookingResult;
 import com.dayscab.common.models.ModelLogin;
@@ -36,6 +41,7 @@ import com.dayscab.databinding.TripStatusDialogNewBinding;
 import com.dayscab.utils.AppConstant;
 import com.dayscab.utils.LatLngInterpolator;
 import com.dayscab.utils.MarkerAnimation;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.directionclasses.DrawPollyLine;
@@ -55,14 +61,23 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.SquareCap;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -74,6 +89,7 @@ import retrofit2.Response;
 
 public class TrackAct extends AppCompatActivity implements OnMapReadyCallback {
 
+    private static final int AUTOCOMPLETE_REQUEST_CODE = 1001;
     Context mContext = TrackAct.this;
     ActivityTrackBinding binding;
     private ModelCurrentBooking data;
@@ -86,13 +102,16 @@ public class TrackAct extends AppCompatActivity implements OnMapReadyCallback {
     private Marker driverMarkerCar;
     Timer timer = null;
     double bearing = 0.0;
-    String driverId = "", usermobile = "";
+    String driverId = "", usermobile = "", booktype = "", rideCount = "", rating = "";
     SharedPref sharedPref;
     ModelLogin modelLogin;
+    private String registerId = "";
     boolean isMarkerZoom = false;
     private Marker pCurrentLocationMarker;
     private Marker dcurrentLocationMarker;
     Location previousLocation;
+    LatLng latLng;
+    Polyline line;
 
     BroadcastReceiver statusReceiver = new BroadcastReceiver() {
         @Override
@@ -113,8 +132,27 @@ public class TrackAct extends AppCompatActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_track);
+        MyApplication.checkToken(mContext);
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
+
+        rideCount = getIntent().getStringExtra("ride_count");
+        rating = getIntent().getStringExtra("rating");
+
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token -> {
+            if (!TextUtils.isEmpty(token)) {
+                registerId = token;
+                Log.e("tokentoken", "retrieve token successful : " + token);
+            } else {
+                Log.e("tokentoken", "token should not be null...");
+            }
+        }).addOnFailureListener(e -> {
+        }).addOnCanceledListener(() -> {
+        }).addOnCompleteListener(task -> Log.e("tokentoken", "This is the token : " + task.getResult()));
+
+        if (!Places.isInitialized()) {
+            Places.initialize(mContext, getString(R.string.places_api_key));
+        }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -130,11 +168,13 @@ public class TrackAct extends AppCompatActivity implements OnMapReadyCallback {
         if (getIntent() != null) {
 
             data = (ModelCurrentBooking) getIntent().getSerializableExtra("data");
+            Log.e("asdasdasdasdas", "ModelCurrentBooking = " + new Gson().toJson(data));
             result = data.getResult().get(0);
             driverId = result.getDriverId();
             driverDetails = result.getDriver_details().get(0);
             usermobile = driverDetails.getMobile();
             PicLatLon = new LatLng(Double.parseDouble(result.getPicuplat()), Double.parseDouble(result.getPickuplon()));
+            binding.tvDetination.setText(result.getDropofflocation());
 
             try {
                 DropLatLon = new LatLng(Double.parseDouble(result.getDroplat()), Double.parseDouble(result.getDroplon()));
@@ -146,6 +186,16 @@ public class TrackAct extends AppCompatActivity implements OnMapReadyCallback {
                         .placeholder(R.drawable.user_ic).into(binding.driverImage);
             }
 
+            binding.tvRideComplete.setText(rideCount + " " + getString(R.string.ride_completed_by_driver));
+
+            try {
+                binding.rbRating.setRating(Float.parseFloat(rating));
+            } catch (Exception e){}
+
+            if ("POOL".equals(result.getBooktype())) {
+                binding.btChangeDetination.setText(result.getNo_of_passenger() + " Passenger");
+            }
+
         }
 
         itit();
@@ -154,15 +204,178 @@ public class TrackAct extends AppCompatActivity implements OnMapReadyCallback {
 
     @Override
     protected void onResume() {
+        getProfileApiCall();
         getCurrentBooking();
         registerReceiver(statusReceiver, new IntentFilter("Job_Status_Action"));
         super.onResume();
+    }
+
+    private void getProfileApiCall() {
+        // ProjectUtil.showProgressDialog(mContext,false,getString(R.string.please_wait));
+
+        HashMap<String, String> paramHash = new HashMap<>();
+        paramHash.put("user_id", modelLogin.getResult().getId());
+
+        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+        Call<ResponseBody> call = api.getProfileCall(paramHash);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ProjectUtil.pauseProgressDialog();
+                try {
+
+                    String stringResponse = response.body().string();
+
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(stringResponse);
+
+                        if (jsonObject.getString("status").equals("1")) {
+
+                            Log.e("getProfileApiCall", "getProfileApiCall = " + stringResponse);
+
+                            modelLogin = new Gson().fromJson(stringResponse, ModelLogin.class);
+
+                            Log.e("adfasdfss", "getDriver_lisence_img = " + modelLogin.getResult().getDriver_lisence_img());
+
+                            if (!registerId.equals(modelLogin.getResult().getRegister_id())) {
+                                logoutAlertDialog();
+                            }
+
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.e("JSONException", "JSONException = " + e.getMessage());
+                    }
+
+                    //  Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ProjectUtil.pauseProgressDialog();
+            }
+
+        });
+
+    }
+
+    private void logoutAlertDialog() {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(mContext);
+        builder.setMessage("Your session is expired Please login Again!")
+                .setCancelable(false)
+                .setPositiveButton(mContext.getString(R.string.ok)
+                        , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sharedPref.clearAllPreferences();
+                                finishAffinity();
+                                startActivity(new Intent(mContext, StartAct.class));
+                                dialog.dismiss();
+                            }
+                        }).create().show();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(statusReceiver);
+    }
+
+    private void changeRoutesApi(String destiRoute) {
+
+        HashMap<String, String> param = new HashMap<>();
+        param.put("request_id", result.getId());
+        param.put("dropofflocation", destiRoute);
+        param.put("droplat", String.valueOf(latLng.latitude));
+        param.put("droplon", String.valueOf(latLng.longitude));
+
+        Log.e("changeRoutesApi", "changeRoutesApi param = " + param);
+
+        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+        Call<ResponseBody> call = api.changeDestinatoinApiCall(param);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ProjectUtil.pauseProgressDialog();
+                try {
+                    String responseString = response.body().string();
+                    JSONObject jsonObject = new JSONObject(responseString);
+
+                    Log.e("changeRoutesApi", "changeRoutesApi = " + responseString);
+
+                    if (jsonObject.getString("status").equals("1")) {
+
+                        DropLatLon = new LatLng(latLng.latitude, latLng.longitude);
+
+                        JSONArray jsonResultArray = jsonObject.getJSONArray("result");
+                        JSONObject jsonResultObj = (JSONObject) jsonResultArray.get(0);
+
+                        result.setDropofflocation(destiRoute);
+                        result.setDroplat(String.valueOf(latLng.latitude));
+                        result.setDroplon(String.valueOf(latLng.longitude));
+
+                        binding.tvDetination.setText(result.getDropofflocation());
+
+                        binding.tvTime.setText(jsonObject.getString("estimate_time") + " Min");
+                        binding.tvPrice.setText(AppConstant.CURRENCY + " " + (int) Double.parseDouble(jsonResultObj.getString("amount")));
+
+                        if (pCurrentLocationMarker != null) {
+                            pCurrentLocationMarker.remove();
+                            pCurrentLocationMarker = null;
+                        }
+
+                        if (dcurrentLocationMarker != null) {
+                            dcurrentLocationMarker.remove();
+                            dcurrentLocationMarker = null;
+                        }
+
+                        showMarkerPickUp(PicLatLon);
+                        showDestinationMarker(DropLatLon);
+
+                        if (line != null) {
+                            line.remove();
+                        }
+
+                        DrawPollyLine.get(mContext)
+                                .setOrigin(PicLatLon)
+                                .setDestination(DropLatLon)
+                                .execute(new DrawPollyLine.onPolyLineResponse() {
+                                    @Override
+                                    public void Success(ArrayList<LatLng> latLngs) {
+                                        PolylineOptions options = new PolylineOptions();
+                                        options.addAll(latLngs);
+                                        options.color(Color.BLUE);
+                                        options.width(10);
+                                        options.startCap(new SquareCap());
+                                        options.endCap(new SquareCap());
+                                        line = mMap.addPolyline(options);
+                                    }
+                                });
+
+                        zoomMapAccordingToLatLng();
+
+                    }
+
+                } catch (Exception e) {
+                    Log.e("Exception", "Exception = " + e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ProjectUtil.pauseProgressDialog();
+            }
+
+        });
+
     }
 
     private void getCurrentBooking() {
@@ -195,7 +408,7 @@ public class TrackAct extends AppCompatActivity implements OnMapReadyCallback {
                                 binding.driverOtp.setVisibility(View.VISIBLE);
                                 binding.driverOtp.setText("Give this Otp " + result.getOtp() + " to driver ");
                                 binding.titler.setText("Driver is arrived");
-                                tripStatusDialog("Driver is arrived at pickup location", result.getStatus(), data);
+                                tripStatusDialog("Driver is arrived at pickup location After 3 Mintues waiting time charges will be apply!", result.getStatus(), data);
                             } else if (result.getStatus().equalsIgnoreCase("Start")) {
                                 binding.titler.setText("Trip is started");
                                 tripStatusDialog("Trip is started", result.getStatus(), data);
@@ -209,7 +422,7 @@ public class TrackAct extends AppCompatActivity implements OnMapReadyCallback {
                         }
                     }
                 } catch (Exception e) {
-                    Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e("Exception", "Exception = " + e.getMessage());
                 }
 
@@ -262,7 +475,7 @@ public class TrackAct extends AppCompatActivity implements OnMapReadyCallback {
 
                     }
                 } catch (Exception e) {
-                    Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e("Exception", "Exception = " + e.getMessage());
                 }
 
@@ -465,7 +678,7 @@ public class TrackAct extends AppCompatActivity implements OnMapReadyCallback {
         Log.e("asfasfasfdasf", "driverDetails.getEstimate_time() = " + data.getEstimate_time() + " Min");
 
         if (result.getStatus().equalsIgnoreCase("Arrived")) {
-            tripStatusDialog("Driver is arrived at pickup location", result.getStatus(), data);
+            tripStatusDialog("Driver is arrived at pickup location After 3 Mintues waiting time charges will be apply!", result.getStatus(), data);
         } else if (result.getStatus().equalsIgnoreCase("Start")) {
             tripStatusDialog("Trip is started", result.getStatus(), data);
         } else if (result.getStatus().equalsIgnoreCase("End")) {
@@ -474,11 +687,22 @@ public class TrackAct extends AppCompatActivity implements OnMapReadyCallback {
             tripStatusDialog("Trip is Finished", result.getStatus(), data);
         }
 
-        binding.tvCarNumber.setText(driverDetails.getCar_number());
+        binding.btChangeDetination.setOnClickListener(v -> {
+            if (!"POOL".equals(result.getBooktype())) showAlert();
+        });
+
+        // binding.tvCarNumber.setText(driverDetails.getCar_number());
         binding.tvName.setText(driverDetails.getUser_name());
         binding.tvCarName.setText(result.getCar_name());
-        binding.tvPrice.setText(AppConstant.CURRENCY + (int) Double.parseDouble(result.getAmount()));
+        binding.tvPrice.setText(AppConstant.CURRENCY + " " + (int) Double.parseDouble(result.getAmount()));
         binding.tvTime.setText(result.getEstimateTime() + " Min");
+
+//        binding.btChangeDetination.setOnClickListener(v -> {
+//            List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS);
+//            Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+//                    .build(this);
+//            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+//        });
 
         binding.btnBack.setOnClickListener(v -> {
             finish();
@@ -505,6 +729,46 @@ public class TrackAct extends AppCompatActivity implements OnMapReadyCallback {
                     .putExtra("data", data)
             );
         });
+
+    }
+
+    public void showAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage(mContext.getString(R.string.change_deti_text))
+                .setCancelable(false)
+                .setPositiveButton(mContext.getString(R.string.yes)
+                        , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS);
+                                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                                        .build(mContext);
+                                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+                                dialog.dismiss();
+                            }
+                        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).create().show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                latLng = place.getLatLng();
+                try {
+                    String addresses = ProjectUtil.getCompleteAddressString(mContext, place.getLatLng().latitude, place.getLatLng().longitude);
+                    changeRoutesApi(addresses);
+                } catch (Exception e) {
+                }
+            }
+        }
 
     }
 
@@ -571,7 +835,7 @@ public class TrackAct extends AppCompatActivity implements OnMapReadyCallback {
                         options.width(10);
                         options.startCap(new SquareCap());
                         options.endCap(new SquareCap());
-                        Polyline line = mMap.addPolyline(options);
+                        line = mMap.addPolyline(options);
                     }
                 });
 

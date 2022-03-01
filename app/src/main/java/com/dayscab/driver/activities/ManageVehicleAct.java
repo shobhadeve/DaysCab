@@ -14,6 +14,7 @@ import com.dayscab.databinding.ActivityManageVehicleBinding;
 import com.dayscab.driver.adapters.AdapterManageVehicle;
 import com.dayscab.driver.models.ModelVehicles;
 import com.dayscab.utils.AppConstant;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.retrofitutils.Api;
@@ -40,6 +41,7 @@ public class ManageVehicleAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_manage_vehicle);
+        MyApplication.checkToken(mContext);
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
         itit();

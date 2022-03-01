@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,8 +24,6 @@ import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.retrofitutils.Api;
 import com.dayscab.utils.retrofitutils.ApiFactory;
-import com.github.angads25.toggle.interfaces.OnToggledListener;
-import com.github.angads25.toggle.model.ToggleableView;
 import com.github.angads25.toggle.widget.LabeledSwitch;
 
 import org.json.JSONObject;
@@ -67,23 +66,25 @@ public class AdapterManageVehicle extends RecyclerView.Adapter<AdapterManageVehi
         holder.binding.carNumber.setText("Car Number\n" + data.getCar_number());
         holder.binding.carManufactured.setText("Car Brand\n" + data.getBrand_name());
         Glide.with(mContext).load(data.getCar_image()).into(holder.binding.ivCarImage);
+        holder.binding.tvActiveDeactive.setText(data.getStatus().toUpperCase());
+        holder.binding.tvExpriryDate.setText(mContext.getString(R.string.expiry_date) + " " + data.getCar_regist_date());
 
         if ("Active".equals(data.getStatus())) {
-            holder.binding.switch4.setOn(true);
+            holder.binding.tvActiveDeactive.setTextColor(ContextCompat.getColor(mContext, R.color.green));
         } else {
-            holder.binding.switch4.setOn(false);
+            holder.binding.tvActiveDeactive.setTextColor(ContextCompat.getColor(mContext, R.color.red_pur));
         }
 
-        holder.binding.switch4.setOnToggledListener(new OnToggledListener() {
-            @Override
-            public void onSwitched(ToggleableView toggleableView, boolean isOn) {
-                if (isOn) {
-                    activeDeactiveVehicle("Active", data.getId(), holder.binding.switch4);
-                } else {
-                    activeDeactiveVehicle("Deactive", data.getId(), holder.binding.switch4);
-                }
-            }
-        });
+        //        holder.binding.switch4.setOnToggledListener(new OnToggledListener() {
+//            @Override
+//            public void onSwitched(ToggleableView toggleableView, boolean isOn) {
+//                if (isOn) {
+//                    activeDeactiveVehicle("Active", data.getId(), holder.binding.switch4);
+//                } else {
+//                    activeDeactiveVehicle("Deactive", data.getId(), holder.binding.switch4);
+//                }
+//            }
+//        });
 
         holder.binding.ivDelete.setOnClickListener(v -> {
             showDeleteDialog(position, data);

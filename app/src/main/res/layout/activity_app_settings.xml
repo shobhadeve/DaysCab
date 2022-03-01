@@ -85,6 +85,31 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvStatistics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_10sdp"
+            app:contentPadding="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            app:cardElevation="@dimen/_10sdp"
+            android:background="@color/white"
+            app:cardCornerRadius="@dimen/_10sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/inter_semi_bold"
+                android:text="@string/statistics"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_14sdp" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvEmergency"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="@dimen/_10sdp"
@@ -108,6 +133,31 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvVolume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_10sdp"
+            app:contentPadding="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            app:cardElevation="@dimen/_10sdp"
+            android:background="@color/white"
+            app:cardCornerRadius="@dimen/_10sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/inter_semi_bold"
+                android:text="@string/sound_and_voice"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_14sdp" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="@dimen/_10sdp"

@@ -31,20 +31,37 @@
                         android:layout_height="@dimen/_30sdp"
                         android:src="@drawable/ic_back_black" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_70sdp"
-                        android:layout_marginTop="@dimen/_20sdp"
-                        android:src="@drawable/ic_logo" />
+                    <RelativeLayout
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_gravity="center"
+                        android:layout_height="@dimen/_120sdp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/profileImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="@dimen/_5sdp"
+                            android:src="@drawable/gray_cirle" />
+
+                        <ImageView
+                            android:id="@+id/addIcon"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/add_icon" />
+
+                    </RelativeLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="@string/edit_profiel"
+                        android:text="@string/upload_picture"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_25sdp" />
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -168,6 +185,56 @@
                             </com.google.android.material.textfield.TextInputLayout>
 
                         </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:background="@color/white">
+
+                        <EditText
+                            android:id="@+id/etHomeAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/white"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:fontFamily="@font/poppins_medium"
+                            android:hint="@string/home_add"
+                            android:imeOptions="actionNext"
+                            android:inputType="textVisiblePassword|textMultiLine"
+                            android:padding="@dimen/_12sdp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/_12sdp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:background="@color/white">
+
+                        <EditText
+                            android:id="@+id/etWorkAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/white"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:fontFamily="@font/poppins_medium"
+                            android:hint="@string/work_address"
+                            android:imeOptions="actionNext"
+                            android:inputType="textVisiblePassword|textMultiLine"
+                            android:padding="@dimen/_12sdp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/_12sdp" />
 
                     </RelativeLayout>
 

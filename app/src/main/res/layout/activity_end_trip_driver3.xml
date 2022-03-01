@@ -140,51 +140,255 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/rlType"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rlTripDetail"
-                android:layout_marginBottom="@dimen/_5sdp">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/rlPool"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginBottom="@dimen/_15sdp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="@string/payment_type"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/_12sdp" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tvPayType"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/passenger"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <TextView
+                        android:id="@+id/tvPassenger"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/cash"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_12sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlType"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_15sdp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/_12sdp" />
+                    android:orientation="horizontal">
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/payment_type"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_12sdp" />
 
-            <TextView
-                android:id="@+id/tvPay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rlType"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
-                android:fontFamily="@font/poppins_medium"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/_12sdp" />
+                    <TextView
+                        android:id="@+id/tvPayType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/cash"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_12sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/distance"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:id="@+id/tvDistance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="0.0"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_11sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/distance_cost"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:id="@+id/tvDistanceCost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="0.0"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_11sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/per_min_waiting_charge"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:id="@+id/tvPerMintueWaiting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="0.0"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_11sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/waiting_time"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:id="@+id/tvWaitingTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="0.0"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_11sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/waiting_charge"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:id="@+id/tvWaitingCharge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="0.0"
+                        android:textColor="@color/textColor"
+                        android:textSize="@dimen/_11sdp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:background="@color/gray2" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/total_pay"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13sdp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvTotalPay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="0.0"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_13sdp" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </RelativeLayout>
 

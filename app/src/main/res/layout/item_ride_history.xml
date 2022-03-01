@@ -51,6 +51,7 @@
             <RelativeLayout
                 android:id="@+id/rlPick"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_3sdp">
 
@@ -214,6 +215,7 @@
 
             <RelativeLayout
                 android:id="@+id/rlDrop"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/_3sdp">

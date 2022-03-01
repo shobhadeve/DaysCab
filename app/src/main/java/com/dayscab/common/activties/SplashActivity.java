@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.retrofitutils.Api;
 import com.dayscab.utils.retrofitutils.ApiFactory;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -53,6 +55,7 @@ public class SplashActivity extends AppCompatActivity {
     ModelLogin modelLogin;
     int PERMISSION_ID = 44;
     boolean isDialogEnable = true;
+    String registerId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,16 @@ public class SplashActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token -> {
+            if (!TextUtils.isEmpty(token)) {
+                registerId = token;
+                Log.e("tokentoken", "retrieve token successful : " + token);
+            } else {
+                Log.e("tokentoken", "token should not be null...");
+            }
+        }).addOnFailureListener(e -> {
+        }).addOnCanceledListener(() -> {
+        });
         sharedPref = SharedPref.getInstance(mContext);
     }
 
@@ -104,14 +117,18 @@ public class SplashActivity extends AppCompatActivity {
             }
         } else {
             if (checkPermissions()) {
+                Log.e("afdsfasfasfasd","checkPermissions ke andar");
                 if (isLocationEnabled()) {
+                    Log.e("afdsfasfasfasd","isLocationEnabled ke andar");
                     processNextActivity();
                 } else {
+                    Log.e("afdsfasfasfasd","ACTION_LOCATION_SOURCE_SETTINGS ke andar");
                     Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(intent);
                 }
             } else {
+                Log.e("afdsfasfasfasd","requestPermissions ke andar");
                 requestPermissions();
             }
         }
@@ -121,7 +138,7 @@ public class SplashActivity extends AppCompatActivity {
     private boolean checkPermissions() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                // ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -165,24 +182,32 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
 
                 if (sharedPref.getBooleanValue(AppConstant.IS_REGISTER)) {
+                    Log.e("afdsfasfasfasd","StartAct ke andar");
                     modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
+                    Log.e("afdsfasfasfasd","modelLogin = " + modelLogin);
+                    Log.e("afdsfasfasfasd","modelLogin gson = " + new Gson().toJson(modelLogin));
                     if (AppConstant.DRIVER.equalsIgnoreCase(modelLogin.getResult().getType())) {
                         if (InternetConnection.checkConnection(mContext)) {
+                            Log.e("afdsfasfasfasd","IF AppConstant.DRIVER");
                             getProfileApiCall();
                         } else {
                             MyApplication.showConnectionDialog(mContext);
                         }
                     } else if (AppConstant.USER.equalsIgnoreCase(modelLogin.getResult().getType())) {
+                        Log.e("afdsfasfasfasd","ELSE AppConstant.USER");
                         startActivity(new Intent(mContext, UserHomeAct.class));
                         finish();
                     }
                 } else {
+                    Log.e("afdsfasfasfasd","StartAct ke andar else ");
                     Intent i = new Intent(SplashActivity.this, StartAct.class);
                     startActivity(i);
                     finish();
                 }
+
             }
         }, 3000);
+
     }
 
     private void getProfileApiCall() {
@@ -227,25 +252,32 @@ public class SplashActivity extends AppCompatActivity {
                                 } else {
                                     if (modelLogin.getResult().getRide_count() != null &&
                                             !modelLogin.getResult().getRide_count().equals("0")) {
-                                        startActivity(new Intent(mContext, DriverHomeAct.class));
-                                        finish();
+                                        if (registerId.equals(modelLogin.getResult().getRegister_id())) {
+                                            startActivity(new Intent(mContext, DriverHomeAct.class));
+                                            finish();
+                                        } else {
+                                            sharedPref.clearAllPreferences();
+                                            startActivity(new Intent(mContext, LoginAct.class));
+                                            finish();
+                                        }
                                     } else {
                                         startActivity(new Intent(mContext, PurchasePlanAct.class)
-                                            .putExtra("which","splash")
+                                                .putExtra("which", "splash")
                                         );
                                         finish();
-                                       // Toast.makeText(mContext, mContext.getString(R.string.please_purchase_plan), Toast.LENGTH_SHORT).show();
+                                        // Toast.makeText(mContext, mContext.getString(R.string.please_purchase_plan), Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
-                        } else {}
+                        } else {
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Log.e("JSONException", "JSONException = " + e.getMessage());
                     }
 
-                  //  Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show();
 
                 } catch (Exception e) {
                     e.printStackTrace();

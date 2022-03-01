@@ -52,6 +52,7 @@
     <string name="slide_to_end_trip">Slide to End Trip</string>
     <string name="pick_up_passenger">Pick Up Passenger</string>
     <string name="ride_cancel_text">Are you sure want to cancel Ride?</string>
+    <string name="ride_cancel_success">Ride Cancel Success</string>
     <string name="purchase">Purchase</string>
     <string name="_50_90_trips">$50 / 90 Trips</string>
     <string name="_100_120_trips">$100 / 120 Trips</string>
@@ -65,10 +66,12 @@
     <string name="fare">Fare</string>
     <string name="distance">Distance</string>
     <string name="estimated_trip_time">Estimated trip time</string>
+    <string name="estimated_trip_distance">Estimated trip distance</string>
     <string name="color">Color</string>
     <string name="i_m_coming">I\'m Coming</string>
     <string name="call">Call</string>
     <string name="msg">Message</string>
+    <string name="comment_opt">Comment(Optional)</string>
     <string name="rate">Rate</string>
     <string name="cancel_booking">Cancel Booking</string>
     <string name="please_select_the_reason_for_cancellation">Please select the reason<br /> for cancellation:</string>
@@ -148,6 +151,7 @@
     <string name="upload_vehicle_registration_book">Roadworthiness Sticker from the DVLA</string>
     <string name="select_roadworthiness_text">Select Expiry Date Roadworthiness Sticker</string>
     <string name="upload_vehicle_inspection">Vehicle Inspection Report (Optional)</string>
+    <string name="upload_vehicle_inspection_report">Vehicle Inspection Report</string>
     <string name="submit">Submit</string>
     <string name="driving_licesne_text">Please upload your driving licence front</string>
     <string name="driving_licesne_back">Please upload your driving licence back</string>
@@ -357,5 +361,109 @@
     <string name="no_review_found">No Reviews Found</string>
     <string name="pickup_time">Pickup Time :</string>
     <string name="dropoff_time">Dropoff Time :</string>
+    <string name="please_add_rating">Please add rating</string>
+    <string name="manage_sound">Manage Sound</string>
+    <string name="mute_unmute_sound">Mute/Unmute Sound</string>
+    <string name="set_volume">Set Volume</string>
+    <string name="mut_music">Mute Music</string>
+    <string name="mute_request_sound">Mute Request Sound</string>
+    <string name="decrease_request_sound_volume">Decrease request sound volume</string>
+    <string name="sound_and_voice">Sound and voice</string>
+    <string name="current_address">Current Address</string>
+    <string name="active_phone_number">Active Phone number</string>
+    <string name="invalid_phone">Invalid Mobile Number</string>
+    <string name="fetching_address">Fetching Address...</string>
+    <string name="email_not_exist">Wrong Email Or Password</string>
+    <string name="change_profile_picture">Change profile picture</string>
+    <string name="update_account_details">Update Account details</string>
+    <string name="privacy_policy_tab">Privacy Policy tab</string>
+    <string name="security_tab">Security tab</string>
+    <string name="signout">Signout</string>
+    <string name="work_address">Work Address</string>
+    <string name="change_destination">Change Destination</string>
+    <string name="close_app_text">Are you sure you want to close the app?</string>
+    <string name="change_deti_text">Are you sure you want to change the destination?</string>
+    <string name="user_changed_the_destination">User changed the destination route</string>
+    <string name="distance_cost">Distance Cost</string>
+    <string name="intransit_waiting_fee">Intransit Waiting Fee</string>
+    <string name="per_min_waiting_charge">Per Min Waiting Charge</string>
+    <string name="waiting_charge">Waiting Charge</string>
+    <string name="waiting_time">Waiting Time</string>
+    <string name="total_pay">Total Pay</string>
+    <string name="wallet_deduction_text">You have insufficient wallet balance. Please add amount to your wallet and Cancel the ride.</string>
+    <string name="amount_add_wallet_text">Amount Added In Wallet Successfully!</string>
+    <string name="pool_request">Pool Request</string>
+    <string name="enter_number_of_passenger">Enter number of passengers</string>
+    <string name="online_pay">Online Pay</string>
+    <string name="enter_no_passenger">Please enter no of passenger</string>
+    <string name="please_select_pay_method">Please select payment method</string>
+    <string name="pool_requests">Pool Requests</string>
+    <string name="pool_request_for_3_passengers">Pool Request for 3 Passengers</string>
+    <string name="user_pool_requests">User Pool Requests</string>
+    <string name="passenger">Passenger</string>
+    <string name="statistics">Statistics</string>
+    <string name="select_year">Select year</string>
+    <string name="no_of_trips">No of trips</string>
+    <string name="no_earnings">No Earnings</string>
+    <string name="please_upload_insurance_sticker">Please upload insurance sticker</string>
+    <string name="please_upload_rodworthiness">Please upload roadworthiness Sticker from the DVLA</string>
+    <string name="expiry_date">Expiry Date :</string>
+    <string name="session_expire_alert_text">Your session is expired! Please login again</string>
+    <string name="ride_completed_by_driver">Ride complete by this driver</string>
+
+    <string-array name="select_year_earnings">
+        <item>2022</item>
+        <item>2021</item>
+        <item>2020</item>
+        <item>2019</item>
+        <item>2018</item>
+        <item>2017</item>
+        <item>2016</item>
+        <item>2015</item>
+        <item>2014</item>
+        <item>2013</item>
+        <item>2012</item>
+        <item>2010</item>
+        <item>2009</item>
+        <item>2008</item>
+        <item>2007</item>
+        <item>2006</item>
+        <item>2005</item>
+        <item>2004</item>
+        <item>2003</item>
+        <item>2002</item>
+        <item>2001</item>
+        <item>2000</item>
+        <item>1999</item>
+        <item>1998</item>
+        <item>1997</item>
+        <item>1996</item>
+        <item>1995</item>
+        <item>1994</item>
+        <item>1993</item>
+        <item>1992</item>
+        <item>1991</item>
+        <item>1990</item>
+        <item>1989</item>
+        <item>1988</item>
+        <item>1987</item>
+        <item>1986</item>
+        <item>1985</item>
+        <item>1984</item>
+        <item>1983</item>
+        <item>1982</item>
+        <item>1981</item>
+        <item>1980</item>
+        <item>1979</item>
+        <item>1978</item>
+        <item>1977</item>
+        <item>1976</item>
+        <item>1975</item>
+        <item>1974</item>
+        <item>1973</item>
+        <item>1972</item>
+        <item>1971</item>
+        <item>1970</item>
+    </string-array>
 
 </resources>

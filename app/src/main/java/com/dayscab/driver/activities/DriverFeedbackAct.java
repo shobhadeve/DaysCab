@@ -1,15 +1,17 @@
 package com.dayscab.driver.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.RatingBar;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.bumptech.glide.Glide;
 import com.dayscab.R;
@@ -19,18 +21,15 @@ import com.dayscab.common.models.ModelLogin;
 import com.dayscab.databinding.ActivityDriverFeedbackBinding;
 import com.dayscab.user.activities.UserHomeAct;
 import com.dayscab.utils.AppConstant;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.retrofitutils.Api;
 import com.dayscab.utils.retrofitutils.ApiFactory;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.TimeZone;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -53,6 +52,7 @@ public class DriverFeedbackAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_driver_feedback);
+        MyApplication.checkToken(mContext);
         // setting up the flag programmatically so that the
         // device screen should be always on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -85,13 +85,70 @@ public class DriverFeedbackAct extends AppCompatActivity {
 
         }
 
+        binding.ratingBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (binding.ratingBar.getRating() == 5) {
+                    binding.tvFeedback.setText("Excellent");
+                } else if (binding.ratingBar.getRating() == 4) {
+                    binding.tvFeedback.setText("Very Good");
+                } else if (binding.ratingBar.getRating() == 4.5) {
+                    binding.tvFeedback.setText("Very Good");
+                } else if (binding.ratingBar.getRating() == 3) {
+                    binding.tvFeedback.setText("Good");
+                } else if (binding.ratingBar.getRating() == 3.5) {
+                    binding.tvFeedback.setText("Good");
+                } else if (binding.ratingBar.getRating() == 2) {
+                    binding.tvFeedback.setText("Poor");
+                } else if (binding.ratingBar.getRating() == 2.5) {
+                    binding.tvFeedback.setText("Medium");
+                } else if (binding.ratingBar.getRating() == 1) {
+                    binding.tvFeedback.setText("Poor");
+                } else if (binding.ratingBar.getRating() == 1.5) {
+                    binding.tvFeedback.setText("Poor");
+                } else {
+                    binding.tvFeedback.setText("Poor");
+                }
+                return false;
+            }
+        });
+
+        binding.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if (rating == 5) {
+                    binding.tvFeedback.setText("Excellent");
+                } else if (rating == 4) {
+                    binding.tvFeedback.setText("Very Good");
+                } else if (rating == 4.5) {
+                    binding.tvFeedback.setText("Very Good");
+                } else if (rating == 3) {
+                    binding.tvFeedback.setText("Good");
+                } else if (rating == 3.5) {
+                    binding.tvFeedback.setText("Good");
+                } else if (rating == 2) {
+                    binding.tvFeedback.setText("Poor");
+                } else if (rating == 2.5) {
+                    binding.tvFeedback.setText("Medium");
+                } else if (rating == 1) {
+                    binding.tvFeedback.setText("Poor");
+                } else if (rating == 1.5) {
+                    binding.tvFeedback.setText("Poor");
+                } else {
+                    binding.tvFeedback.setText("Poor");
+                }
+            }
+        });
+
         binding.ivBack.setOnClickListener(v -> {
             finish();
         });
 
         binding.btnRate.setOnClickListener(v -> {
-            if (TextUtils.isEmpty(binding.etComment.getText().toString().trim())) {
-                Toast.makeText(mContext, getString(R.string.please_enter_comments), Toast.LENGTH_SHORT).show();
+            Log.e("asfasdasdasd", "binding.ratingBar.getRating() = " + binding.ratingBar.getRating());
+            if (binding.ratingBar.getRating() == 0.0) {
+                MyApplication.showAlert(mContext, getString(R.string.please_add_rating));
+                // Toast.makeText(mContext, getString(R.string.please_add_rating), Toast.LENGTH_SHORT).show();
             } else {
                 callFeedbackApi();
             }

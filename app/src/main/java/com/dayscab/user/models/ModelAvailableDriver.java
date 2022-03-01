@@ -13,6 +13,9 @@ public class ModelAvailableDriver {
     @SerializedName("card_id")
     @Expose
     private String cardId;
+    @SerializedName("car_name")
+    @Expose
+    private String car_name;
     @SerializedName("first_name")
     @Expose
     private String firstName;
@@ -157,6 +160,14 @@ public class ModelAvailableDriver {
     @SerializedName("result")
     @Expose
     private String result;
+
+    public String getCar_name() {
+        return car_name;
+    }
+
+    public void setCar_name(String car_name) {
+        this.car_name = car_name;
+    }
 
     public String getUser_name() {
         return user_name;

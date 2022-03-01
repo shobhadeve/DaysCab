@@ -21,6 +21,7 @@ import com.dayscab.common.models.ModelLogin;
 import com.dayscab.databinding.ActivityChatingBinding;
 import com.dayscab.utils.AppConstant;
 import com.dayscab.utils.BottomReachedInterface;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.retrofitutils.Api;
@@ -59,6 +60,7 @@ public class ChatingAct extends AppCompatActivity implements BottomReachedInterf
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chating);
+        MyApplication.checkToken(mContext);
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
 
@@ -83,7 +85,6 @@ public class ChatingAct extends AppCompatActivity implements BottomReachedInterf
         return false;
     }
 
-
     protected Boolean isActivityRunning(Class activityClass) {
         ActivityManager activityManager = (ActivityManager) getBaseContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
@@ -94,6 +95,7 @@ public class ChatingAct extends AppCompatActivity implements BottomReachedInterf
         }
 
         return false;
+
     }
 
     private void itit() {

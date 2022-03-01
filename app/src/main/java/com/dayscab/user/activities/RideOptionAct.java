@@ -2,11 +2,6 @@ package com.dayscab.user.activities;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.databinding.DataBindingUtil;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -23,40 +18,38 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.databinding.DataBindingUtil;
+
 import com.dayscab.R;
-import com.dayscab.common.activties.LoginAct;
 import com.dayscab.common.models.ModelCurrentBooking;
 import com.dayscab.common.models.ModelCurrentBookingResult;
 import com.dayscab.common.models.ModelLogin;
 import com.dayscab.databinding.AcceptDriverDialogBinding;
 import com.dayscab.databinding.ActivityRideOptionBinding;
-import com.dayscab.databinding.DialogDriverArrivedDialogBinding;
 import com.dayscab.databinding.DialogSearchDriverBinding;
+import com.dayscab.databinding.PassengerDialogBinding;
 import com.dayscab.databinding.ScheduleBookingDialogBinding;
 import com.dayscab.driver.activities.ActiveBookingAct;
 import com.dayscab.driver.activities.DriverFeedbackAct;
-import com.dayscab.driver.activities.DriverHomeAct;
-import com.dayscab.driver.activities.EndTripDriverAct;
-import com.dayscab.driver.activities.TrackDriverAct;
-import com.dayscab.driver.dialogs.NewRequestDialogTaxiNew;
 import com.dayscab.user.adapters.AdapterCarTypes;
 import com.dayscab.user.models.ModelAvailableDriver;
 import com.dayscab.user.models.ModelCar;
 import com.dayscab.utils.AppConstant;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
-import com.dayscab.utils.directionclasses.BaseClass;
 import com.dayscab.utils.onSearchingDialogListener;
 import com.dayscab.utils.retrofitutils.Api;
 import com.dayscab.utils.retrofitutils.ApiFactory;
@@ -76,7 +69,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
@@ -107,6 +99,7 @@ public class RideOptionAct extends AppCompatActivity
     Dialog dialogSerach;
     String bookDate = "", bookTime = "";
     GoogleMap mMap;
+    Dialog dialog;
     String paymentType = "", pickadd = "", dropadd = "";
     private PolylineOptions lineOptions;
     private LatLng PickUpLatLng, DropOffLatLng;
@@ -124,6 +117,9 @@ public class RideOptionAct extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_ride_option);
+
+        MyApplication.checkToken(mContext);
+
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
 
@@ -144,7 +140,6 @@ public class RideOptionAct extends AppCompatActivity
     }
 
     private void getData() {
-
         if (getIntent().getExtras() != null) {
             lineOptions = (PolylineOptions) getIntent().getExtras().get("pollyLine");
             PickUpLatLng = (LatLng) getIntent().getExtras().get("PickUp");
@@ -152,7 +147,6 @@ public class RideOptionAct extends AppCompatActivity
             pickadd = getIntent().getStringExtra("picadd");
             dropadd = getIntent().getStringExtra("dropadd");
         }
-
     }
 
     BroadcastReceiver JobStatusReceiver = new BroadcastReceiver() {
@@ -174,7 +168,6 @@ public class RideOptionAct extends AppCompatActivity
         }
     };
 
-
     private void itit() {
 
         getCar();
@@ -194,6 +187,10 @@ public class RideOptionAct extends AppCompatActivity
             }
         });
 
+        binding.btnPoolRequest.setOnClickListener(v -> {
+            openPassengerDialog();
+        });
+
     }
 
     private void openScheduleBookingDialog() {
@@ -206,7 +203,6 @@ public class RideOptionAct extends AppCompatActivity
         dialog.getWindow().setBackgroundDrawableResource(R.color.translucent_black);
 
         dialogBinding.etDate.setOnClickListener(v -> {
-
             final Calendar c = Calendar.getInstance();
             int mYear = c.get(Calendar.YEAR);
             int mMonth = c.get(Calendar.MONTH);
@@ -222,7 +218,6 @@ public class RideOptionAct extends AppCompatActivity
                     }, mYear, mMonth, mDay);
             dpd.getDatePicker().setMinDate(new Date().getTime());
             dpd.show();
-
         });
 
         dialogBinding.etTime.setOnClickListener(v -> {
@@ -312,18 +307,21 @@ public class RideOptionAct extends AppCompatActivity
                     JSONObject jsonObject = new JSONObject(responseString);
 
                     Log.e("GetCar", "==>" + response);
-                    Log.e("bookingRequest", "==>" + responseString);
+                    Log.e("bookingRequestAkash", "==>" + responseString);
 
                     try {
                         JSONObject object = new JSONObject(responseString);
+
+                        Log.e("bookingRequestAkash", "==>" + object.getString("message").equals("already in ride"));
+
                         if (object.getString("status").equals("1")) {
                             if (object.getString("message").equals("already in ride")) {
                                 alertForAlreadyInRide();
                             } else {
+                                driverSerachDialog();
                                 String request_id = object.getString("request_id");
                                 sharedPref.setlanguage(AppConstant.LAST, request_id);
                             }
-                            driverSerachDialog();
                         } else {
                             onDriverNotFound();
                         }
@@ -371,9 +369,11 @@ public class RideOptionAct extends AppCompatActivity
     }
 
     private void alertForAlreadyInRide() {
+
         try {
             dialogSerach.dismiss();
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setMessage(R.string.already_in_ride);
@@ -421,13 +421,19 @@ public class RideOptionAct extends AppCompatActivity
                             if (result.getStatus().equalsIgnoreCase("Accept")) {
                                 Intent k = new Intent(mContext, TrackAct.class);
                                 k.putExtra("data", data);
+                                k.putExtra("ride_count", result.getDriver_complete_ride());
+                                k.putExtra("rating", result.getDriver_rating());
                                 mContext.startActivity(k);
                             } else if (result.getStatus().equalsIgnoreCase("Arrived")) {
                                 Intent k = new Intent(mContext, TrackAct.class);
+                                k.putExtra("ride_count", result.getDriver_complete_ride());
+                                k.putExtra("rating", result.getDriver_rating());
                                 k.putExtra("data", data);
                                 mContext.startActivity(k);
                             } else if (result.getStatus().equalsIgnoreCase("Start")) {
                                 Intent k = new Intent(mContext, TrackAct.class);
+                                k.putExtra("ride_count", result.getDriver_complete_ride());
+                                k.putExtra("rating", result.getDriver_rating());
                                 k.putExtra("data", data);
                                 mContext.startActivity(k);
                             } else if (result.getStatus().equalsIgnoreCase("End")) {
@@ -436,11 +442,15 @@ public class RideOptionAct extends AppCompatActivity
                                             "".equals(result.getUserRatingStatus())) {
                                         Intent j = new Intent(mContext, DriverFeedbackAct.class);
                                         j.putExtra("data", data);
+                                        j.putExtra("ride_count", result.getDriver_complete_ride());
+                                        j.putExtra("rating", result.getDriver_rating());
                                         mContext.startActivity(j);
                                     }
                                 } else {
                                     Intent j = new Intent(mContext, EndUserAct.class);
                                     j.putExtra("data", data);
+                                    j.putExtra("ride_count", result.getDriver_complete_ride());
+                                    j.putExtra("rating", result.getDriver_rating());
                                     mContext.startActivity(j);
                                 }
                             }
@@ -539,7 +549,7 @@ public class RideOptionAct extends AppCompatActivity
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-              //  getCurrentBookingApi();
+                // getCurrentBookingApi();
             }
         }, 0, 4000);
 
@@ -549,7 +559,7 @@ public class RideOptionAct extends AppCompatActivity
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.e("lastRequestID", "LAst = " + sharedPref.getLanguage(AppConstant.LAST));
+                    Log.e("lastRequestID", "Last = " + sharedPref.getLanguage(AppConstant.LAST));
                     AcceptCancel(sharedPref.getLanguage(AppConstant.LAST));
                 }
             }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -562,6 +572,7 @@ public class RideOptionAct extends AppCompatActivity
 
         dialogSerach.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialogSerach.show();
+
     }
 
     private void driverArrivedDialog(ModelCurrentBooking data) {
@@ -580,6 +591,8 @@ public class RideOptionAct extends AppCompatActivity
             dialog.dismiss();
             Intent k = new Intent(mContext, TrackAct.class);
             k.putExtra("data", data);
+            k.putExtra("ride_count", data.getResult().get(0).getDriver_complete_ride());
+            k.putExtra("rating",  data.getResult().get(0).getDriver_rating());
             startActivity(k);
             finish();
         });
@@ -626,7 +639,7 @@ public class RideOptionAct extends AppCompatActivity
                                 Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
                                 BitmapDescriptor smallMarkerIcon = BitmapDescriptorFactory.fromBitmap(smallMarker);
                                 MarkerOptions car = new MarkerOptions()
-                                        .position(new LatLng(Double.valueOf(driver.getLat()), Double.valueOf(driver.getLon()))).title(driver.getUser_name())
+                                        .position(new LatLng(Double.valueOf(driver.getLat()), Double.valueOf(driver.getLon()))).title(driver.getUser_name() + " (" + driver.getCar_name() + ")")
                                         .icon(smallMarkerIcon);
                                 mMap.addMarker(car);
                             }
@@ -675,7 +688,7 @@ public class RideOptionAct extends AppCompatActivity
         CarTypeID = car.getId();
         carAmount = car.getTotal();
         getNearDriver(car.getId());
-        binding.tvRideDistance.setText(car.getDistance());
+        binding.tvRideDistance.setText(car.getDistance() + " km");
     }
 
     @Override
@@ -689,8 +702,6 @@ public class RideOptionAct extends AppCompatActivity
     public void onRequestAccepted(ModelCurrentBooking data) {
         if (isBook) {
             driverArrivedDialog(data);
-        } else {
-
         }
     }
 
@@ -705,7 +716,9 @@ public class RideOptionAct extends AppCompatActivity
     }
 
     private HashMap<String, String> getBookingParam(String type) {
+
         HashMap<String, String> param = new HashMap<>();
+
         param.put("car_type_id", CarTypeID);
         param.put("user_id", modelLogin.getResult().getId());
         param.put("picuplocation", pickadd);
@@ -721,14 +734,130 @@ public class RideOptionAct extends AppCompatActivity
         param.put("current_time", "" + ProjectUtil.getCurrentDateTime());
         param.put("timezone", "" + TimeZone.getDefault().getID());
         param.put("apply_code", "");
+        param.put("no_of_passenger", "0");
         param.put("payment_type", paymentType);
         param.put("vehical_type", "Reqular");
         param.put("picklatertime", bookTime);
         param.put("picklaterdate", bookDate);
         param.put("route_img", "");
         param.put("amount", carAmount);
+
+        Log.e("asdasdasdasdasdasdasdas", "payment_type = " + paymentType);
         Log.e("param", param.toString().replace(", ", "&"));
+
         return param;
+
+    }
+
+    private HashMap<String, String> getBookingParamPool(String passenger, String paymentType) {
+
+        HashMap<String, String> param = new HashMap<>();
+
+        param.put("car_type_id", CarTypeID);
+        param.put("user_id", modelLogin.getResult().getId());
+        param.put("picuplocation", pickadd);
+        param.put("dropofflocation", dropadd);
+        param.put("picuplat", "" + PickUpLatLng.latitude);
+        param.put("pickuplon", "" + PickUpLatLng.longitude);
+        param.put("droplat", "" + DropOffLatLng.latitude);
+        param.put("droplon", "" + DropOffLatLng.longitude);
+        param.put("shareride_type", "");
+        param.put("booktype", "POOL");
+        param.put("status", "Now");
+        param.put("passenger", passenger);
+        param.put("current_time", "" + ProjectUtil.getCurrentDateTime());
+        param.put("timezone", "" + TimeZone.getDefault().getID());
+        param.put("apply_code", "");
+        param.put("payment_type", paymentType);
+        param.put("vehical_type", "Reqular");
+        param.put("picklatertime", bookTime);
+        param.put("picklaterdate", bookDate);
+        param.put("route_img", "");
+        param.put("amount", carAmount);
+        param.put("no_of_passenger", passenger);
+
+        Log.e("asdasdasdasdasdasdasdas", "payment_type = " + paymentType);
+        Log.e("param", param.toString().replace(", ", "&"));
+
+        return param;
+
+    }
+
+    private void openPassengerDialog() {
+
+        dialog = new Dialog(mContext, WindowManager.LayoutParams.MATCH_PARENT);
+        PassengerDialogBinding dialogBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext),
+                R.layout.passenger_dialog, null, false);
+        dialog.setContentView(dialogBinding.getRoot());
+        dialog.getWindow().setBackgroundDrawableResource(R.color.white2);
+
+        dialogBinding.btSubmit.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(dialogBinding.etPassenger.getText().toString().trim())) {
+                MyApplication.showAlert(mContext, getString(R.string.enter_no_passenger));
+            } else if (dialogBinding.rbCash.isChecked()) {
+                dialog.dismiss();
+                bookingPoolRequestApiCall(dialogBinding.etPassenger.getText().toString().trim(), "Cash");
+            } else if (dialogBinding.rbCard.isChecked()) {
+                dialog.dismiss();
+                bookingPoolRequestApiCall(dialogBinding.etPassenger.getText().toString().trim(), "Online");
+            } else if (dialogBinding.rbWallet.isChecked()) {
+                dialog.dismiss();
+                bookingPoolRequestApiCall(dialogBinding.etPassenger.getText().toString().trim(), "Wallet");
+            } else {
+                MyApplication.showAlert(mContext, getString(R.string.please_select_pay_method));
+            }
+        });
+
+        dialog.show();
+
+    }
+
+    private void bookingPoolRequestApiCall(String passengers, String cash) {
+
+        ProjectUtil.showProgressDialog(mContext, false, getString(R.string.please_wait));
+        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+        Call<ResponseBody> call = api.bookingRequestApi(getBookingParamPool(passengers, cash));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ProjectUtil.pauseProgressDialog();
+                try {
+                    String responseString = response.body().string();
+                    JSONObject jsonObject = new JSONObject(responseString);
+
+                    Log.e("GetCar", "==>" + response);
+                    Log.e("bookingRequest", "==>" + responseString);
+
+                    try {
+                        JSONObject object = new JSONObject(responseString);
+                        if (object.getString("status").equals("1")) {
+                            if (object.getString("message").equals("already in ride")) {
+                                alertForAlreadyInRide();
+                            } else {
+                                driverSerachDialog();
+                                String request_id = object.getString("request_id");
+                                sharedPref.setlanguage(AppConstant.LAST, request_id);
+                            }
+                        } else {
+                            onDriverNotFound();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("Exception", "Exception = " + e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ProjectUtil.pauseProgressDialog();
+            }
+
+        });
+
     }
 
     private boolean Validation() {
@@ -739,7 +868,7 @@ public class RideOptionAct extends AppCompatActivity
             paymentType = "Cash";
             return true;
         } else if (binding.rbCard.isChecked()) {
-            paymentType = "Card";
+            paymentType = "Online";
             return true;
         } else if (binding.rbWallet.isChecked()) {
             paymentType = "Wallet";

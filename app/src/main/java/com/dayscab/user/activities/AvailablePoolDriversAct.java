@@ -21,6 +21,7 @@ import com.dayscab.databinding.ActivityAvailablePoolDriversBinding;
 import com.dayscab.driver.adapters.AdapterOfferPool;
 import com.dayscab.driver.models.ModelPoolList;
 import com.dayscab.user.adapters.AdapterOfferPoolUser;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.retrofitutils.Api;
 import com.dayscab.utils.retrofitutils.ApiFactory;
@@ -53,6 +54,7 @@ public class AvailablePoolDriversAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_available_pool_drivers);
+        MyApplication.checkToken(mContext);
         lat = getIntent().getStringExtra("lat");
         lon = getIntent().getStringExtra("lon");
         Log.e("latlatlat", "lat = " + lat + "  lon = " + lon);

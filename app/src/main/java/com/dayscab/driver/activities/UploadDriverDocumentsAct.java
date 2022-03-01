@@ -21,8 +21,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.bumptech.glide.Glide;
 import com.dayscab.R;
 import com.dayscab.common.activties.LoginAct;
+import com.dayscab.common.activties.StartAct;
 import com.dayscab.common.models.ModelLogin;
 import com.dayscab.databinding.ActivityUploadDriverDocumentsBinding;
 import com.dayscab.utils.AppConstant;
@@ -32,6 +34,8 @@ import com.dayscab.utils.RealPathUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.retrofitutils.Api;
 import com.dayscab.utils.retrofitutils.ApiFactory;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONObject;
 
@@ -171,7 +175,8 @@ public class UploadDriverDocumentsAct extends AppCompatActivity {
             if (ProjectUtil.checkPermissions(mContext)) {
                 imageCapturedCode = 1;
                 Log.e("ImageCapture", "imageCapturedCode = " + imageCapturedCode);
-                showPictureDialog();
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
+                // showPictureDialog();
             } else {
                 Log.e("ImageCapture", "requestPermissions");
                 ProjectUtil.requestPermissions(mContext);
@@ -183,7 +188,8 @@ public class UploadDriverDocumentsAct extends AppCompatActivity {
             if (ProjectUtil.checkPermissions(mContext)) {
                 imageCapturedCode = 5;
                 Log.e("ImageCapture", "imageCapturedCode = " + imageCapturedCode);
-                showPictureDialog();
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
+                // showPictureDialog();
             } else {
                 Log.e("ImageCapture", "requestPermissions");
                 ProjectUtil.requestPermissions(mContext);
@@ -195,7 +201,8 @@ public class UploadDriverDocumentsAct extends AppCompatActivity {
             if (ProjectUtil.checkPermissions(mContext)) {
                 imageCapturedCode = 4;
                 Log.e("ImageCapture", "imageCapturedCode = " + imageCapturedCode);
-                showPictureDialog();
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
+                // showPictureDialog();
             } else {
                 Log.e("ImageCapture", "requestPermissions");
                 ProjectUtil.requestPermissions(mContext);
@@ -206,7 +213,8 @@ public class UploadDriverDocumentsAct extends AppCompatActivity {
             if (ProjectUtil.checkPermissions(mContext)) {
                 imageCapturedCode = 2;
                 Log.e("ImageCapture", "imageCapturedCode = " + imageCapturedCode);
-                showPictureDialog();
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
+                // showPictureDialog();
             } else {
                 ProjectUtil.requestPermissions(mContext);
             }
@@ -216,7 +224,8 @@ public class UploadDriverDocumentsAct extends AppCompatActivity {
             if (ProjectUtil.checkPermissions(mContext)) {
                 imageCapturedCode = 3;
                 Log.e("ImageCapture", "imageCapturedCode = " + imageCapturedCode);
-                showPictureDialog();
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
+                // showPictureDialog();
             } else {
                 ProjectUtil.requestPermissions(mContext);
             }
@@ -272,7 +281,7 @@ public class UploadDriverDocumentsAct extends AppCompatActivity {
                     }
 
                 } catch (Exception e) {
-                    Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e("Exception", "Exception = " + e.getMessage());
                 }
 
@@ -297,7 +306,7 @@ public class UploadDriverDocumentsAct extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 finishAffinity();
-                                startActivity(new Intent(mContext, LoginAct.class)
+                                startActivity(new Intent(mContext, StartAct.class)
                                         .putExtra(AppConstant.TYPE, AppConstant.DRIVER)
                                 );
                             }
@@ -362,6 +371,18 @@ public class UploadDriverDocumentsAct extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                File file = new File(RealPathUtil.getRealPath(mContext, resultUri));
+                setImageFromCameraGallery(file);
+                Log.e("asfasdasdad", "resultUri = " + resultUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
 
         if (requestCode == GALLERY) {
             if (resultCode == RESULT_OK) {

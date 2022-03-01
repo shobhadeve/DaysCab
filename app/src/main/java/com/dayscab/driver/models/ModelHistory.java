@@ -1,5 +1,8 @@
 package com.dayscab.driver.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -8,6 +11,15 @@ public class ModelHistory implements Serializable {
     private ArrayList<Result> result;
     private String message;
     private int status;
+    private String register_id;
+
+    public String getRegister_id() {
+        return register_id;
+    }
+
+    public void setRegister_id(String register_id) {
+        this.register_id = register_id;
+    }
 
     public void setResult(ArrayList<Result> result) {
         this.result = result;
@@ -39,13 +51,27 @@ public class ModelHistory implements Serializable {
 
         private String user_id;
 
+        private String waitng_time;
+
+        private String car_number;
+
+        private String per_minute;
+
+        private String per_minute_charge;
+
+        private String total_trip_cost;
+
         private String driver_id;
+
+        private String car_name;
 
         private String driver_ids;
 
         private String picuplocation;
 
         private String dropofflocation;
+
+        private String no_of_passenger;
 
         private String picuplat;
 
@@ -106,6 +132,72 @@ public class ModelHistory implements Serializable {
         private int sch_diff;
 
         private String sch_status;
+
+        private String distance;
+
+        public String getNo_of_passenger() {
+            return no_of_passenger;
+        }
+
+        public void setNo_of_passenger(String no_of_passenger) {
+            this.no_of_passenger = no_of_passenger;
+        }
+
+        public String getCar_number() {
+            return car_number;
+        }
+
+        public void setCar_number(String car_number) {
+            this.car_number = car_number;
+        }
+
+        public String getDistance() {
+            return distance;
+        }
+
+        public void setDistance(String distance) {
+            this.distance = distance;
+        }
+
+        public String getWaitng_time() {
+            return waitng_time;
+        }
+
+        public void setWaitng_time(String waitng_time) {
+            this.waitng_time = waitng_time;
+        }
+
+        public String getPer_minute() {
+            return per_minute;
+        }
+
+        public void setPer_minute(String per_minute) {
+            this.per_minute = per_minute;
+        }
+
+        public String getPer_minute_charge() {
+            return per_minute_charge;
+        }
+
+        public void setPer_minute_charge(String per_minute_charge) {
+            this.per_minute_charge = per_minute_charge;
+        }
+
+        public String getTotal_trip_cost() {
+            return total_trip_cost;
+        }
+
+        public void setTotal_trip_cost(String total_trip_cost) {
+            this.total_trip_cost = total_trip_cost;
+        }
+
+        public String getCar_name() {
+            return car_name;
+        }
+
+        public void setCar_name(String car_name) {
+            this.car_name = car_name;
+        }
 
         private ArrayList<Driver_details> driver_details;
 
@@ -415,7 +507,8 @@ public class ModelHistory implements Serializable {
             return this.user_details;
         }
 
-        public class Driver_details implements Serializable{
+        public class Driver_details implements Serializable {
+
             private String id;
 
             private String first_name;
@@ -518,7 +611,7 @@ public class ModelHistory implements Serializable {
 
             private String result;
 
-            private ArrayList<String> car_details;
+          //  private ArrayList<String> car_details;
 
             public void setId(String id) {
                 this.id = id;
@@ -928,16 +1021,16 @@ public class ModelHistory implements Serializable {
                 return this.result;
             }
 
-            public void setCar_details(ArrayList<String> car_details) {
-                this.car_details = car_details;
-            }
-
-            public ArrayList<String> getCar_details() {
-                return this.car_details;
-            }
+//            public void setCar_details(ArrayList<String> car_details) {
+//                this.car_details = car_details;
+//            }
+//
+//            public ArrayList<String> getCar_details() {
+//                return this.car_details;
+//            }
         }
 
-        public class User_details implements Serializable{
+        public class User_details implements Serializable {
             private String id;
 
             private String first_name;

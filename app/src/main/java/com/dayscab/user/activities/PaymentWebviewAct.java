@@ -1,10 +1,9 @@
 package com.dayscab.user.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,6 +13,9 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.dayscab.R;
 import com.dayscab.common.models.ModelCurrentBooking;
@@ -46,7 +48,7 @@ public class PaymentWebviewAct extends AppCompatActivity {
     SharedPref sharedPref;
     ModelLogin modelLogin;
     String type, planId, amount;
-    String loadPaymentURL = "";
+    String loadPaymentURL = "", isRideCancel = "False";
     private ModelCurrentBooking data;
     private ModelCurrentBookingResult result;
 
@@ -57,6 +59,7 @@ public class PaymentWebviewAct extends AppCompatActivity {
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
 
+        isRideCancel = getIntent().getStringExtra("isridecancel");
         loadPaymentURL = getIntent().getStringExtra("url");
 
         type = getIntent().getStringExtra("type");
@@ -121,6 +124,8 @@ public class PaymentWebviewAct extends AppCompatActivity {
                         doPaymentApi();
                     } else if (type.equals("wallet")) {
                         addWalletAmountApi();
+                    } else if (type.equals("online")) {
+                        doPaymentApi();
                     } else {
                         purchasePlanApi();
                     }
@@ -162,7 +167,7 @@ public class PaymentWebviewAct extends AppCompatActivity {
 
                     JSONObject jsonObject = new JSONObject(stringResponse);
                     if (jsonObject.getString("status").equals("1")) {
-                        finish();
+                        showAlert();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -175,6 +180,20 @@ public class PaymentWebviewAct extends AppCompatActivity {
                 Log.e("sfasfsdfdsf", "Exception = " + t.getMessage());
             }
         });
+    }
+
+    public void showAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage(getString(R.string.amount_add_wallet_text))
+                .setCancelable(false)
+                .setPositiveButton(mContext.getString(R.string.ok)
+                        , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                                dialog.dismiss();
+                            }
+                        }).create().show();
     }
 
     public void purchasePlanApi() {
@@ -223,8 +242,9 @@ public class PaymentWebviewAct extends AppCompatActivity {
         map.put("amount", result.getAmount());
         map.put("user_id", modelLogin.getResult().getId());
         map.put("request_id", result.getId());
+        map.put("tip", "0");
         map.put("time_zone", TimeZone.getDefault().getID());
-        map.put("currency", AppConstant.CURRENCY);
+        map.put("car_charge", "0");
 
         Log.e("AcceptCancel", "AcceptCancel = " + map);
 

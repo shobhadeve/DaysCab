@@ -82,7 +82,7 @@
                          <TextView
                              android:layout_width="wrap_content"
                              android:layout_height="wrap_content"
-                             android:text="@string/estimated_trip_time"
+                             android:text="@string/estimated_trip_distance"
                              android:textColor="@color/black"
                              android:textSize="@dimen/_12sdp"
                              android:layout_marginStart="@dimen/_15sdp"
@@ -145,7 +145,7 @@
                             android:textSize="@dimen/_12sdp"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
-                            android:text="@string/card"/>
+                            android:text="@string/online_pay"/>
 
                         <RadioButton
                             android:id="@+id/rbWallet"
@@ -161,10 +161,21 @@
 
                 </LinearLayout>
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnPoolRequest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/black"
+                    android:fontFamily="@font/poppins_medium"
+                    android:padding="@dimen/_10sdp"
+                    android:text="@string/pool_request"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_16sdp" />
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatButton

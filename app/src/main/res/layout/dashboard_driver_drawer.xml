@@ -150,7 +150,7 @@
                     android:padding="@dimen/_10sdp">
 
                     <TextView
-                        android:id="@+id/offerPool"
+                        android:id="@+id/userPoolRequest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_10sdp"
@@ -159,7 +159,7 @@
                         android:gravity="center_vertical"
                         android:includeFontPadding="false"
                         android:padding="@dimen/_7sdp"
-                        android:text="@string/offer_pool"
+                        android:text="@string/user_pool_requests"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_15sdp" />
@@ -259,7 +259,6 @@
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_15sdp" />
-
 
                 </RelativeLayout>
 

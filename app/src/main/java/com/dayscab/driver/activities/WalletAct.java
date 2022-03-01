@@ -1,10 +1,6 @@
 package com.dayscab.driver.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.databinding.DataBindingUtil;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,8 +17,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.dayscab.R;
-import com.dayscab.common.activties.SplashActivity;
 import com.dayscab.common.models.ModelLogin;
 import com.dayscab.databinding.ActivityWalletBinding;
 import com.dayscab.databinding.AddMoneyDialogBinding;
@@ -31,7 +30,7 @@ import com.dayscab.driver.adapters.AdapterTransactions;
 import com.dayscab.driver.models.ModelTransactions;
 import com.dayscab.user.activities.PaymentWebviewAct;
 import com.dayscab.utils.AppConstant;
-import com.dayscab.utils.MyService;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.retrofitutils.Api;
@@ -60,6 +59,7 @@ public class WalletAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_wallet);
+        MyApplication.checkToken(mContext);
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
         // setting up the flag programmatically so that the
@@ -312,6 +312,8 @@ public class WalletAct extends AppCompatActivity {
         HashMap<String, String> paramHash = new HashMap<>();
         paramHash.put("user_id", modelLogin.getResult().getId());
 
+        Log.e("getProfileApiCall", "getProfileApiCall = " + paramHash);
+
         Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
         Call<ResponseBody> call = api.getProfileCall(paramHash);
         call.enqueue(new Callback<ResponseBody>() {
@@ -459,6 +461,5 @@ public class WalletAct extends AppCompatActivity {
         });
 
     }
-
 
 }

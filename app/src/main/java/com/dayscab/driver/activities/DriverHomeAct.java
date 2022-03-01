@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -19,6 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
@@ -34,6 +36,8 @@ import androidx.databinding.DataBindingUtil;
 import com.bumptech.glide.Glide;
 import com.dayscab.R;
 import com.dayscab.common.activties.AppSettingsAct;
+import com.dayscab.common.activties.LoginAct;
+import com.dayscab.common.activties.StartAct;
 import com.dayscab.common.models.ModelCurrentBooking;
 import com.dayscab.common.models.ModelCurrentBookingResult;
 import com.dayscab.common.models.ModelLogin;
@@ -48,6 +52,7 @@ import com.dayscab.utils.AppConstant;
 import com.dayscab.utils.LatLngInterpolator;
 import com.dayscab.utils.MarkerAnimation;
 import com.dayscab.utils.MusicManager;
+import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
 import com.dayscab.utils.RequestDialogCallBackInterface;
 import com.dayscab.utils.SharedPref;
@@ -71,6 +76,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -88,8 +94,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DriverHomeAct extends AppCompatActivity
-        implements OnMapReadyCallback,
-        RequestDialogCallBackInterface {
+        implements OnMapReadyCallback, RequestDialogCallBackInterface {
 
     Context mContext = DriverHomeAct.this;
     ActivityDriverHomeBinding binding;
@@ -108,6 +113,7 @@ public class DriverHomeAct extends AppCompatActivity
     private boolean isDialogShown = true;
     ModelVehicles modelVehicles;
     private String carTypeId;
+    String registerId = "";
 
     BroadcastReceiver JobStatusReceiver = new BroadcastReceiver() {
         @Override
@@ -137,7 +143,19 @@ public class DriverHomeAct extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_driver_home);
+        MyApplication.checkToken(mContext);
         sharedPref = SharedPref.getInstance(mContext);
+
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token -> {
+            if (!TextUtils.isEmpty(token)) {
+                registerId = token;
+                Log.e("tokentoken", "retrieve token successful : " + token);
+            } else {
+                Log.e("tokentoken", "token should not be null...");
+            }
+        }).addOnFailureListener(e -> {
+        }).addOnCanceledListener(() -> {
+        }).addOnCompleteListener(task -> Log.e("tokentoken", "This is the token : " + task.getResult()));
 
         // Setting up the flag programmatically so that the
         // Device screen should be always on
@@ -310,7 +328,7 @@ public class DriverHomeAct extends AppCompatActivity
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         });
 
-        binding.childNavDrawer.setting.setOnClickListener(v -> {
+        binding.childNavDrawer.btnAppSetting.setOnClickListener(v -> {
             startActivity(new Intent(mContext, AppSettingsAct.class));
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         });
@@ -331,14 +349,14 @@ public class DriverHomeAct extends AppCompatActivity
         });
 
         binding.childNavDrawer.btnOfferPool.setOnClickListener(v -> {
-            startActivity(new Intent(mContext, OfferPoolListAct.class));
+            startActivity(new Intent(mContext, UserPoolRequestAct.class));
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         });
 
-//        binding.childNavDrawer.btnEarning.setOnClickListener(v -> {
-//            startActivity(new Intent(mContext, EarningAct.class));
-//            binding.drawerLayout.closeDrawer(GravityCompat.START);
-//        });
+//      binding.childNavDrawer.btnEarning.setOnClickListener(v -> {
+//          startActivity(new Intent(mContext, EarningAct.class));
+//          binding.drawerLayout.closeDrawer(GravityCompat.START);
+//      });
 
         binding.childNavDrawer.btnPurchase.setOnClickListener(v -> {
             startActivity(new Intent(mContext, PurchasePlanAct.class));
@@ -356,6 +374,30 @@ public class DriverHomeAct extends AppCompatActivity
         });
 
     }
+
+    public static void exitAppDialog(Context mContext) {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(mContext);
+        builder.setMessage(mContext.getString(R.string.close_app_text))
+                .setCancelable(false)
+                .setPositiveButton(mContext.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(intent);
+                    }
+                }).setNegativeButton(mContext.getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+
 
     private void getVehicles() {
 
@@ -678,6 +720,7 @@ public class DriverHomeAct extends AppCompatActivity
                 ProjectUtil.pauseProgressDialog();
                 Log.e("xjgxkjdgvxsd", "response = " + response);
                 try {
+
                     String responseString = response.body().string();
                     JSONObject jsonObject = new JSONObject(responseString);
                     Log.e("xjgxkjdgvxsd", "response = " + responseString);
@@ -693,6 +736,7 @@ public class DriverHomeAct extends AppCompatActivity
                             binding.chlidDashboard.switchOnOff.setChecked(false);
                         }
                     }
+
                 } catch (Exception e) {
                     Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e("Exception", "Exception = " + e.getMessage());
@@ -775,12 +819,16 @@ public class DriverHomeAct extends AppCompatActivity
 
                             binding.chlidDashboard.tvCarNuumber.setText(modelLogin.getResult().getCar_number());
                             binding.chlidDashboard.tvCompleteRide.setText("Rides Completed\n" + modelLogin.getResult().getComplete_rides());
-                            binding.chlidDashboard.tvNormalRide.setText("Remaining Rides\n" + modelLogin.getResult().getOn_way_ride());
+                            binding.chlidDashboard.tvNormalRide.setText("Remaining Rides\n" + modelLogin.getResult().getRide_count());
 
                             Log.e("onPOrfile", "Normal = " + modelLogin.getResult().getCar_id());
-                            Log.e("onPOrfile", "Normal = " + modelLogin.getResult().getOn_way_ride());
-                            Log.e("onPOrfile", "on the way = " + modelLogin.getResult().getComplete_rides());
+                            Log.e("onPOrfile", "remaining = " + modelLogin.getResult().getOn_way_ride());
+                            Log.e("onPOrfile", "completed = " + modelLogin.getResult().getComplete_rides());
                             Log.e("onPOrfile", "getCar_number = " + modelLogin.getResult().getCar_number());
+
+                            if (!registerId.equals(modelLogin.getResult().getRegister_id())) {
+                                logoutAlertDialog();
+                            }
 
                             if (!modelLogin.getResult().getStatus().equals("Active")) {
                                 showAlert();
@@ -796,6 +844,7 @@ public class DriverHomeAct extends AppCompatActivity
 
                             Log.e("getProfileResponse", "response = " + response);
                             Log.e("getProfileResponse", "response = " + stringResponse);
+
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -812,6 +861,49 @@ public class DriverHomeAct extends AppCompatActivity
 
         });
 
+    }
+
+    private void logoutAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage("Your session is expired Please login Again!")
+                .setCancelable(false)
+                .setPositiveButton(mContext.getString(R.string.ok)
+                        , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sharedPref.clearAllPreferences();
+                                finishAffinity();
+                                startActivity(new Intent(mContext, StartAct.class));
+                                dialog.dismiss();
+                            }
+                        }).create().show();
+    }
+
+    private void exitAppDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage(getString(R.string.close_app_text))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                }).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        exitAppDialog();
     }
 
     @Override

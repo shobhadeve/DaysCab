@@ -60,6 +60,56 @@ public class ModelVehicles implements Serializable {
 
         private String car_name;
 
+        private String car_regist_img;
+
+        private String vehicle_regist_img;
+
+        private String car_regist_date;
+
+        private String vehicle_inspection_img;
+
+        private String vehicle_regist_date;
+
+        public String getCar_regist_img() {
+            return car_regist_img;
+        }
+
+        public void setCar_regist_img(String car_regist_img) {
+            this.car_regist_img = car_regist_img;
+        }
+
+        public String getVehicle_regist_img() {
+            return vehicle_regist_img;
+        }
+
+        public void setVehicle_regist_img(String vehicle_regist_img) {
+            this.vehicle_regist_img = vehicle_regist_img;
+        }
+
+        public String getCar_regist_date() {
+            return car_regist_date;
+        }
+
+        public void setCar_regist_date(String car_regist_date) {
+            this.car_regist_date = car_regist_date;
+        }
+
+        public String getVehicle_inspection_img() {
+            return vehicle_inspection_img;
+        }
+
+        public void setVehicle_inspection_img(String vehicle_inspection_img) {
+            this.vehicle_inspection_img = vehicle_inspection_img;
+        }
+
+        public String getVehicle_regist_date() {
+            return vehicle_regist_date;
+        }
+
+        public void setVehicle_regist_date(String vehicle_regist_date) {
+            this.vehicle_regist_date = vehicle_regist_date;
+        }
+
         public String getModel_name() {
             return model_name;
         }

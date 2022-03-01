@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 
+import com.bumptech.glide.Glide;
 import com.dayscab.R;
 import com.dayscab.common.activties.VerifyAct;
 import com.dayscab.common.models.ModelLogin;
@@ -27,6 +28,7 @@ import com.dayscab.utils.AppConstant;
 import com.dayscab.utils.Compress;
 import com.dayscab.utils.MyApplication;
 import com.dayscab.utils.ProjectUtil;
+import com.dayscab.utils.RealPathUtil;
 import com.dayscab.utils.SharedPref;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -35,6 +37,8 @@ import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.util.Arrays;
@@ -77,7 +81,7 @@ public class SignUpDriverAct extends AppCompatActivity {
             }
         }).addOnFailureListener(e -> {
         }).addOnCanceledListener(() -> {
-        }).addOnCompleteListener(task -> Log.e("tokentoken", "This is the token : " + task.getResult()));
+        });
 
         driverEmail = getIntent().getStringExtra("email");
 
@@ -134,10 +138,15 @@ public class SignUpDriverAct extends AppCompatActivity {
 
         binding.addIcon.setOnClickListener(v -> {
             if (ProjectUtil.checkPermissions(mContext)) {
-                showPictureDialog();
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
             } else {
                 ProjectUtil.requestPermissions(mContext);
             }
+//          if (ProjectUtil.checkPermissions(mContext)) {
+//              showPictureDialog();
+//          } else {
+//              ProjectUtil.requestPermissions(mContext);
+//          }
         });
 
         binding.ivBack.setOnClickListener(v -> {
@@ -186,8 +195,8 @@ public class SignUpDriverAct extends AppCompatActivity {
                 Log.e("signupDriver", "signupDriver = " + params);
                 Log.e("signupDriver", "fileHashMap = " + fileHashMap);
 
-                 String mobileNumber = "+233" + binding.etPhone.getText().toString().trim();
-                //String mobileNumber = "+91" + binding.etPhone.getText().toString().trim();
+                // String mobileNumber = "+233" + binding.etPhone.getText().toString().trim();
+                 String mobileNumber = "+91" + binding.etPhone.getText().toString().trim();
 
                 startActivity(new Intent(mContext, VerifyAct.class)
                         .putExtra("resgisterHashmap", params)
@@ -226,6 +235,18 @@ public class SignUpDriverAct extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                profileImage = new File(RealPathUtil.getRealPath(mContext, resultUri));
+                Glide.with(mContext).load(resultUri).into(binding.profileImage);
+                Log.e("asfasdasdad", "resultUri = " + resultUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
 
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {

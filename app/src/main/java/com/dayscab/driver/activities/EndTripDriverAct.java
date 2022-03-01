@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.dayscab.R;
@@ -47,11 +48,13 @@ public class EndTripDriverAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_end_trip_driver3);
+        MyApplication.checkToken(mContext);
         sharedPref = SharedPref.getInstance(mContext);
         modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
 
         try {
             if (getIntent() != null) {
+
                 data = (ModelCurrentBooking) getIntent().getSerializableExtra("data");
                 Log.e("dsfsdfdsf", "ModelCurrentBooking = " + new Gson().toJson(data));
                 result = data.getResult().get(0);
@@ -64,8 +67,36 @@ public class EndTripDriverAct extends AppCompatActivity {
 
                 binding.tvFrom.setText(pickUp);
                 binding.tvDestination.setText(dropOff);
-                binding.tvPay.setText("Payment Amount : " + result.getAmount() + " " + AppConstant.CURRENCY);
+                binding.tvTotalPay.setText(result.getTotal_trip_cost() + " " + AppConstant.CURRENCY);
+                binding.tvWaitingCharge.setText(result.getPer_minute_charge() + " " + AppConstant.CURRENCY);
+                binding.tvWaitingTime.setText(result.getWaitng_time() + " Min");
+
+                if(result.getPer_minute() == null) {
+                    binding.tvPerMintueWaiting.setText("0 " + AppConstant.CURRENCY);
+                } else {
+                    binding.tvPerMintueWaiting.setText(result.getPer_minute() + " " + AppConstant.CURRENCY);
+                }
+
+                if(result.getPer_minute_charge() == null) {
+                    binding.tvWaitingCharge.setText("0 " + AppConstant.CURRENCY);
+                } else {
+                    binding.tvWaitingCharge.setText(result.getPer_minute_charge() + " " + AppConstant.CURRENCY);
+                }
+
+                binding.tvDistance.setText(result.getDistance() + " Km");
+                binding.tvDistanceCost.setText(result.getAmount() + " " + " " + AppConstant.CURRENCY);
                 binding.tvPayType.setText(result.getPaymentType().toUpperCase());
+
+                if (result.getBooktype().equals("POOL")) {
+                    binding.rlPool.setVisibility(View.VISIBLE);
+                    binding.tvPassenger.setText(result.getNo_of_passenger() + " Passenger");
+                    double passengerTotal = Double.parseDouble(result.getTotal_trip_cost()) * Double.parseDouble(result.getNo_of_passenger());
+                    binding.tvTotalPay.setText(passengerTotal + " " + AppConstant.CURRENCY);
+                } else {
+                    binding.rlPool.setVisibility(View.GONE);
+                }
+
+
             }
         } catch (Exception e) {
         }

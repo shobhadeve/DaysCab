@@ -1,6 +1,7 @@
 package com.dayscab.common.activties;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -101,7 +103,7 @@ public class LoginAct extends AppCompatActivity {
             }
         }).addOnFailureListener(e -> {
         }).addOnCanceledListener(() -> {
-        }).addOnCompleteListener(task -> Log.e("tokentoken", "This is the token : " + task.getResult()));
+        });
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions
@@ -118,6 +120,98 @@ public class LoginAct extends AppCompatActivity {
 
         itit();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // getProfileApiCall();
+    }
+
+    private void getProfileApiCall() {
+        // ProjectUtil.showProgressDialog(mContext,false,getString(R.string.please_wait));
+
+        HashMap<String, String> paramHash = new HashMap<>();
+        paramHash.put("user_id", modelLogin.getResult().getId());
+
+        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+        Call<ResponseBody> call = api.getProfileCall(paramHash);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ProjectUtil.pauseProgressDialog();
+                try {
+
+                    String stringResponse = response.body().string();
+
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(stringResponse);
+
+                        if (jsonObject.getString("status").equals("1")) {
+
+                            Log.e("getProfileApiCall", "getProfileApiCall = " + stringResponse);
+
+                            modelLogin = new Gson().fromJson(stringResponse, ModelLogin.class);
+
+                            Log.e("adfasdfss", "getDriver_lisence_img = " + modelLogin.getResult().getDriver_lisence_img());
+
+//                            if (!registerId.equals(modelLogin.getResult().getRegister_id())) {
+//                                logoutAlertDialog();
+//                            }
+
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.e("JSONException", "JSONException = " + e.getMessage());
+                    }
+
+                    //  Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ProjectUtil.pauseProgressDialog();
+            }
+
+        });
+
+    }
+
+    private void logoutAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage("You are logged in with another device do you want to login with these device?")
+                .setCancelable(false)
+                .setPositiveButton(mContext.getString(R.string.ok)
+                        , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                loginApiCall();
+                                dialog.dismiss();
+                            }
+                        }).create().show();
+    }
+
+    private void logoutAlertDialogGoogleFB(FirebaseUser user, String profilePhoto) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage("You are logged in with another device do you want to login with these device?")
+                .setCancelable(false)
+                .setPositiveButton(mContext.getString(R.string.ok)
+                        , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                socialLoginCall(user.getDisplayName(),
+                                        user.getEmail(), profilePhoto,
+                                        user.getUid());
+                                dialog.dismiss();
+                            }
+                        }).create().show();
     }
 
     private void itit() {
@@ -175,6 +269,7 @@ public class LoginAct extends AppCompatActivity {
             } else {
                 if (InternetConnection.checkConnection(mContext)) {
                     loginApiCall();
+                   // loginCheck();
                 } else {
                     Toast.makeText(mContext, getString(R.string.check_internet_text), Toast.LENGTH_LONG).show();
                 }
@@ -202,6 +297,7 @@ public class LoginAct extends AppCompatActivity {
                             Log.e("kjsgdfkjdgsf", "email = " + user.getEmail());
                             Log.e("kjsgdfkjdgsf", "Userid = " + user.getUid());
 
+                            // loginCheckGoogleFB(user, profilePhoto);
                             socialLoginCall(user.getDisplayName(),
                                     user.getEmail(), profilePhoto,
                                     user.getUid());
@@ -327,6 +423,8 @@ public class LoginAct extends AppCompatActivity {
                                 Log.e("kjsgdfkjdgsf", "email = " + user.getEmail());
                                 Log.e("kjsgdfkjdgsf", "Userid = " + user.getUid());
 
+                               // loginCheckGoogleFB(user, String.valueOf(user.getPhotoUrl()));
+
                                 socialLoginCall(user.getDisplayName(),
                                         user.getEmail(), String.valueOf(user.getPhotoUrl()),
                                         user.getUid());
@@ -366,6 +464,104 @@ public class LoginAct extends AppCompatActivity {
 
     }
 
+    private void loginCheckGoogleFB(FirebaseUser user, String profilePhoto) {
+        ProjectUtil.showProgressDialog(mContext, false, getString(R.string.please_wait));
+
+        if(user.getEmail() == null || user.getEmail().equals("")) {
+            socialLoginCall(user.getDisplayName(),
+                    user.getEmail(), profilePhoto,
+                    user.getUid());
+        } else {
+            HashMap<String, String> paramHash = new HashMap<>();
+            paramHash.put("email", user.getEmail());
+            paramHash.put("register_id", registerId);
+
+            Log.e("asdfasdfasf", "paramHash = " + paramHash);
+
+            Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+            Call<ResponseBody> call = api.checkLoginValidCall(paramHash);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    ProjectUtil.pauseProgressDialog();
+                    try {
+                        String responseString = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseString);
+
+                        Log.e("responseString", "responseString = " + responseString);
+
+                        if (jsonObject.getString("status").equals("1")) {
+                            socialLoginCall(user.getDisplayName(),
+                                    user.getEmail(), profilePhoto,
+                                    user.getUid());
+                        } else if (jsonObject.getString("status").equals("2")) {
+                            socialLoginCall(user.getDisplayName(),
+                                    user.getEmail(), profilePhoto,
+                                    user.getUid());
+                        } else {
+                            logoutAlertDialogGoogleFB(user, profilePhoto);
+                        }
+                    } catch (Exception e) {
+                        // Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e("Exception", "Exception = " + e.getMessage());
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    ProjectUtil.pauseProgressDialog();
+                }
+
+            });
+        }
+
+    }
+
+    private void loginCheck() {
+        ProjectUtil.showProgressDialog(mContext, false, getString(R.string.please_wait));
+
+        HashMap<String, String> paramHash = new HashMap<>();
+        paramHash.put("email", binding.etEmail.getText().toString().trim());
+        paramHash.put("register_id", registerId);
+
+        Log.e("asdfasdfasf", "paramHash = " + paramHash);
+
+        Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
+        Call<ResponseBody> call = api.checkLoginValidCall(paramHash);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ProjectUtil.pauseProgressDialog();
+                try {
+                    String responseString = response.body().string();
+                    JSONObject jsonObject = new JSONObject(responseString);
+
+                    Log.e("responseString", "responseString = " + responseString);
+
+                    if (jsonObject.getString("status").equals("1")) {
+                        loginApiCall();
+                    } else if (jsonObject.getString("status").equals("2")) {
+                        MyApplication.showAlert(mContext, getString(R.string.email_not_exist));
+                    } else {
+                        logoutAlertDialog();
+                    }
+
+                } catch (Exception e) {
+                    // Toast.makeText(mContext, "Exception = " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("Exception", "Exception = " + e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                ProjectUtil.pauseProgressDialog();
+            }
+
+        });
+    }
+
     private void loginApiCall() {
         ProjectUtil.showProgressDialog(mContext, false, getString(R.string.please_wait));
 
@@ -394,7 +590,8 @@ public class LoginAct extends AppCompatActivity {
 
                     Log.e("responseString", "responseString = " + responseString);
 
-                    if (jsonObject.getString("status").equals("1")) {
+                    if (jsonObject.getString("status").equals("1") ||
+                            jsonObject.getString("status").equals("2")) {
 
                         modelLogin = new Gson().fromJson(responseString, ModelLogin.class);
 

@@ -18,6 +18,14 @@ public interface Api {
     @POST("change_password")
     Call<ResponseBody> changePass(@FieldMap Map<String, String> params);
 
+    @FormUrlEncoded
+    @POST("check_token")
+    Call<ResponseBody> chechTokenApiCall(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST("earning_data")
+    Call<ResponseBody> getAllEarningsApiCall(@FieldMap Map<String, String> params);
+
     @POST("get_support")
     Call<ResponseBody> getSupportApi();
 
@@ -40,6 +48,10 @@ public interface Api {
     @FormUrlEncoded
     @POST("get_offer_pool_request")
     Call<ResponseBody> getOfferedPoolApiCall(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("get_pool_requests")
+    Call<ResponseBody> getPoolRequestApiCall(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("update_lat_lon")
@@ -90,6 +102,9 @@ public interface Api {
     @POST("get_profile")
     Call<ResponseBody> getProfileCall(@FieldMap Map<String, String> params);
 
+    @POST("get_support_details")
+    Call<ResponseBody> getAllAccountInformation();
+
     @FormUrlEncoded
     @POST("get_my_transaction")
     Call<ResponseBody> getTransactionApiCall(@FieldMap Map<String, String> params);
@@ -101,6 +116,14 @@ public interface Api {
     @FormUrlEncoded
     @POST("login")
     Call<ResponseBody> loginApiCall(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("verify_mobile_email")
+    Call<ResponseBody> verifyMobileEmailApiCall(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("check_valid_login")
+    Call<ResponseBody> checkLoginValidCall(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("available_car_driver")
@@ -143,12 +166,20 @@ public interface Api {
     Call<ResponseBody> cancelRideApi(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
+    @POST("cancel_ride_amount")
+    Call<ResponseBody> cancelRideAmountApi(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
     @POST("paystack_payment_url")
     Call<ResponseBody> getPaymentApiUrl(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("driver_accept_and_Cancel_request")
     Call<ResponseBody> acceptCancelOrderCallTaxi(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("cancel_driver_pool")
+    Call<ResponseBody> cancelDriverPoolApiCall(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("get_all_vehicle")
@@ -169,6 +200,14 @@ public interface Api {
     @FormUrlEncoded
     @POST("vehicle_active_deactive")
     Call<ResponseBody> activeDeactiveVehicleApiCall(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("manage_sound")
+    Call<ResponseBody> managerSoundApi(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("update_emergency_details")
+    Call<ResponseBody> updateEmergencyDetailsApi(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("match_request_otp")
@@ -243,6 +282,10 @@ public interface Api {
     Call<ResponseBody> getCurrentBooking(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
+    @POST("add_booking_location")
+    Call<ResponseBody> changeDestinatoinApiCall(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
     @POST("get_booking_details")
     Call<ResponseBody> getCurrentBookingDetails(@FieldMap Map<String, String> params);
 
@@ -267,6 +310,15 @@ public interface Api {
                                                 @Part MultipartBody.Part file5);
 
     @Multipart
+    @POST("add_vehicle_document")
+    Call<ResponseBody> addVehicleDocumentApiCall(@Part("vehicle_id") RequestBody vehicle_id,
+                                                @Part("car_regist_date") RequestBody exp_vehicle_date,
+                                                @Part("vehicle_regist_date") RequestBody car_regist_date,
+                                                @Part MultipartBody.Part file1,
+                                                @Part MultipartBody.Part file2,
+                                                @Part MultipartBody.Part file3);
+
+    @Multipart
     @POST("signup")
     Call<ResponseBody> signUpDriverCallApi(@Part("first_name") RequestBody first_name,
                                            @Part("last_name") RequestBody last_name,
@@ -280,6 +332,21 @@ public interface Api {
                                            @Part("password") RequestBody password,
                                            @Part("type") RequestBody type,
                                            @Part("step") RequestBody step,
+                                           @Part MultipartBody.Part file1);
+        
+    @Multipart
+    @POST("update_profile")
+    Call<ResponseBody> updateUserProfile(@Part("user_name") RequestBody user_name,
+                                           @Part("mobile") RequestBody mobile,
+                                           @Part("email") RequestBody email,
+                                           @Part("id") RequestBody id,
+                                           @Part("type") RequestBody type,
+                                           @Part("work_address") RequestBody work_address,
+                                           @Part("work_lon") RequestBody work_lon,
+                                           @Part("work_lat") RequestBody work_lat,
+                                           @Part("address") RequestBody address,
+                                           @Part("lat") RequestBody lat,
+                                           @Part("lon") RequestBody lon,
                                            @Part MultipartBody.Part file1);
 
     @Multipart
@@ -313,6 +380,7 @@ public interface Api {
                                         @Part("car_number") RequestBody carNumber,
                                         @Part("year_of_manufacture") RequestBody year_of_manufacture,
                                         @Part("car_color") RequestBody car_color,
+                                        @Part("step") RequestBody step,
                                         @Part MultipartBody.Part file1);
 
     @Multipart

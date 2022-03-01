@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,9 +19,13 @@ import androidx.core.app.NotificationCompat;
 
 import com.dayscab.R;
 import com.dayscab.common.activties.ChatingAct;
+import com.dayscab.common.models.ModelLogin;
+import com.dayscab.driver.activities.ActiveScheduleDriverAct;
 import com.dayscab.driver.activities.DriverHomeAct;
+import com.dayscab.driver.activities.UserPoolRequestAct;
 import com.dayscab.user.activities.UserHomeAct;
 import com.dayscab.utils.AppConstant;
+import com.dayscab.utils.MusicManager;
 import com.dayscab.utils.SharedPref;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -42,6 +47,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     String name, requestId, receiverId;
     Intent intent;
     SharedPref sharedPref;
+    String title = "", key = "", status = "", noti_type = "", bookindStatus = "", bookType = "";
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -53,8 +59,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Map<String, String> data = remoteMessage.getData();
 
             try {
-
-                String title = "", key = "", status = "", noti_type = "", bookindStatus = "", bookType = "";
 
                 JSONObject object = new JSONObject(data.get("message"));
 
@@ -156,15 +160,50 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         Log.e("SendData ===== ", object.toString());
                         intent1.putExtra("status", "Arrived");
                         sendBroadcast(intent1);
+                    } else if ("driverchange".equals(status)) {
+                        title = "New Booking Request";
+                        key = object.getString("key");
+                        Intent intent1 = new Intent("action_change");
+                        sendBroadcast(intent1);
                     }
                 } else {
                     if ("Pending".equals(status)) {
+                        sharedPref = SharedPref.getInstance(this);
+                        if (sharedPref.getBooleanValue(AppConstant.IS_REGISTER)) {
+                            ModelLogin modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
+                            if (modelLogin.getResult().getMute_music() == null || modelLogin.getResult().getMute_music().equals("")) {
+                                MusicManager.getInstance().initalizeMediaPlayer(this, Uri.parse
+                                        (ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/" + R.raw.doogee_ringtone));
+                                MusicManager.getInstance().startPlaying();
+                            } else {
+                                if (modelLogin.getResult().getMute_music().equals("True")) {
+                                    MusicManager.getInstance().initalizeMediaPlayer(this, Uri.parse
+                                            (ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/" + R.raw.doogee_ringtone));
+                                    MusicManager.getInstance().startPlaying();
+                                }
+                            }
+                        }
+
+                        if (!bookType.equals("POOL")) {
+                            // title = object.getString("title");
+                            title = "Taxi Booking";
+                            key = object.getString("key");
+                            Intent intent1 = new Intent("Job_Status_Action_Taxi");
+                            Log.e("SendData=====", object.toString());
+                            intent1.putExtra("object", object.toString());
+                            sendBroadcast(intent1);
+                        }
+
+                    } else if ("changed_route".equals(status)) {
                         // title = object.getString("title");
-                        title = "Taxi Booking";
+                        title = "New Booking Request";
                         key = object.getString("key");
-                        Intent intent1 = new Intent("Job_Status_Action_Taxi");
-                        Log.e("SendData=====", object.toString());
-                        intent1.putExtra("object", object.toString());
+                        Intent intent1 = new Intent("job_status");
+                        Log.e("SendData ===== ", "Aayaa Route Change");
+                        intent1.putExtra("status", "changed_route");
+                        intent1.putExtra("lat", object.getString("droplat"));
+                        intent1.putExtra("lon", object.getString("droplon"));
+                        intent1.putExtra("dropofflocation", object.getString("dropofflocation"));
                         sendBroadcast(intent1);
                     } else if ("Cancel_by_user".equals(status)) {
                         Intent intent1 = new Intent("job_status");
@@ -172,6 +211,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         intent1.putExtra("status", "Cancel");
                         sendBroadcast(intent1);
                     }
+
                 }
 
                 sharedPref = SharedPref.getInstance(this);
@@ -180,7 +220,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     if (AppConstant.DRIVER.equals(noti_type)) {
                         displayCustomTaxiNotifyForDriver(status, title, key, object.toString());
                     } else {
-                        displayCustomTaxiNotifyForUser(status, title, key, object.toString());
+                        if (!"driverchange".equals(status))
+                            displayCustomTaxiNotifyForUser(status, title, key, object.toString());
                     }
                 }
             } catch (JSONException e) {
@@ -200,21 +241,28 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.e("ggddfdfdfd", "Displaying Notify Cancel");
         Log.e("ggddfdfdfd", "status = " + status);
         Log.e("ggddfdfdfd", "Data Status 123= " + data);
+        Log.e("ggddfdfdfd", "booktype = " + bookType);
         Log.e("ggddfdfdfd", "Cancel_by_user = " + !"Cancel_by_user".equals(status));
 
-        if (!"Cancel_by_user".equals(status)) {
-            if (msg.contains("message")) {
-                intent = new Intent(this, ChatingAct.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("request_id", requestId);
-                intent.putExtra("name", name);
-                intent.putExtra("receiver_id", receiverId);
-            } else {
-                intent = new Intent(this, DriverHomeAct.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("type", "dialog");
-                intent.putExtra("data", data);
-                intent.putExtra("object", data);
+        if ("POOL".equals(bookType)) {
+            intent = new Intent(this, UserPoolRequestAct.class);
+        } else {
+            if (!"Cancel_by_user".equals(status)) {
+                if (msg.contains("message")) {
+                    intent = new Intent(this, ChatingAct.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("request_id", requestId);
+                    intent.putExtra("name", name);
+                    intent.putExtra("receiver_id", receiverId);
+                } else if ("changed_route".equals(status)) {
+                    intent = new Intent(this, ActiveScheduleDriverAct.class);
+                } else {
+                    intent = new Intent(this, DriverHomeAct.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("type", "dialog");
+                    intent.putExtra("data", data);
+                    intent.putExtra("object", data);
+                }
             }
         }
 
@@ -228,17 +276,50 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         /*PendingIntent.getActivity(this, 123, intent,PendingIntent.FLAG_UPDATE_CURRENT);*/
         String channelId = "123";
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
-                .setSmallIcon(R.drawable.ic_logo)
-                //.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_logo))
-                .setContentTitle(getString(R.string.app_name))
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentText(msg)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+
+        NotificationCompat.Builder notificationBuilder;
+
+        sharedPref = SharedPref.getInstance(this);
+        ModelLogin modelLogin = sharedPref.getUserDetails(AppConstant.USER_DETAILS);
+        if (modelLogin.getResult().getMute_request_sound() == null ||
+                modelLogin.getResult().getMute_request_sound().equals("")) {
+            notificationBuilder = new NotificationCompat.Builder(this, channelId)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
+                    .setSmallIcon(R.drawable.ic_logo)
+                    //.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_logo))
+                    .setContentTitle(getString(R.string.app_name))
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setContentText(msg)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent);
+        } else {
+            if (modelLogin.getResult().getMute_request_sound().equals("True")) {
+                notificationBuilder = new NotificationCompat.Builder(this, channelId)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
+                        .setSmallIcon(R.drawable.ic_logo)
+                        //.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_logo))
+                        .setContentTitle(getString(R.string.app_name))
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setContentText(msg)
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setAutoCancel(true)
+                        .setSound(defaultSoundUri)
+                        .setContentIntent(pendingIntent);
+            } else {
+                notificationBuilder = new NotificationCompat.Builder(this, channelId)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
+                        .setSmallIcon(R.drawable.ic_logo)
+                        //.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_logo))
+                        .setContentTitle(getString(R.string.app_name))
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setContentText(msg)
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setAutoCancel(true)
+                        .setContentIntent(pendingIntent);
+            }
+        }
 
         NotificationManager notificationManager = (NotificationManager)
                 getSystemService(Context.NOTIFICATION_SERVICE);

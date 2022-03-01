@@ -1,19 +1,12 @@
 package com.dayscab.driver.activities;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.databinding.DataBindingUtil;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +15,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.databinding.DataBindingUtil;
+
+import com.bumptech.glide.Glide;
 import com.dayscab.R;
 import com.dayscab.common.models.ModelLogin;
 import com.dayscab.databinding.ActivityUploadVehicleBinding;
@@ -31,10 +30,13 @@ import com.dayscab.utils.AppConstant;
 import com.dayscab.utils.Compress;
 import com.dayscab.utils.InternetConnection;
 import com.dayscab.utils.ProjectUtil;
+import com.dayscab.utils.RealPathUtil;
 import com.dayscab.utils.SharedPref;
 import com.dayscab.utils.retrofitutils.Api;
 import com.dayscab.utils.retrofitutils.ApiFactory;
 import com.google.gson.Gson;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,7 +44,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.SplittableRandom;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -98,13 +99,15 @@ public class UploadVehicleAct extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
 
         });
 
         binding.ivUploadImage.setOnClickListener(v -> {
             if (checkPermissions()) {
-                showPictureDialog();
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
+                // showPictureDialog();
             } else {
                 requestPermissions();
             }
@@ -349,6 +352,18 @@ public class UploadVehicleAct extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                vehicleImage = new File(RealPathUtil.getRealPath(mContext, resultUri));
+                Glide.with(mContext).load(resultUri).into(binding.ivUploadImage);
+                Log.e("asfasdasdad", "resultUri = " + resultUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
+
         if (requestCode == GALLERY) {
             if (resultCode == RESULT_OK) {
                 String path = ProjectUtil.getRealPathFromURI(mContext, data.getData());
@@ -391,6 +406,7 @@ public class UploadVehicleAct extends AppCompatActivity {
         RequestBody carType = RequestBody.create(MediaType.parse("text/plain"), carId);
         RequestBody carBrand = RequestBody.create(MediaType.parse("text/plain"), makeId);
         RequestBody carModel = RequestBody.create(MediaType.parse("text/plain"), modelId);
+        RequestBody step = RequestBody.create(MediaType.parse("text/plain"), "2");
         RequestBody year = RequestBody.create(MediaType.parse("text/plain"), binding.spYear.getSelectedItem().toString().trim());
         RequestBody color = RequestBody.create(MediaType.parse("text/plain"), binding.spColor.getSelectedItem().toString().trim());
         RequestBody carNumber = RequestBody.create(MediaType.parse("text/plain"), binding.etNumberPlate.getText().toString().trim());
@@ -398,7 +414,7 @@ public class UploadVehicleAct extends AppCompatActivity {
         vehicleFilePart = MultipartBody.Part.createFormData("car_image", vehicleImage.getName(), RequestBody.create(MediaType.parse("car_document/*"), vehicleImage));
 
         Api api = ApiFactory.getClientWithoutHeader(mContext).create(Api.class);
-        Call<ResponseBody> call = api.addDriverVehicle(userId, carType, carBrand, carModel, carNumber, year, color, vehicleFilePart);
+        Call<ResponseBody> call = api.addDriverVehicle(userId, carType, carBrand, carModel, carNumber, year, color, step, vehicleFilePart);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -417,9 +433,6 @@ public class UploadVehicleAct extends AppCompatActivity {
 
                         startActivity(new Intent(mContext, UploadDriverDocumentsAct.class));
                         finish();
-
-//                      startActivity(new Intent(mContext, AddBankAccAct.class));
-//                      finish();
 
                     }
 

@@ -7,7 +7,16 @@ public class ModelActiveBooking implements Serializable {
 
     private ArrayList<Result> result;
     private String message;
+    private String register_id;
     private int status;
+
+    public String getRegister_id() {
+        return register_id;
+    }
+
+    public void setRegister_id(String register_id) {
+        this.register_id = register_id;
+    }
 
     public void setResult(ArrayList<Result> result) {
         this.result = result;
@@ -43,9 +52,15 @@ public class ModelActiveBooking implements Serializable {
 
         private String driver_ids;
 
+        private String driver_complete_ride;
+
+        private String driver_rating;
+
         private String picuplocation;
 
         private String dropofflocation;
+
+        private String no_of_passenger;
 
         private String picuplat;
 
@@ -110,6 +125,30 @@ public class ModelActiveBooking implements Serializable {
         private String estimate_time;
 
         private String car_name;
+
+        public String getDriver_complete_ride() {
+            return driver_complete_ride;
+        }
+
+        public void setDriver_complete_ride(String driver_complete_ride) {
+            this.driver_complete_ride = driver_complete_ride;
+        }
+
+        public String getDriver_rating() {
+            return driver_rating;
+        }
+
+        public void setDriver_rating(String driver_rating) {
+            this.driver_rating = driver_rating;
+        }
+
+        public String getNo_of_passenger() {
+            return no_of_passenger;
+        }
+
+        public void setNo_of_passenger(String no_of_passenger) {
+            this.no_of_passenger = no_of_passenger;
+        }
 
         public void setId(String id) {
             this.id = id;
@@ -1066,7 +1105,7 @@ public class ModelActiveBooking implements Serializable {
 
             private String result;
 
-            private ArrayList<String> car_details;
+            // private ArrayList<String> car_details;
 
             public void setId(String id) {
                 this.id = id;
@@ -1492,13 +1531,15 @@ public class ModelActiveBooking implements Serializable {
                 return this.result;
             }
 
-            public void setCar_details(ArrayList<String> car_details) {
-                this.car_details = car_details;
-            }
+//            public void setCar_details(ArrayList<String> car_details) {
+//                this.car_details = car_details;
+//            }
+//
+//            public ArrayList<String> getCar_details() {
+//                return this.car_details;
+//            }
 
-            public ArrayList<String> getCar_details() {
-                return this.car_details;
-            }
+
         }
 
     }
